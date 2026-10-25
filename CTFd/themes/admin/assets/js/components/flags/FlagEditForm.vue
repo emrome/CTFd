@@ -6,7 +6,7 @@
           <div class="container">
             <div class="row">
               <div class="col-md-12">
-                <h3 class="text-center">Edit Flag</h3>
+                <h3 class="text-center">Editar flag</h3>
               </div>
             </div>
           </div>
@@ -14,7 +14,7 @@
             type="button"
             class="close"
             data-dismiss="modal"
-            aria-label="Close"
+            aria-label="Cerrar"
           >
             <span aria-hidden="true">&times;</span>
           </button>

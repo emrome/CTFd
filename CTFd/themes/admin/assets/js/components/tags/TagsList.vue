@@ -13,9 +13,9 @@
 
     <div class="form-group">
       <label
-        >Tag
+        >Etiqueta
         <br />
-        <small class="text-muted">Type tag and press Enter</small>
+        <small class="text-muted">Escribí la etiqueta y apretá Enter</small>
       </label>
       <input
         id="tags-add-input"

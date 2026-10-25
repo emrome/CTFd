@@ -6,7 +6,7 @@
           <div class="container">
             <div class="row">
               <div class="col-md-12">
-                <h3>Hint</h3>
+                <h3>Pista</h3>
               </div>
             </div>
           </div>
@@ -14,7 +14,7 @@
             type="button"
             class="close"
             data-dismiss="modal"
-            aria-label="Close"
+            aria-label="Cerrar"
           >
             <span aria-hidden="true">&times;</span>
           </button>
@@ -26,8 +26,8 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label>
-                      Hint<br />
-                      <small>Markdown &amp; HTML are supported</small>
+                      Pista<br />
+                      <small>Se admite Markdown y HTML</small>
                     </label>
                     <textarea
                       type="text"
@@ -40,8 +40,8 @@
 
                   <div class="form-group">
                     <label>
-                      Cost<br />
-                      <small>How many points it costs to see your hint.</small>
+                      Costo<br />
+                      <small>Cuántos puntos cuesta ver tu pista.</small>
                     </label>
                     <input
                       type="number"
@@ -53,10 +53,10 @@
 
                   <div class="form-group">
                     <label>
-                      Requirements<br />
+                      Requisitos<br />
                       <small
-                        >Hints that must be unlocked before unlocking this
-                        hint</small
+                        >Pistas que hay que desbloquear antes de desbloquear
+                        esta</small
                       >
                     </label>
                     <div
@@ -84,7 +84,7 @@
             <div class="container">
               <div class="row">
                 <div class="col-md-12">
-                  <button class="btn btn-primary float-right">Submit</button>
+                  <button class="btn btn-primary float-right">Enviar</button>
                 </div>
               </div>
             </div>

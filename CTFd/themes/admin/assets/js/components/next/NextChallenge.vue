@@ -3,10 +3,10 @@
     <form @submit.prevent="updateNext">
       <div class="form-group">
         <label>
-          Next Challenge
+          Siguiente desafío
           <br />
           <small class="text-muted"
-            >Challenge to recommend after solving this challenge</small
+            >Desafío que se recomienda después de resolver este</small
           >
         </label>
         <select class="form-control custom-select" v-model="selected_id">
@@ -24,7 +24,7 @@
           class="btn btn-success float-right"
           :disabled="!updateAvailable"
         >
-          Save
+          Guardar
         </button>
       </div>
     </form>

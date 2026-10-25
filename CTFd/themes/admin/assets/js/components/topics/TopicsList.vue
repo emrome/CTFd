@@ -9,9 +9,9 @@
 
     <div class="form-group">
       <label>
-        Topic
+        Tema
         <br />
-        <small class="text-muted">Type topic and press Enter</small>
+        <small class="text-muted">Escribí el tema y apretá Enter</small>
       </label>
       <input
         id="tags-add-input"

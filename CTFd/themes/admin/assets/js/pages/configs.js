@@ -125,9 +125,9 @@ function updateConfigs(event) {
     } else {
       let errors = _response.errors.value.join("\n");
       ezAlert({
-        title: "Error!",
+        title: "¡Error!",
         body: errors,
-        button: "Okay"
+        button: "OK"
       });
     }
   });
@@ -153,9 +153,9 @@ function uploadLogo(event) {
           window.location.reload();
         } else {
           ezAlert({
-            title: "Error!",
-            body: "Logo uploading failed!",
-            button: "Okay"
+            title: "¡Error!",
+            body: "¡No se pudo subir el logo!",
+            button: "OK"
           });
         }
       });
@@ -166,7 +166,7 @@ function switchUserMode(event) {
   event.preventDefault();
   if (
     confirm(
-      "Are you sure you'd like to switch user modes?\n\nAll user submissions, awards, unlocks, and tracking will be deleted!"
+      "¿Seguro que querés cambiar el modo?\n\n¡Se van a borrar todos los envíos, premios, desbloqueos y registros de seguimiento de los usuarios!"
     )
   ) {
     let formData = new FormData();
@@ -185,8 +185,8 @@ function switchUserMode(event) {
 
 function removeLogo() {
   ezQuery({
-    title: "Remove logo",
-    body: "Are you sure you'd like to remove the CTF logo?",
+    title: "Quitar logo",
+    body: "¿Seguro que querés quitar el logo del CTF?",
     success: function() {
       const params = {
         value: null
@@ -220,9 +220,9 @@ function smallIconUpload(event) {
           window.location.reload();
         } else {
           ezAlert({
-            title: "Error!",
-            body: "Icon uploading failed!",
-            button: "Okay"
+            title: "¡Error!",
+            body: "¡No se pudo subir el ícono!",
+            button: "OK"
           });
         }
       });
@@ -231,8 +231,8 @@ function smallIconUpload(event) {
 
 function removeSmallIcon() {
   ezQuery({
-    title: "Remove logo",
-    body: "Are you sure you'd like to remove the small site icon?",
+    title: "Quitar ícono",
+    body: "¿Seguro que querés quitar el ícono chico del sitio?",
     success: function() {
       const params = {
         value: null
@@ -258,7 +258,7 @@ function importCSV(event) {
 
   let pg = ezProgressBar({
     width: 0,
-    title: "Upload Progress"
+    title: "Progreso de la subida"
   });
 
   $.ajax({
@@ -273,7 +273,7 @@ function importCSV(event) {
         let errors = JSON.parse(resp.responseText);
         let errorText = "";
         errors.forEach(element => {
-          errorText += `Line ${element[0]}: ${JSON.stringify(element[1])}\n`;
+          errorText += `Línea ${element[0]}: ${JSON.stringify(element[1])}\n`;
         });
 
         // Show errors
@@ -327,7 +327,7 @@ function importConfig(event) {
 
   let pg = ezProgressBar({
     width: 0,
-    title: "Upload Progress"
+    title: "Progreso de la subida"
   });
 
   $.ajax({

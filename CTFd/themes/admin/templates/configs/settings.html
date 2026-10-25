@@ -31,9 +31,9 @@
 				{{ form.score_visibility.description }}
 			</small>
 			<small class="form-text text-muted py-2">
-				Score Visibility is a subset of Account Visibility. 
-				This means that if accounts are visible to a user then score visibility will control whether they can see the score of that user. 
-				If accounts are not visibile then score visibility has no effect.
+				La visibilidad del puntaje depende de la visibilidad de las cuentas. 
+				Esto significa que, si las cuentas son visibles para un usuario, la visibilidad del puntaje define si puede ver el puntaje de ese usuario. 
+				Si las cuentas no son visibles, la visibilidad del puntaje no tiene efecto.
 			</small>
 		</div>
 
@@ -47,20 +47,20 @@
 
 		<div class="form-group">
 			<label>
-				Pause<br>
+				Pausa<br>
 				<small class="form-text text-muted">
-					Prevent users from submitting answers until unpaused. Challenges can still be viewed.
+					Impide que los usuarios envíen respuestas hasta que se quite la pausa. Los desafíos se pueden seguir viendo.
 				</small>
 			</label>
 			<div class="form-check pl-0">
 				<label>
 					<input id="paused" name="paused" type="checkbox" {% if paused %}checked{% endif %}>
-					Pause CTF<br>
+					Pausar el CTF<br>
 				</label>
 			</div>
 		</div>
 
-		<button type="submit" class="btn btn-md btn-primary float-right">Update</button>
+		<button type="submit" class="btn btn-md btn-primary float-right">Actualizar</button>
 	</form>
 	{% endwith %}
 </div>

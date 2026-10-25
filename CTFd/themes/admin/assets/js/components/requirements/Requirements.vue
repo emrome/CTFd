@@ -38,15 +38,15 @@
 
       <div class="form-group">
         <label>
-          <b>Behavior if not unlocked</b>
+          <b>Qué pasa si no está desbloqueado</b>
         </label>
         <select
           class="form-control custom-select"
           name="anonymize"
           v-model="selectedAnonymize"
         >
-          <option :value="false">Hidden</option>
-          <option :value="true">Anonymized</option>
+          <option :value="false">Oculto</option>
+          <option :value="true">Anónimo</option>
         </select>
       </div>
 
@@ -55,7 +55,7 @@
           class="btn btn-success float-right"
           :disabled="!newRequirements"
         >
-          Save
+          Guardar
         </button>
       </div>
     </form>

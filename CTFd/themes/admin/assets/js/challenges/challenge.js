@@ -47,7 +47,7 @@ function renderSubmissionResponse(response, cb) {
           .split(" ")[0]
       ) +
         1 +
-        " Solves"
+        " Resoluciones"
     );
 
     answer_input.val("");
@@ -164,8 +164,8 @@ $(() => {
 
   $(".delete-challenge").click(function(_event) {
     ezQuery({
-      title: "Delete Challenge",
-      body: "Are you sure you want to delete {0}".format(
+      title: "Borrar desafío",
+      body: "¿Seguro que querés borrar {0}?".format(
         "<strong>" + htmlEntities(window.CHALLENGE_NAME) + "</strong>"
       ),
       success: function() {
@@ -195,8 +195,8 @@ $(() => {
     }).then(function(data) {
       if (data.success) {
         ezToast({
-          title: "Success",
-          body: "Your challenge has been updated!"
+          title: "Listo",
+          body: "¡Se actualizó tu desafío!"
         });
       }
     });

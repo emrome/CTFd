@@ -2,59 +2,59 @@
 
 {% block header %}
 <div class="alert alert-secondary" role="alert">
-	Dynamic value challenges decrease in value as they receive solves. The more solves a dynamic challenge has,
-	the lower its value is to everyone who has solved it.
+	Los desafíos de puntaje dinámico bajan su puntaje a medida que reciben resoluciones. Cuantas más resoluciones tiene un desafío dinámico,
+	menor es su puntaje para todos los que lo resolvieron.
 </div>
 {% endblock %}
 
 
 {% block value %}
 <div class="form-group">
-	<label for="value">Initial Value<br>
+	<label for="value">Puntaje inicial<br>
 		<small class="form-text text-muted">
-			This is how many points the challenge is worth initially.
+			Es la cantidad de puntos que vale el desafío al principio.
 		</small>
 	</label>
-	<input type="number" class="form-control" name="initial" placeholder="Enter value" required>
+	<input type="number" class="form-control" name="initial" placeholder="Ingresá el puntaje" required>
 </div>
 
 <div class="form-group">
-	<label for="value">Decay Function<br>
+	<label for="value">Función de decaimiento<br>
 		<small class="form-text text-muted">
-			<span>How the dynamic value will be calculated based on the Decay value</span>
+			<span>Cómo se calcula el puntaje dinámico a partir del valor de decaimiento</span>
 			<ul>
-				<li>Linear: Calculated as <code>Initial - (Decay * SolveCount)</code></li>
-				<li>Logarithmic: Calculated as <code>(((Minimum - Initial) / (Decay^2)) * (SolveCount^2)) + Initial</code></li>
+				<li>Lineal: se calcula como <code>Initial - (Decay * SolveCount)</code></li>
+				<li>Logarítmica: se calcula como <code>(((Minimum - Initial) / (Decay^2)) * (SolveCount^2)) + Initial</code></li>
 			</ul>
 		</small>
 	</label>
 	<select name="function" class="custom-select">
-		<option value="linear">Linear</option>
-		<option value="logarithmic">Logarithmic</option>
+		<option value="linear">Lineal</option>
+		<option value="logarithmic">Logarítmica</option>
 	</select>
 </div>
 
 <div class="form-group">
-	<label for="value">Decay<br>
+	<label for="value">Decaimiento<br>
 		<small class="form-text text-muted">
-			<span>The decay value is used differently depending on the above Decay Function</span>
+			<span>El valor de decaimiento se usa de forma distinta según la función de decaimiento elegida arriba</span>
 			<ul>
-				<li>Linear: The amount of points deducted per solve. Equal deduction per solve.</li>
-				<li>Logarithmic: The amount of solves before the challenge reaches its minimum value. Earlier solves will lose less
-					points. Later solves will lose more points</li>
+				<li>Lineal: la cantidad de puntos que se descuentan por cada resolución. Se descuenta lo mismo en cada resolución.</li>
+				<li>Logarítmica: la cantidad de resoluciones hasta que el desafío llega a su puntaje mínimo. Las primeras resoluciones pierden menos
+					puntos. Las últimas resoluciones pierden más puntos.</li>
 			</ul>
 		</small>
 	</label>
-	<input type="number" class="form-control" name="decay" min="1" placeholder="Enter Decay value" required>
+	<input type="number" class="form-control" name="decay" min="1" placeholder="Ingresá el valor de decaimiento" required>
 </div>
 
 <div class="form-group">
-	<label for="value">Minimum Value<br>
+	<label for="value">Puntaje mínimo<br>
 		<small class="form-text text-muted">
-			This is the lowest that the challenge can be worth
+			Es el puntaje más bajo que puede llegar a valer el desafío
 		</small>
 	</label>
-	<input type="number" class="form-control" name="minimum" placeholder="Enter minimum value" required>
+	<input type="number" class="form-control" name="minimum" placeholder="Ingresá el puntaje mínimo" required>
 </div>
 {% endblock %}
 

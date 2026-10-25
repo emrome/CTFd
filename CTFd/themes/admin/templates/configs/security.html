@@ -3,35 +3,35 @@
 	<form method="POST" autocomplete="off" class="w-100">
 		<div class="form-group">
 			<label for="html_sanitization">
-				HTML Sanitization
+				Sanitización de HTML
 				<small class="form-text text-muted">
-					Whether CTFd will attempt to sanitize HTML content from content.
+					Define si CTFd intenta sanitizar (limpiar) el HTML del contenido.
 				</small>
 			</label>
 			<select class="form-control custom-select" name="html_sanitization">
 				{% if force_html_sanitization %}
-				<option>
-					Required (Disable in config.ini)
+				<option value="Required (Disable in config.ini)">
+					Obligatoria (se desactiva en config.ini)
 				</option>
 				{% else %}
 				<option value="true" {% if html_sanitization=='true' %}selected{% endif %}>
-					Enabled
+					Activada
 				</option>
 				<option value="false" {% if html_sanitization=='false' %}selected{% endif %}>
-					Disabled
+					Desactivada
 				</option>
 				{% endif %}
 			</select>
 		</div>
 		<div class="form-group">
 			<label for="ctf_name">
-				Registration Code
-				<small class="form-text text-muted">Registration Code required for account registration (SSO excluded)</small>
+				Código de registro
+				<small class="form-text text-muted">Código de registro obligatorio para crear una cuenta (no aplica al inicio de sesión único/SSO)</small>
 			</label>
-			<input class="form-control" id='registration_code' name='registration_code' type='text' placeholder="Registration Code"
+			<input class="form-control" id='registration_code' name='registration_code' type='text' placeholder="Código de registro"
 				   {% if registration_code is defined and registration_code != None %}value="{{ registration_code }}"{% endif %}>
 		</div>
 
-		<button type="submit" class="btn btn-md btn-primary float-right">Update</button>
+		<button type="submit" class="btn btn-md btn-primary float-right">Actualizar</button>
 	</form>
 </div>

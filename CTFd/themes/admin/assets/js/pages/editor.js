@@ -53,8 +53,8 @@ function submit_form() {
 
       if (method === "PATCH" && response.success) {
         ezToast({
-          title: "Saved",
-          body: "Your changes have been saved"
+          title: "Guardado",
+          body: "Se guardaron tus cambios"
         });
       } else {
         window.location =

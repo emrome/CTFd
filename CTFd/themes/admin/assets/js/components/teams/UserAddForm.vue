@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="form-group">
-      <label>Search Users</label>
+      <label>Buscar usuarios</label>
       <input
         type="text"
         class="form-control"
-        placeholder="Search for users"
+        placeholder="Buscá usuarios"
         v-model="searchedName"
         @keyup.down="moveCursor('down')"
         @keyup.up="moveCursor('up')"
@@ -32,7 +32,7 @@
         "
       >
         <span class="text-muted">
-          No users found
+          No se encontraron usuarios
         </span>
       </div>
       <ul class="list-group">
@@ -54,7 +54,7 @@
               'text-muted': idx !== selectedResultIdx
             }"
           >
-            already in a team
+            ya está en un equipo
           </small>
         </li>
       </ul>
@@ -64,7 +64,7 @@
         class="btn btn-success d-inline-block float-right"
         @click="addUsers()"
       >
-        Add Users
+        Agregar usuarios
       </button>
     </div>
   </div>
@@ -194,8 +194,8 @@ export default {
       if (usersInTeams.length) {
         let users = htmlEntities(usersInTeams.join(", "));
         ezQuery({
-          title: "Confirm Team Removal",
-          body: `The following users are currently in teams:<br><br> ${users} <br><br>Are you sure you want to remove them from their current teams and add them to this one? <br><br>All of their challenge solves, attempts, awards, and unlocked hints will also be deleted!`,
+          title: "Confirmar cambio de equipo",
+          body: `Estos usuarios ya están en un equipo:<br><br> ${users} <br><br>¿Seguro que querés quitarlos de sus equipos actuales y agregarlos a este? <br><br>¡También se van a borrar todas sus resoluciones de desafíos, intentos, premios y pistas desbloqueadas!`,
           success: () => {
             this.handleRemoveUsersFromTeams().then(_resps => {
               this.handleAddUsersRequest().then(_resps => {
