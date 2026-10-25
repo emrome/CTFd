@@ -13,7 +13,11 @@ class NotificationForm(BaseForm):
     )
     type = RadioField(
         "Tipo de notificación",
-        choices=[("toast", "Emergente"), ("alert", "Alerta"), ("background", "En segundo plano")],
+        choices=[
+            ("toast", "Emergente"),
+            ("alert", "Alerta"),
+            ("background", "En segundo plano"),
+        ],
         default="toast",
         description="Qué tipo de notificación reciben los usuarios",
         validators=[InputRequired()],
