@@ -44,8 +44,8 @@ Alpine.data("SetupForm", () => ({
       if (
         !confirm(
           t(
-            "This image file is larger than {size} KB which may result in increased load times. Are you sure you'd like to use this file?",
-            { size: limit / 1000 }
+            "This image file is larger than {0} KB which may result in increased load times. Are you sure you'd like to use this file?",
+            limit / 1000
           )
         )
       ) {

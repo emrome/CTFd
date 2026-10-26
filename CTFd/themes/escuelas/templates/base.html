@@ -35,7 +35,9 @@
       }
   </script>
 
-  {% include "components/js_translations.html" %}
+  <script type="text/javascript">
+      window.CTFdTranslations = {{ get_js_translations() | tojson }};
+  </script>
   {% if authed() %}
     {% from "macros/cuenta.html" import chip_nombre, chip_label %}
     <script type="text/javascript">

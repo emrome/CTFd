@@ -28,7 +28,7 @@
       <template x-if="loaded">
         <dl class="dato-card">
           <dt>{{ _("solved") }}</dt>
-          <dd><span x-text="solvedCount()"></span> <small x-text="t('of {num}', { num: totalCount() })"></small></dd>
+          <dd><span x-text="solvedCount()"></span> <small x-text="t('of {0}', totalCount())"></small></dd>
         </dl>
       </template>
       <template x-if="loaded && suggested()">
@@ -69,7 +69,7 @@
             <div class="ruta-cab">
               <span aria-hidden="true" class="ruta-ico" :style="{ background: categoryColor(category) }" x-text="categorySigla(category)"></span>
               <h2 x-text="category"></h2>
-              <span class="ruta-progreso" x-text="t('{solved} of {total} solved', { solved: solvedIn(category), total: getChallenges(category).length })"></span>
+              <span class="ruta-progreso" x-text="t('{0} of {1} solved', solvedIn(category), getChallenges(category).length)"></span>
             </div>
             <ol class="ruta-lista">
               <template x-for="(c, idx) in getChallenges(category)" :key="c.id">
@@ -85,7 +85,7 @@
                     <span class="reto-nombre" x-text="c.name"></span>
                     <span class="reto-pie">
                       <span x-text="level(c)"></span>
-                      <span class="reto-pts" x-text="t('{num} pts', { num: c.value })"></span>
+                      <span class="reto-pts" x-text="t('{0} pts', c.value)"></span>
                     </span>
                   </button>
                 </li>
@@ -101,7 +101,7 @@
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
               </span>
               <h2>{{ _("To unlock") }}</h2>
-              <span class="ruta-progreso" x-text="t('{num} locked', { num: locked().length })"></span>
+              <span class="ruta-progreso" x-text="t('{0} locked', locked().length)"></span>
             </div>
             <ol class="ruta-lista">
               <template x-for="(c, idx) in locked()" :key="c.id">

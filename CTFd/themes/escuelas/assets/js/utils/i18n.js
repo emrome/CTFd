@@ -1,14 +1,18 @@
-// Theme strings stay in English and are looked up in window.CTFdTranslations,
-// which the server fills with the msgstr of the current locale
-// (see templates/components/js_translations.html).
-export function t(msgid, params = {}) {
-  const table = window.CTFdTranslations || {};
-  const text = typeof table[msgid] === "string" && table[msgid] ? table[msgid] : msgid;
-  return text.replace(/\{(\w+)\}/g, (match, key) =>
-    Object.prototype.hasOwnProperty.call(params, key) ? String(params[key]) : match
-  );
+// Same helper as CTFd/themes/core/assets/js/i18n.js: the page defines
+// window.CTFdTranslations with get_js_translations() (see templates/base.html and
+// CTFd/utils/i18n/__init__.py). t("English text") returns the translation for the
+// current locale, or the English text; {0}, {1}... are replaced by the extra arguments.
+export function t(msgid, ...args) {
+  const translations = window.CTFdTranslations || {};
+  let text = translations[msgid] || msgid;
+  args.forEach((value, i) => {
+    text = text.split(`{${i}}`).join(value);
+  });
+  return text;
 }
 
 export function locale() {
   return (document.documentElement.lang || "en").slice(0, 2).toLowerCase();
 }
+
+export default t;

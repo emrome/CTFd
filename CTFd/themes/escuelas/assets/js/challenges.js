@@ -47,9 +47,10 @@ Alpine.data("Hint", () => ({
           const ok = window.confirm(
             this.cost === 1
               ? t("Do you want to see this hint? It will cost you 1 point.")
-              : t("Do you want to see this hint? It will cost you {num} points.", {
-                  num: this.cost,
-                })
+              : t(
+                  "Do you want to see this hint? It will cost you {0} points.",
+                  this.cost
+                )
           );
           if (!ok) {
             return;
@@ -92,8 +93,8 @@ Alpine.data("Challenge", () => ({
     highlight();
   },
 
-  t(msgid, params) {
-    return t(msgid, params);
+  t(msgid, ...args) {
+    return t(msgid, ...args);
   },
 
   getStyles() {
@@ -140,7 +141,7 @@ Alpine.data("Challenge", () => ({
         " " +
         (quedan === 1
           ? t("You have 1 attempt left.")
-          : t("You have {num} attempts left.", { num: quedan }));
+          : t("You have {0} attempts left.", quedan));
     }
     return texto;
   },
@@ -334,19 +335,19 @@ Alpine.data("ChallengeBoard", () => ({
       const idx = standings.findIndex(s => s.account_id === accountId);
       if (idx >= 0) {
         this.place = {
-          text: t("#{num}", { num: idx + 1 }),
-          of: t("of {num}", { num: standings.length }),
+          text: t("#{0}", idx + 1),
+          of: t("of {0}", standings.length),
         };
       } else if (standings.length > 0) {
-        this.place = { text: "—", of: t("of {num}", { num: standings.length }) };
+        this.place = { text: "—", of: t("of {0}", standings.length) };
       }
     } catch (error) {
       // Si el ranking está oculto, no se muestra el puesto
     }
   },
 
-  t(msgid, params) {
-    return t(msgid, params);
+  t(msgid, ...args) {
+    return t(msgid, ...args);
   },
 
   getCategories() {
