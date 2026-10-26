@@ -24,15 +24,11 @@ export default defineConfig({
               dest: "static/webfonts",
             },
             {
-              src: "./node_modules/@fontsource/lato/files/**/*400*-normal*",
+              src: "./node_modules/@fontsource/lexend/files/lexend-{latin,latin-ext,all}-{400,500,600,700}-normal.{woff,woff2}",
               dest: "static/webfonts",
             },
             {
-              src: "./node_modules/@fontsource/lato/files/**/*700*-normal*",
-              dest: "static/webfonts",
-            },
-            {
-              src: "./node_modules/@fontsource/raleway/files/**/*400*-normal*",
+              src: "./node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-{latin,latin-ext,all}-{500,600,700}-normal.{woff,woff2}",
               dest: "static/webfonts",
             },
             {
