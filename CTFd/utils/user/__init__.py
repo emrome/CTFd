@@ -3,7 +3,7 @@ import re
 
 from flask import abort
 from flask import current_app as app
-from flask import redirect, request, session, url_for
+from flask import has_request_context, redirect, request, session, url_for
 
 from CTFd.cache import cache, clear_user_session
 from CTFd.constants.languages import Languages
@@ -139,6 +139,7 @@ def is_admin():
     else:
         return False
 
+
 def is_author():
     if authed():
         user = get_current_user_attrs()
@@ -183,13 +184,22 @@ def get_ip(req=None):
     return remote_addr
 
 
+def get_default_locale():
+    """
+    Locale used when a user hasn't picked a language. Configured with DEFAULT_LOCALE (defaults to Spanish).
+    """
+    locale = app.config.get("DEFAULT_LOCALE") or Languages.SPANISH.value
+    return str(locale)
+
+
 def get_locale():
+    if has_request_context() is False:
+        return get_default_locale()
     if authed():
         user = get_current_user_attrs()
         if user.language:
             return user.language
-    languages = Languages.values()
-    return request.accept_languages.best_match(languages)
+    return get_default_locale()
 
 
 def get_current_user_recent_ips():
