@@ -3,8 +3,8 @@
 {% block content %}
 <div class="jumbotron">
 	<div class="container">
-		<h1>Banco de desafíos</h1>
-		<p class="text-muted mb-0">Elegí desafíos del repositorio y agregalos a esta competencia.</p>
+		<h1>{% trans %}Challenge Bank{% endtrans %}</h1>
+		<p class="text-muted mb-0">{% trans %}Choose challenges from the repository and add them to this competition.{% endtrans %}</p>
 	</div>
 </div>
 <div class="container">
@@ -13,15 +13,15 @@
 		<div class="col-md-12">
 			{% if resultado.creados %}
 			<div class="alert alert-success">
-				Se importaron {{ resultado.creados|length }} desafíos: {{ resultado.creados|join(", ") }}.
+				{% trans count=resultado.creados|length, names=resultado.creados|join(", ") %}Imported {{ count }} challenge: {{ names }}.{% pluralize %}Imported {{ count }} challenges: {{ names }}.{% endtrans %}
 				{% if resultado.agregados %}
-				<br>Se sumaron como requisitos: {{ resultado.agregados|join(", ") }}.
+				<br>{% trans names=resultado.agregados|join(", ") %}Also added as prerequisites: {{ names }}.{% endtrans %}
 				{% endif %}
 			</div>
 			{% endif %}
 			{% if resultado.omitidos %}
 			<div class="alert alert-warning">
-				No se importaron:
+				{% trans %}Not imported:{% endtrans %}
 				<ul class="mb-0">
 					{% for nombre, motivo in resultado.omitidos %}
 					<li>{{ nombre }}: {{ motivo }}</li>
@@ -33,7 +33,7 @@
 			<div class="alert alert-info">{{ aviso }}</div>
 			{% endfor %}
 			{% if not resultado.creados and not resultado.omitidos %}
-			<div class="alert alert-secondary">No se seleccionó ningún desafío.</div>
+			<div class="alert alert-secondary">{% trans %}No challenges were selected.{% endtrans %}</div>
 			{% endif %}
 		</div>
 	</div>
@@ -41,8 +41,8 @@
 
 	{% if not banco %}
 	<div class="alert alert-secondary">
-		No se encontraron desafíos en <code>{{ raiz }}</code>. Copiá o montá el repositorio de desafíos en ese directorio,
-		o indicá otro con la variable de entorno <code>BANCO_DESAFIOS_DIR</code>.
+		{% trans trimmed path=raiz %}No challenges were found in <code>{{ path }}</code>. Copy or mount the challenge repository in that directory,
+		or set another one with the <code>BANCO_DESAFIOS_DIR</code> environment variable.{% endtrans %}
 	</div>
 	{% else %}
 	<form method="POST" id="banco-form">
@@ -50,7 +50,7 @@
 		<div class="form-row mb-3">
 			<div class="col-md-3">
 				<select class="form-control custom-select" id="filtro-categoria">
-					<option value="">Todas las categorías</option>
+					<option value="">{% trans %}All categories{% endtrans %}</option>
 					{% for categoria in categorias %}
 					<option value="{{ categoria }}">{{ categoria }}</option>
 					{% endfor %}
@@ -58,26 +58,26 @@
 			</div>
 			<div class="col-md-3">
 				<select class="form-control custom-select" id="filtro-nivel">
-					<option value="">Todos los niveles</option>
+					<option value="">{% trans %}All levels{% endtrans %}</option>
 					{% for clave, nombre in niveles %}
 					<option value="{{ clave }}">{{ nombre }}</option>
 					{% endfor %}
 				</select>
 			</div>
 			<div class="col-md-6">
-				<input type="search" class="form-control" id="filtro-texto" placeholder="Buscar por nombre o etiqueta">
+				<input type="search" class="form-control" id="filtro-texto" placeholder="{% trans %}Search by name or tag{% endtrans %}">
 			</div>
 		</div>
 
 		<table class="table table-striped border">
 			<thead>
 				<tr>
-					<th class="text-center"><input type="checkbox" id="marcar-todos" title="Marcar los visibles"></th>
-					<th>Desafío</th>
-					<th>Categoría</th>
-					<th>Nivel</th>
-					<th class="text-right">Puntaje</th>
-					<th>Requiere</th>
+					<th class="text-center"><input type="checkbox" id="marcar-todos" title="{% trans %}Select all visible{% endtrans %}"></th>
+					<th>{% trans %}Challenge{% endtrans %}</th>
+					<th>{% trans %}Category{% endtrans %}</th>
+					<th>{% trans %}Level{% endtrans %}</th>
+					<th class="text-right">{% trans %}Value{% endtrans %}</th>
+					<th>{% trans %}Requires{% endtrans %}</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -91,8 +91,8 @@
 					</td>
 					<td>
 						{{ d.nombre }}
-						{% if ya_esta %}<span class="badge badge-secondary">ya importado</span>{% endif %}
-						{% if errores %}<span class="badge badge-danger" title="{{ errores|join(', ') }}">con errores</span>{% endif %}
+						{% if ya_esta %}<span class="badge badge-secondary">{% trans %}already imported{% endtrans %}</span>{% endif %}
+						{% if errores %}<span class="badge badge-danger" title="{{ errores|join(', ') }}">{% trans %}has errors{% endtrans %}</span>{% endif %}
 						{% if d.autor %}<br><small class="text-muted">{{ d.autor }}</small>{% endif %}
 					</td>
 					<td>{{ d.categoria }}</td>
@@ -106,13 +106,13 @@
 
 		<div class="form-check">
 			<input class="form-check-input" type="checkbox" name="requisitos" value="y" id="requisitos" checked>
-			<label class="form-check-label" for="requisitos">Agregar también los desafíos que son requisito de los elegidos</label>
+			<label class="form-check-label" for="requisitos">{% trans %}Also add the challenges required by the selected ones{% endtrans %}</label>
 		</div>
 		<div class="form-check mb-3">
 			<input class="form-check-input" type="checkbox" name="ocultos" value="y" id="ocultos">
-			<label class="form-check-label" for="ocultos">Importarlos ocultos, para revisarlos antes de publicarlos</label>
+			<label class="form-check-label" for="ocultos">{% trans %}Import them as hidden, to review them before publishing{% endtrans %}</label>
 		</div>
-		<button type="submit" class="btn btn-primary">Importar seleccionados (<span id="contador">0</span>)</button>
+		<button type="submit" class="btn btn-primary">{% trans %}Import selected{% endtrans %} (<span id="contador">0</span>)</button>
 	</form>
 	{% endif %}
 </div>
