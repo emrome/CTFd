@@ -2,59 +2,59 @@
 
 {% block header %}
 <div class="alert alert-secondary" role="alert">
-	Los desafíos de puntaje dinámico bajan su puntaje a medida que reciben resoluciones. Cuantas más resoluciones tiene un desafío dinámico,
-	menor es su puntaje para todos los que lo resolvieron.
+	{% trans trimmed %}Dynamic value challenges decrease in value as they receive solves. The more solves a dynamic challenge has,
+	the lower its value is to everyone who has solved it.{% endtrans %}
 </div>
 {% endblock %}
 
 
 {% block value %}
 <div class="form-group">
-	<label for="value">Puntaje inicial<br>
+	<label for="value">{% trans %}Initial Value{% endtrans %}<br>
 		<small class="form-text text-muted">
-			Es la cantidad de puntos que vale el desafío al principio.
+			{% trans %}This is how many points the challenge is worth initially.{% endtrans %}
 		</small>
 	</label>
-	<input type="number" class="form-control" name="initial" placeholder="Ingresá el puntaje" required>
+	<input type="number" class="form-control" name="initial" placeholder="{% trans %}Enter value{% endtrans %}" required>
 </div>
 
 <div class="form-group">
-	<label for="value">Función de decaimiento<br>
+	<label for="value">{% trans %}Decay Function{% endtrans %}<br>
 		<small class="form-text text-muted">
-			<span>Cómo se calcula el puntaje dinámico a partir del valor de decaimiento</span>
+			<span>{% trans %}How the dynamic value will be calculated based on the Decay value{% endtrans %}</span>
 			<ul>
-				<li>Lineal: se calcula como <code>Initial - (Decay * SolveCount)</code></li>
-				<li>Logarítmica: se calcula como <code>(((Minimum - Initial) / (Decay^2)) * (SolveCount^2)) + Initial</code></li>
+				<li>{% trans %}Linear: Calculated as{% endtrans %} <code>Initial - (Decay * SolveCount)</code></li>
+				<li>{% trans %}Logarithmic: Calculated as{% endtrans %} <code>(((Minimum - Initial) / (Decay^2)) * (SolveCount^2)) + Initial</code></li>
 			</ul>
 		</small>
 	</label>
 	<select name="function" class="custom-select">
-		<option value="linear">Lineal</option>
-		<option value="logarithmic">Logarítmica</option>
+		<option value="linear">{% trans %}Linear{% endtrans %}</option>
+		<option value="logarithmic">{% trans %}Logarithmic{% endtrans %}</option>
 	</select>
 </div>
 
 <div class="form-group">
-	<label for="value">Decaimiento<br>
+	<label for="value">{% trans %}Decay{% endtrans %}<br>
 		<small class="form-text text-muted">
-			<span>El valor de decaimiento se usa de forma distinta según la función de decaimiento elegida arriba</span>
+			<span>{% trans %}The decay value is used differently depending on the above Decay Function{% endtrans %}</span>
 			<ul>
-				<li>Lineal: la cantidad de puntos que se descuentan por cada resolución. Se descuenta lo mismo en cada resolución.</li>
-				<li>Logarítmica: la cantidad de resoluciones hasta que el desafío llega a su puntaje mínimo. Las primeras resoluciones pierden menos
-					puntos. Las últimas resoluciones pierden más puntos.</li>
+				<li>{% trans %}Linear: The amount of points deducted per solve. Equal deduction per solve.{% endtrans %}</li>
+				<li>{% trans trimmed %}Logarithmic: The amount of solves before the challenge reaches its minimum value. Earlier solves will lose less
+					points. Later solves will lose more points{% endtrans %}</li>
 			</ul>
 		</small>
 	</label>
-	<input type="number" class="form-control" name="decay" min="1" placeholder="Ingresá el valor de decaimiento" required>
+	<input type="number" class="form-control" name="decay" min="1" placeholder="{% trans %}Enter Decay value{% endtrans %}" required>
 </div>
 
 <div class="form-group">
-	<label for="value">Puntaje mínimo<br>
+	<label for="value">{% trans %}Minimum Value{% endtrans %}<br>
 		<small class="form-text text-muted">
-			Es el puntaje más bajo que puede llegar a valer el desafío
+			{% trans %}This is the lowest that the challenge can be worth{% endtrans %}
 		</small>
 	</label>
-	<input type="number" class="form-control" name="minimum" placeholder="Ingresá el puntaje mínimo" required>
+	<input type="number" class="form-control" name="minimum" placeholder="{% trans %}Enter minimum value{% endtrans %}" required>
 </div>
 {% endblock %}
 

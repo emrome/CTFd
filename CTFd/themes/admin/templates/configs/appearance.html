@@ -2,23 +2,23 @@
 	<form method="POST" autocomplete="off" class="w-100">
 		<div class="form-group">
 			<label for="ctf_name">
-				Nombre de la competencia
-				<small class="form-text text-muted">Nombre de la competencia que se muestra en lugar de un logo</small>
+				{% trans %}Competition Name{% endtrans %}
+				<small class="form-text text-muted">{% trans %}Competition name displayed instead of a logo{% endtrans %}</small>
 			</label>
-			<input class="form-control" id='ctf_name' name='ctf_name' type='text' placeholder="Nombre del CTF"
+			<input class="form-control" id='ctf_name' name='ctf_name' type='text' placeholder="{% trans %}CTF Name{% endtrans %}"
 				   {% if ctf_name is defined and ctf_name != None %}value="{{ ctf_name }}"{% endif %}>
 		</div>
 
 		<div class="form-group">
 			<label>
-				Descripción del CTF<br>
+				{% trans %}CTF Description{% endtrans %}<br>
 				<small class="form-text text-muted">
-					Descripción del CTF
+					{% trans %}Description for the CTF{% endtrans %}
 				</small>
 			</label>
 			<textarea class="form-control" type="text" id="ctf_description" name="ctf_description" rows="5">{{ ctf_description }}</textarea>
 		</div>
 
-		<button type="submit" class="btn btn-md btn-primary float-right">Actualizar</button>
+		<button type="submit" class="btn btn-md btn-primary float-right">{% trans %}Update{% endtrans %}</button>
 	</form>
 </div>

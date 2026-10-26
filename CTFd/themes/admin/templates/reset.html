@@ -6,7 +6,7 @@
 {% block content %}
 	<div class="jumbotron">
 		<div class="container">
-			<h1>Reiniciar</h1>
+			<h1>{% trans %}Reset{% endtrans %}</h1>
 		</div>
 	</div>
 	<div class="container">
@@ -16,21 +16,21 @@
 				<form method="POST" id="reset-ctf-form">
 					<div class="alert alert-danger" role="alert">
 						<p>
-							Reiniciar tu instancia de CTFd te permite borrar datos en bloque para prepararla para otros eventos,
-							otras clases, o simplemente para dejarla limpia.
+							{% trans trimmed %}Resetting your CTFd instance allows you to bulk delete data to prepare it for other events,
+							other classes, or to otherwise get it to a clean state.{% endtrans %}
 						</p>
 
 						<p>
-							Reiniciar tu instancia de CTFd va a borrar los datos seleccionados <strong>DE FORMA PERMANENTE</strong>.
+							{% trans %}Resetting your CTFd instance will delete the selected data <strong>PERMANENTLY</strong>.{% endtrans %}
 						</p>
 
 						<p>
-							Pensalo bien antes de reiniciar: no se hacen copias de seguridad automáticas y se van a perder todos los datos seleccionados.
+							{% trans %}Think carefully before resetting because no automated backups are made and all selected data will be lost.{% endtrans %}
 						</p>
 
 						<span>
 							<strong>
-								Hacé una copia de seguridad de todos los datos que necesites <a href="{{ url_for('admin.config', _anchor='backup') }}">exportando tu CTFd</a>
+								{% trans url=url_for('admin.config', _anchor='backup') %}Create backups of all data you need by <a href="{{ url }}">creating a CTFd Export</a>{% endtrans %}
 							</strong>
 						</span>
 					</div>
@@ -43,8 +43,8 @@
 							{{ form.accounts.label(class="form-check-label") }}
 						</div>
 						<span class="text-muted">
-							Borra todas las cuentas de usuarios y equipos y su información asociada<br>
-							<small>(Usuarios, Equipos, Envíos, Seguimiento)</small>
+							{% trans %}Deletes all user and team accounts and their associated information{% endtrans %}<br>
+							<small>{% trans %}(Users, Teams, Submissions, Tracking){% endtrans %}</small>
 						</span>
 					</div>
 
@@ -54,8 +54,8 @@
 							{{ form.submissions.label(class="form-check-label") }}
 						</div>
 						<span class="text-muted">
-							Borra todos los registros de puntos obtenidos o acciones realizadas por las cuentas<br>
-							<small>(Envíos, Premios, Desbloqueos, Seguimiento)</small>
+							{% trans %}Deletes all records that accounts gained points or took an action{% endtrans %}<br>
+							<small>{% trans %}(Submissions, Awards, Unlocks, Tracking){% endtrans %}</small>
 						</span>
 					</div>
 
@@ -65,8 +65,8 @@
 							{{ form.challenges.label(class="form-check-label") }}
 						</div>
 						<span class="text-muted">
-							Borra todos los desafíos y sus datos asociados<br>
-							<small>(Desafíos, Flags, Pistas, Etiquetas, Archivos de desafíos)</small>
+							{% trans %}Deletes all challenges and associated data{% endtrans %}<br>
+							<small>{% trans %}(Challenges, Flags, Hints, Tags, Challenge Files){% endtrans %}</small>
 						</span>
 					</div>
 
@@ -76,8 +76,8 @@
 							{{ form.pages.label(class="form-check-label") }}
 						</div>
 						<span class="text-muted">
-							Borra todas las páginas y sus archivos asociados<br>
-							<small>(Páginas, Archivos de páginas)</small>
+							{% trans %}Deletes all pages and their associated files{% endtrans %}<br>
+							<small>{% trans %}(Pages, Page Files){% endtrans %}</small>
 						</span>
 					</div>
 
@@ -87,8 +87,8 @@
 							{{ form.notifications.label(class="form-check-label") }}
 						</div>
 						<span class="text-muted">
-							Borra todas las notificaciones<br>
-							<small>(Notificaciones)</small>
+							{% trans %}Deletes all notifications{% endtrans %}<br>
+							<small>{% trans %}(Notifications){% endtrans %}</small>
 						</span>
 					</div>
 

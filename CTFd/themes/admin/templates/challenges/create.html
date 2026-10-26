@@ -5,24 +5,24 @@
 	{% block name %}
 	<div class="form-group">
 		<label>
-			Nombre:<br>
+			{% trans %}Name:{% endtrans %}<br>
 			<small class="form-text text-muted">
-				El nombre de tu desafío
+				{% trans %}The name of your challenge{% endtrans %}
 			</small>
 		</label>
-		<input type="text" class="form-control" name="name" placeholder="Ingresá el nombre del desafío">
+		<input type="text" class="form-control" name="name" placeholder="{% trans %}Enter challenge name{% endtrans %}">
 	</div>
 	{% endblock %}
 
 	{% block category %}
 	<div class="form-group">
 		<label>
-			Categoría:<br>
+			{% trans %}Category:{% endtrans %}<br>
 			<small class="form-text text-muted">
-				La categoría de tu desafío
+				{% trans %}The category of your challenge{% endtrans %}
 			</small>
 		</label>
-		<input type="text" class="form-control" name="category" placeholder="Ingresá la categoría del desafío">
+		<input type="text" class="form-control" name="category" placeholder="{% trans %}Enter challenge category{% endtrans %}">
 	</div>
 	{% endblock %}
 
@@ -30,9 +30,9 @@
 	{% block message %}
 	<div class="form-group">
 		<label>
-			Descripción:<br>
+			{% trans %}Message:{% endtrans %}<br>
 			<small class="form-text text-muted">
-				Usá este campo para dar una breve introducción a tu desafío.
+				{% trans %}Use this to give a brief introduction to your challenge.{% endtrans %}
 			</small>
 		</label>
 		<textarea id="new-desc-editor" class="form-control markdown" name="description" rows="10"></textarea>
@@ -42,12 +42,12 @@
 	{% block value %}
 	<div class="form-group">
 		<label>
-			Puntaje:<br>
+			{% trans %}Value:{% endtrans %}<br>
 			<small class="form-text text-muted">
-				Es la cantidad de puntos que se otorgan por resolver este desafío.
+				{% trans %}This is how many points are rewarded for solving this challenge.{% endtrans %}
 			</small>
 		</label>
-		<input type="number" class="form-control" name="value" placeholder="Ingresá el puntaje" required>
+		<input type="number" class="form-control" name="value" placeholder="{% trans %}Enter value{% endtrans %}" required>
 	</div>
 	{% endblock %}
 
@@ -61,7 +61,7 @@
 
 	{% block submit %}
 	<div class="form-group">
-		<button class="btn btn-primary float-right create-challenge-submit" type="submit">Crear</button>
+		<button class="btn btn-primary float-right create-challenge-submit" type="submit">{% trans %}Create{% endtrans %}</button>
 	</div>
 	{% endblock %}
 </form>
