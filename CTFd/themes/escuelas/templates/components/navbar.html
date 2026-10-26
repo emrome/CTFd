@@ -40,38 +40,19 @@
 
       <span class="cuenta">
         {% if authed() %}
-          {% if is_admin() %}
-            {% set chip_nombre = User.name %}
-            {% set chip_dato = _("Admin") %}
-            {% set chip_label = _("Administration: %(name)s", name=User.name) %}
-          {% elif is_author() %}
-            {% set chip_nombre = _("Prof. %(name)s", name=User.name) %}
-            {% set chip_dato = _("Teacher") %}
-            {% set chip_label = _("Teacher %(name)s", name=User.name) %}
-          {% elif Configs.user_mode == "teams" and Team.id %}
-            {% set puntos = Team.score or 0 %}
-            {% set chip_nombre = Team.name %}
-            {% set chip_dato = _("%(num)s pts", num=puntos) %}
-            {% set chip_label = _("Team %(name)s, %(num)s points", name=Team.name, num=puntos) %}
-          {% elif Configs.user_mode == "teams" %}
-            {% set chip_nombre = User.name %}
-            {% set chip_dato = _("No team") %}
-            {% set chip_label = _("%(name)s, no team yet", name=User.name) %}
-          {% else %}
-            {% set puntos = User.score or 0 %}
-            {% set chip_nombre = User.name %}
-            {% set chip_dato = _("%(num)s pts", num=puntos) %}
-            {% set chip_label = _("%(name)s, %(num)s points", name=User.name, num=puntos) %}
-          {% endif %}
+          {% from "macros/cuenta.html" import chip_dato %}
 
           <div class="dropdown">
             <button
                 type="button" class="chip dropdown-toggle" id="menu-cuenta"
                 data-bs-toggle="dropdown" aria-expanded="false"
-                aria-label="{{ _('%(label)s. Open account menu', label=chip_label) }}"
+                data-cuenta-etiqueta
             >
-              <span class="chip-nombre">{{ chip_nombre }}</span>
-              <span class="chip-dato">{{ chip_dato }}</span>
+              {# The name is filled in from window.escuelasCuenta (see base.html and
+                 assets/js/index.js) so that it is not part of the page body: CTFd
+                 checks that hidden accounts do not appear in public listings. #}
+              <span class="chip-nombre" data-cuenta-nombre></span>
+              <span class="chip-dato">{{ chip_dato() }}</span>
               <span
                   x-data x-cloak x-show="$store.unread_count > 0" x-text="$store.unread_count"
                   class="chip-aviso" aria-hidden="true"

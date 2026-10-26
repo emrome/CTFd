@@ -54,6 +54,20 @@ function passwordToggles() {
   });
 }
 
+// The account chip gets its name from the page head (see templates/base.html)
+function accountChip() {
+  const cuenta = window.escuelasCuenta;
+  if (!cuenta) {
+    return;
+  }
+  document.querySelectorAll("[data-cuenta-nombre]").forEach($el => {
+    $el.textContent = cuenta.nombre;
+  });
+  document.querySelectorAll("[data-cuenta-etiqueta]").forEach($el => {
+    $el.setAttribute("aria-label", cuenta.etiqueta);
+  });
+}
+
 function dropdowns() {
   document.querySelectorAll('[data-bs-toggle="dropdown"]').forEach($el => {
     Dropdown.getOrCreateInstance($el);
@@ -68,6 +82,7 @@ function dropdowns() {
   alerts();
   tooltips();
   collapse();
+  accountChip();
   dropdowns();
   passwordToggles();
 
