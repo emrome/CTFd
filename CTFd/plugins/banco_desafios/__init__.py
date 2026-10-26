@@ -16,9 +16,7 @@ from CTFd.plugins.banco_desafios.banco import (
 from CTFd.plugins.banco_desafios.importar import importar
 from CTFd.utils.decorators import admin_or_author
 
-banco_desafios = Blueprint(
-    "banco_desafios", __name__, template_folder="templates"
-)
+banco_desafios = Blueprint("banco_desafios", __name__, template_folder="templates")
 
 
 def _vista(resultado=None):

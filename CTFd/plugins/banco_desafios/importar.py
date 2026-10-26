@@ -36,15 +36,15 @@ def crear_desafio(desafio, ocultos=False):
     if estado not in ("visible", "hidden"):
         estado = "visible"
 
-    campos = dict(
-        name=desafio.nombre,
-        description=datos.get("description", ""),
-        connection_info=datos.get("connection_info"),
-        max_attempts=datos.get("attempts") or 0,
-        category=desafio.categoria,
-        state=estado,
-        type=tipo,
-    )
+    campos = {
+        "name": desafio.nombre,
+        "description": datos.get("description", ""),
+        "connection_info": datos.get("connection_info"),
+        "max_attempts": datos.get("attempts") or 0,
+        "category": desafio.categoria,
+        "state": estado,
+        "type": tipo,
+    }
     if tipo == "dynamic":
         extra = datos.get("extra") or {}
         campos.update(
@@ -121,7 +121,9 @@ def importar(seleccionados, banco, incluir_requisitos=True, ocultos=False):
     for desafio in a_importar:
         errores = desafio.errores()
         if errores:
-            resultado["omitidos"].append((desafio.nombre or desafio.id, ", ".join(errores)))
+            resultado["omitidos"].append(
+                (desafio.nombre or desafio.id, ", ".join(errores))
+            )
             continue
         if Challenges.query.filter_by(name=desafio.nombre).first():
             resultado["omitidos"].append((desafio.nombre, "ya existe en la instancia"))
