@@ -431,7 +431,10 @@ def acerca():
         return render_template("page.html", content=page.html, title=page.title)
     try:
         return render_template("acerca.html")
-    except TemplateNotFound:
+    except TemplateNotFound as e:
+        # Only a theme without acerca.html is a 404; a missing include is a real error
+        if e.name != "acerca.html":
+            raise
         abort(404)
 
 
