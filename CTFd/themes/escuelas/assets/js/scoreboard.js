@@ -36,8 +36,23 @@ function completarResueltos(detalle) {
   });
 }
 
+// The cached rows hold no translated text: copy the labels in from the page
+function completarEtiquetas() {
+  const $textos = document.getElementById("ranking-textos");
+  if (!$textos) {
+    return;
+  }
+  document.querySelectorAll("#scoreboard [data-oficial]").forEach($el => {
+    $el.textContent = $textos.dataset.oficial;
+  });
+  document.querySelectorAll("#scoreboard [data-propio]").forEach($el => {
+    $el.textContent = $textos.dataset.propio;
+  });
+}
+
 Alpine.data("Ranking", () => ({
   init() {
+    completarEtiquetas();
     marcarFilaPropia();
   },
 }));

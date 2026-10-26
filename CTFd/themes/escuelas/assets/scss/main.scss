@@ -2464,6 +2464,11 @@ summary:focus-visible,
   padding: 3px 10px;
   margin-left: 6px;
   white-space: nowrap;
+
+  // Filled in by the scoreboard script; hidden until then
+  &:empty {
+    display: none;
+  }
 }
 
 .barra-puntos {
