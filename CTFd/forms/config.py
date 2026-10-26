@@ -1,4 +1,5 @@
 from flask_babel import lazy_gettext as _l
+from flask_babel import lazy_pgettext
 from wtforms import BooleanField, FileField, SelectField, StringField, TextAreaField
 from wtforms.fields.html5 import IntegerField, URLField
 from wtforms.widgets.html5 import NumberInput
@@ -174,7 +175,7 @@ class VisibilitySettingsForm(BaseForm):
         choices=[
             (ScoreVisibilityTypes.PUBLIC, _l("Public")),
             (ScoreVisibilityTypes.PRIVATE, _l("Private")),
-            (ScoreVisibilityTypes.HIDDEN, _l("Hidden")),
+            (ScoreVisibilityTypes.HIDDEN, lazy_pgettext("score visibility", "Hidden")),
             (ScoreVisibilityTypes.ADMINS, _l("Admins Only")),
         ],
         default=ScoreVisibilityTypes.PUBLIC,

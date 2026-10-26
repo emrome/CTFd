@@ -18,6 +18,7 @@ from CTFd import utils
 from CTFd.constants.themes import ADMIN_THEME, DEFAULT_THEME
 from CTFd.plugins import init_plugins
 from CTFd.utils.crypto import sha256
+from CTFd.utils.i18n import resolve_default_locale
 from CTFd.utils.initialization import (
     init_cli,
     init_events,
@@ -213,6 +214,12 @@ def create_app(config="CTFd.config.Config"):
 
         # Register Flask-Migrate
         migrations.init_app(app, db)
+
+        # An invalid DEFAULT_LOCALE would break every request, so validate it once
+        app.config["DEFAULT_LOCALE"] = resolve_default_locale(
+            app.config.get("DEFAULT_LOCALE")
+        )
+        app.config["BABEL_DEFAULT_LOCALE"] = app.config["DEFAULT_LOCALE"]
 
         babel = Babel()
         babel.locale_selector_func = get_locale

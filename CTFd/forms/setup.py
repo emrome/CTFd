@@ -1,4 +1,5 @@
 from flask_babel import lazy_gettext as _l
+from flask_babel import lazy_pgettext
 from wtforms import (
     FileField,
     HiddenField,
@@ -129,7 +130,7 @@ class SetupForm(BaseForm):
         choices=[
             (ScoreVisibilityTypes.PUBLIC, _l("Public")),
             (ScoreVisibilityTypes.PRIVATE, _l("Private")),
-            (ScoreVisibilityTypes.HIDDEN, _l("Hidden")),
+            (ScoreVisibilityTypes.HIDDEN, lazy_pgettext("score visibility", "Hidden")),
             (ScoreVisibilityTypes.ADMINS, _l("Admins Only")),
         ],
         default=AccountVisibilityTypes.PUBLIC,

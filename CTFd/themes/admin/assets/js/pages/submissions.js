@@ -75,11 +75,14 @@ function correctSubmissions(_event) {
 
   ezQuery({
     title: t("Mark submissions correct"),
-    body: t(
-      "Are you sure you want to mark {0} {1} correct?",
-      submissionIDs.length,
-      target
-    ),
+    body:
+      submissionIDs.length === 1
+        ? t("Are you sure you want to mark 1 {0} correct?", target)
+        : t(
+            "Are you sure you want to mark {0} {1} correct?",
+            submissionIDs.length,
+            target
+          ),
     success: function() {
       const reqs = [];
       for (var subId of submissionIDs) {

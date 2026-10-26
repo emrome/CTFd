@@ -12,15 +12,11 @@
         {% include "components/errors.html" %}
 
         <p class="h3 text-center mt-md-4">
-          {% trans %}Welcome to{% endtrans %} <strong>{{ team.name }}</strong>!
+          {% trans name=team.name %}Welcome to <strong>{{ name }}</strong>!{% endtrans %}
         </p>
 
         <p class="text-center">
           {% trans %}Click the button below to join the team!{% endtrans %}
-          <br>
-          <small class="text-muted">
-            Or <a href="{{ url_for('teams.new') }}">click here</a> if you'd prefer to create your own team.
-          </small>
         </p>
 
         {% with form = Forms.teams.TeamInviteJoinForm() %}

@@ -236,11 +236,14 @@ function correctSubmissions(_event) {
 
   ezQuery({
     title: t("Mark submissions correct"),
-    body: t(
-      "Are you sure you want to mark {0} {1} correct?",
-      submissionIDs.length,
-      target
-    ),
+    body:
+      submissionIDs.length === 1
+        ? t("Are you sure you want to mark 1 {0} correct?", target)
+        : t(
+            "Are you sure you want to mark {0} {1} correct?",
+            submissionIDs.length,
+            target
+          ),
     success: function() {
       const reqs = [];
       for (var subId of submissionIDs) {
@@ -352,12 +355,19 @@ function solveSelectedMissingChallenges(event) {
 
   ezQuery({
     title: t("Mark Correct"),
-    body: t(
-      "Are you sure you want to mark {0} {1} correct for {2}?",
-      challengeIDs.length,
-      target,
-      htmlEntities(window.USER_NAME)
-    ),
+    body:
+      challengeIDs.length === 1
+        ? t(
+            "Are you sure you want to mark 1 {0} correct for {1}?",
+            target,
+            htmlEntities(window.USER_NAME)
+          )
+        : t(
+            "Are you sure you want to mark {0} {1} correct for {2}?",
+            challengeIDs.length,
+            target,
+            htmlEntities(window.USER_NAME)
+          ),
     success: function() {
       const reqs = [];
       for (var challengeID of challengeIDs) {
