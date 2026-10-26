@@ -35,6 +35,12 @@ function buscar(nombre) {
   return CATEGORIAS.find(c => c.prefijos.some(p => clave.startsWith(p)));
 }
 
+// Key of the style-guide group a category belongs to ("cripto", "osint"...), or "".
+export function grupoCategoria(nombre) {
+  const c = buscar(nombre);
+  return c ? c.prefijos[0] : "";
+}
+
 export function colorCategoria(nombre) {
   const c = buscar(nombre);
   return c ? c.color : "#E4E7EE";

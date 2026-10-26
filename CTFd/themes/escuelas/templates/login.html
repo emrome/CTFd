@@ -2,9 +2,15 @@
 
 {% block content %}
   <div class="ingreso">
-    {% set intro_titulo = _("Log in with your team") %}
-    {% if registration_visible() %}
+    {% if Configs.user_mode == "teams" %}
+      {% set intro_titulo = _("Log in with your team") %}
+    {% else %}
+      {% set intro_titulo = _("Log in to play") %}
+    {% endif %}
+    {% if registration_visible() and Configs.user_mode == "teams" %}
       {% set intro_texto = _("Use the username your teacher gave you. If it is your first time, create your account and then join your team with the team password.") %}
+    {% elif registration_visible() %}
+      {% set intro_texto = _("Use the username your teacher gave you. If it is your first time, create your account.") %}
     {% else %}
       {% set intro_texto = _("Use the username and password your teacher gave you.") %}
     {% endif %}

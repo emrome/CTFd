@@ -6,8 +6,10 @@
   {% set texto_jugar = _("Start playing") %}
 {% endif %}
 
-{% macro categoria(color, sigla, nombre, cantidad) -%}
-  <li style="background: {{ color }}"><span aria-hidden="true" class="cat-sigla">{{ sigla }}</span><span class="cat-nombre">{{ nombre }}</span><span class="cat-cantidad">{{ ngettext("%(num)d challenge", "%(num)d challenges", cantidad) }}</span></li>
+{# The counts are filled in by assets/js/page.js from the challenges the visitor can
+   see; they stay hidden when the challenges are not visible. #}
+{% macro categoria(color, sigla, nombre, grupo) -%}
+  <li style="background: {{ color }}"><span aria-hidden="true" class="cat-sigla">{{ sigla }}</span><span class="cat-nombre">{{ nombre }}</span><span class="cat-cantidad" x-data x-cloak x-show="$store.inicio.loaded" x-text="$store.inicio.challengesText('{{ grupo }}')"></span></li>
 {%- endmacro %}
 
 <section class="inicio-hero" aria-labelledby="inicio-titulo">
@@ -21,22 +23,24 @@
     </div>
   </div>
   <ul aria-label="{{ _('Categories') }}" class="inicio-categorias">
-    {{ categoria("#E4E7EE", ">_", _("Introduction"), 1) }}
-    {{ categoria("#D6E0FF", "#", _("Cryptography"), 8) }}
-    {{ categoria("#FFD6CC", "**", _("Passwords"), 7) }}
-    {{ categoria("#FFE08A", "@", _("Phishing"), 6) }}
-    {{ categoria("#C5EBDB", "?", _("OSINT"), 7) }}
-    {{ categoria("#EBD9F5", "!", _("Social engineering"), 3) }}
+    {{ categoria("#E4E7EE", ">_", _("Introduction"), "intro") }}
+    {{ categoria("#D6E0FF", "#", _("Cryptography"), "cripto") }}
+    {{ categoria("#FFD6CC", "**", _("Passwords"), "contrasen") }}
+    {{ categoria("#FFE08A", "@", _("Phishing"), "phishing") }}
+    {{ categoria("#C5EBDB", "?", _("OSINT"), "osint") }}
+    {{ categoria("#EBD9F5", "!", _("Social engineering"), "ingenieria") }}
   </ul>
 </section>
 
-<section aria-label="{{ _('The platform in numbers') }}" class="inicio-numeros">
-  <dl>
-    <div><dt>{{ _("challenges in the bank") }}</dt><dd>32</dd></div>
-    <div><dt>{{ _("categories") }}</dt><dd>6</dd></div>
-    <div><dt>{{ _("levels, from basic to advanced") }}</dt><dd>3</dd></div>
+<section aria-label="{{ _('The platform in numbers') }}" class="inicio-numeros" data-inicio-numeros>
+  <dl x-data>
+    <div x-cloak x-show="$store.inicio.loaded"><dt>{{ _("challenges in this competition") }}</dt><dd x-text="$store.inicio.total"></dd></div>
+    <div x-cloak x-show="$store.inicio.loaded"><dt>{{ _("categories") }}</dt><dd x-text="$store.inicio.categories"></dd></div>
+    <div x-cloak x-show="$store.inicio.loaded && $store.inicio.levels > 0"><dt>{{ _("difficulty levels") }}</dt><dd x-text="$store.inicio.levels"></dd></div>
     {# TODO: el diseño muestra «escuelas que ya jugaron [N]»; falta el número total de
-       escuelas. Mientras tanto se usa un dato verificado (7 competencias desde 2019). #}
+       escuelas. Mientras tanto se usa un dato verificado: «se puso en práctica en 7 eventos
+       realizados en forma consecutiva desde 2019» (Freccero Starnari et al., «La herramienta
+       CTFd adaptada a la enseñanza de ciberseguridad en la escuela», CLEI 2024). #}
     <div><dt>{{ _("competitions since 2019") }}</dt><dd>7</dd></div>
   </dl>
 </section>
@@ -55,7 +59,11 @@
     <ol class="pasos">
       <li>
         <span aria-hidden="true" class="paso-num" style="background: #D6E0FF">1</span>
-        <span class="paso-texto"><span class="paso-titulo">{{ _("Form your team") }}</span><span class="paso-desc">{{ _("The teacher creates the competition and each group joins its team with the password they are given.") }}</span></span>
+        {% if Configs.user_mode == "teams" %}
+          <span class="paso-texto"><span class="paso-titulo">{{ _("Form your team") }}</span><span class="paso-desc">{{ _("The teacher creates the competition and each group joins its team with the password they are given.") }}</span></span>
+        {% else %}
+          <span class="paso-texto"><span class="paso-titulo">{{ _("Log in") }}</span><span class="paso-desc">{{ _("The teacher creates the competition and each student plays with their own account.") }}</span></span>
+        {% endif %}
       </li>
       <li>
         <span aria-hidden="true" class="paso-num" style="background: #FFE08A">2</span>
