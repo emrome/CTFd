@@ -2,18 +2,13 @@
 {% from "macros/forms.html" import render_extra_fields %}
 
 {% block content %}
-  <div class="jumbotron">
-    <div class="container">
-      <h1>
-        {% trans %}Settings{% endtrans %}
-      </h1>
-    </div>
-  </div>
-
   <div class="container">
+    <div class="encabezado">
+      <h1>{% trans %}Settings{% endtrans %}</h1>
+    </div>
     <div class="row">
 
-      <div class="col-md-3 offset-md-1 mb-3 mb-md-0">
+      <div class="col-md-3 mb-3 mb-md-0">
         <div class="nav flex-column nav-pills" role="tablist">
           <button
               class="nav-link active" id="settings-profile-tab" data-bs-toggle="pill"
@@ -28,7 +23,7 @@
         </div>
       </div>
 
-      <div class="col-md-8">
+      <div class="col-md-9">
         <div class="tab-content" id="v-pills-tabContent">
           <div class="tab-pane fade show active" id="profile" role="tabpanel">
             {% include "components/errors.html" %}
@@ -70,7 +65,7 @@
                 <hr>
 
                 <div class="mb-3">
-                  <b>{{ form.affiliation.label(class="form-label") }}</b>
+                  <b>{{ form.affiliation.label(text=_("School or institution"), class="form-label") }}</b>
                   {{ form.affiliation(class="form-control", value=affiliation or "") }}
                 </div>
                 <div class="mb-3">
@@ -112,7 +107,7 @@
                 </div>
 
                 <div class="mb-3">
-                  {{ form.submit(class="btn btn-primary float-end px-4") }}
+                  {{ form.submit(class="btn btn-primary float-end px-4", value=_("Save changes")) }}
                 </div>
               </form>
             {% endwith %}
@@ -165,7 +160,7 @@
                 </div>
 
                 <div class="mb-3">
-                  <b>{{ form.description.label(class="form-label") }}</b>
+                  <b>{{ form.description.label(text=_("Description"), class="form-label") }}</b>
                   {{ form.description(class="form-control", rows="3") }}
                 </div>
 

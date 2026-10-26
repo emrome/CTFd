@@ -1,18 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<div class="container">
-	<div class="row">
-		<div class="col-md-12">
-			<div class="pt-5 mt-5 text-center">
-				<h1>502</h1>
-				<hr class="w-50 m-auto">
-				<h2>{% trans %}Bad Gateway{% endtrans %}</h2>
-			</div>
-		</div>
-	</div>
-</div>
-
-
+  <div class="error-pagina">
+    <span class="error-codigo">{% trans code=502 %}Error {{ code }}{% endtrans %}</span>
+    <h1>{{ _("The server is not responding") }}</h1>
+    <p>{{ _("Try again in a while. If it keeps happening, tell the CTF organizers.") }}</p>
+    <div class="acciones">
+      <a href="{{ url_for('views.static_html', route='/') }}" class="btn btn-primary">{{ _("Back to home") }}</a>
+      <a href="{{ url_for('challenges.listing') }}" class="btn btn-sec">{{ _("Go to the challenges") }}</a>
+    </div>
+  </div>
 {% endblock %}

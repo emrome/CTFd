@@ -1,84 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="jumbotron">
-    <div class="container">
-      <h1 id="team-id" data-ctfd-team-id="{{ team.id }}">{{ team.name }}
-        {% if not user.team_id %}
-          <a class="no-decoration" href="{{ url_for('teams.join', team_name=team.name) }}">
-            <span role="button" data-toggle="tooltip" title="Join">
-              <button class="btn btn-primary float-right">{% trans %}Join{% endtrans %}</button>
-            </span>
-          </a>
+{% from "macros/perfil.html" import puesto %}
+  <div class="container">
+    <div class="encabezado">
+      <span class="encabezado-ante">{% trans %}Team{% endtrans %}</span>
+      <h1 id="team-id" data-ctfd-team-id="{{ team.id }}">{{ team.name }}</h1>
+      <div class="perfil-chips">
+        {% if team.oauth_id %}
+          <a class="pastilla" href="https://majorleaguecyber.org/t/{{ team.name }}">{% trans %}Official{% endtrans %}</a>
         {% endif %}
-      </h1>
-
-      {% if team.oauth_id %}
-        <a href="https://majorleaguecyber.org/t/{{ team.name }}">
-          <h3 class="d-inline-block mx-1"><span class="badge bg-primary rounded-pill">{% trans %}Official{% endtrans %}</span></h3>
-        </a>
-      {% endif %}
-
-      {% if team.affiliation %}
-        <h3 class="d-inline-block mx-1">
-          <span class="badge bg-primary rounded-pill">{{ team.affiliation }}</span>
-        </h3>
-      {% endif %}
-
-      {% if team.country %}
-        <h3 class="d-inline-block mx-1">
-					<span class="badge bg-primary rounded-pill">
-						<i class="flag-{{ team.country.lower() }}"></i>
-						{{ lookup_country_code(team.country) }}
-					</span>
-        </h3>
-      {% endif %}
-
-      <div class="pt-2">
-        {% for field in team.fields %}
-          <h3 class="d-block">
-            {{ field.name }}: {{ field.value }}
-          </h3>
-        {% endfor %}
-      </div>
-
-      <div class="pt-2">
+        {% if team.affiliation %}
+          <span class="pastilla" style="background: #D6E0FF">{{ team.affiliation }}</span>
+        {% endif %}
+        {% if team.country %}
+          <span class="pastilla" style="background: #C5EBDB"><i class="flag-{{ team.country.lower() }} me-2" aria-hidden="true"></i>{{ lookup_country_code(team.country) }}</span>
+        {% endif %}
         {% if team.website and (team.website.startswith('http://') or team.website.startswith('https://')) %}
-          <a href="{{ team.website }}" target="_blank" style="color: inherit;" rel="noopener">
-            <i
-                class="fas fa-external-link-alt fa-2x px-2" data-toggle="tooltip" data-placement="top"
-                title="{{ team.website }}"
-            ></i>
-          </a>
+          <a class="pastilla" style="background: #F4F1EA" href="{{ team.website }}" target="_blank" rel="noopener"><i class="fas fa-external-link-alt me-2" aria-hidden="true"></i>{% trans %}Website{% endtrans %}</a>
         {% endif %}
       </div>
-
-      {% if team.fields or team.website %}
-        <hr class="w-50 mx-auto">
+      {% for field in team.fields %}
+        <p class="encabezado-sub m-0"><strong>{{ field.name }}:</strong> {{ field.value }}</p>
+      {% endfor %}
+      {% if not user.team_id %}
+        <div class="perfil-acciones">
+          <a class="btn btn-primary" href="{{ url_for('teams.join', team_name=team.name) }}">{{ _("Join this team") }}</a>
+        </div>
       {% endif %}
+    </div>
 
-      <h2 id="team-place" class="text-center">
-        {# This intentionally hides the team's place when scores are hidden because this can be
-				  their internal profile and we don't want to leak their place in the CTF. #}
-
-        {# Public page hiding is done at the route level #}
-        {% if scores_visible() %}
-          {% if place %}
-            {{ place }}
-            <small>place</small>
-          {% endif %}
-        {% endif %}
-      </h2>
-
-      <h2 id="team-score" class="text-center">
-        {% if score %}
-          {{ score }}
-          <small>points</small>
-        {% endif %}
-      </h2>
+    <div class="perfil-datos">
+      {# Public page hiding is done at the route level #}
+      {% if scores_visible() and place %}
+        <dl class="dato-card" id="team-place"><dt>{{ _("place in the scoreboard") }}</dt><dd>{{ puesto(place) }}</dd></dl>
+      {% endif %}
+      <dl class="dato-card" id="team-score"><dt>{% trans %}points{% endtrans %}</dt><dd>{{ score or 0 }}</dd></dl>
     </div>
   </div>
-
   <div class="container">
     {% include "components/errors.html" %}
 
@@ -180,27 +139,27 @@
             <div
               class="progress-bar"
               role="progressbar"
-              :style="{ width: `${getSolvePercentage()}%`, 'background-color': 'rgb(0, 209, 64)' }"
+              :style="{ width: `${getSolvePercentage()}%`, 'background-color': '#157a4a' }"
             >
             </div>
             <div
               class="progress-bar"
               role="progressbar"
-              :style="{ width: `${getFailPercentage()}%`, 'background-color': 'rgb(207, 38, 0)' }"
+              :style="{ width: `${getFailPercentage()}%`, 'background-color': '#c2410c' }"
             >
             </div>
           </div>
           <div class="ps-2 float-start">
             <svg height="16" width="16">
-              <circle cx="8" cy="8" r="5" fill="rgb(0, 209, 64)" />
+              <circle cx="8" cy="8" r="5" fill="#157a4a" />
             </svg>
-            <small x-text="`Solves (${getSolvePercentage()}%)`"></small>
+            <small x-text='{{ _("Solves") | tojson }} + " (" + getSolvePercentage() + "%)"'></small>
           </div>
           <div class="ps-2 float-start">
             <svg height="16" width="16">
-              <circle cx="8" cy="8" r="5" fill="rgb(207, 38, 0)" />
+              <circle cx="8" cy="8" r="5" fill="#c2410c" />
             </svg>
-            <small x-text="`Fails (${getFailPercentage()}%)`"></small>
+            <small x-text='{{ _("Fails") | tojson }} + " (" + getFailPercentage() + "%)"'></small>
           </div>
         </div>
         <div class="col-md-6 d-none d-md-block d-lg-block py-4">

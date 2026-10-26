@@ -1,79 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="jumbotron">
-    <div class="container">
+{% from "macros/perfil.html" import puesto %}
+  <div class="container">
+    <div class="encabezado">
+      <span class="encabezado-ante">{{ _("My profile") }}</span>
       <h1>{{ user.name }}</h1>
-
-      {% if user.team_id %}
-        <h2>
-          <a href="{{ url_for('teams.public', team_id=user.team_id) }}">
-						<span class="badge bg-secondary">
-							{{ user.team.name }}
-						</span>
-          </a>
-        </h2>
-      {% endif %}
-
-      <div class="pt-2">
+      <div class="perfil-chips">
+        {% if user.team_id %}
+          <a class="pastilla" href="{{ url_for('teams.public', team_id=user.team_id) }}"><i class="fas fa-users me-2" aria-hidden="true"></i>{{ user.team.name }}</a>
+        {% endif %}
         {% if user.oauth_id %}
-          <a href="https://majorleaguecyber.org/u/{{ user.name }}">
-            <h3 class="d-inline-block mx-1"><span class="badge rounded-pill bg-primary">{% trans %}Official{% endtrans %}</span></h3>
-          </a>
+          <a class="pastilla" href="https://majorleaguecyber.org/u/{{ user.name }}">{% trans %}Official{% endtrans %}</a>
         {% endif %}
-
         {% if user.affiliation %}
-          <h3 class="d-inline-block mx-1">
-            <span class="badge rounded-pill bg-primary">{{ user.affiliation }}</span>
-          </h3>
+          <span class="pastilla" style="background: #D6E0FF">{{ user.affiliation }}</span>
         {% endif %}
-
         {% if user.country %}
-          <h3 class="d-inline-block mx-1">
-            <span class="badge rounded-pill bg-primary">
-                <i class="flag-{{ user.country.lower() }}"></i>
-                {{ lookup_country_code(user.country) }}
-            </span>
-          </h3>
+          <span class="pastilla" style="background: #C5EBDB"><i class="flag-{{ user.country.lower() }} me-2" aria-hidden="true"></i>{{ lookup_country_code(user.country) }}</span>
         {% endif %}
-      </div>
-
-      <div class="pt-2">
-        {% for field in user.fields %}
-          <h3 class="d-block">
-            {{ field.name }}: {{ field.value }}
-          </h3>
-        {% endfor %}
-      </div>
-
-      {% if user.fields %}
-        <hr class="w-50 mx-auto">
-      {% endif %}
-
-      <div>
-        <h2 class="text-center">
-          {% if account.place %}
-            {{ account.place }} <small>place</small>
-          {% endif %}
-        </h2>
-        <h2 class="text-center">
-          {% if account %}
-            {{ account.get_score(admin=True) }} <small>points</small>
-          {% endif %}
-        </h2>
-      </div>
-
-      <div class="pt-3">
         {% if user.website %}
-          <a href="{{ user.website }}" target="_blank" style="color: inherit;" rel="noopener">
-            <i
-                class="fas fa-external-link-alt fa-2x px-2" data-toggle="tooltip" data-placement="top"
-                title="{{ user.website }}"
-            ></i>
-          </a>
+          <a class="pastilla" style="background: #F4F1EA" href="{{ user.website }}" target="_blank" rel="noopener"><i class="fas fa-external-link-alt me-2" aria-hidden="true"></i>{% trans %}Website{% endtrans %}</a>
         {% endif %}
       </div>
+      {% for field in user.fields %}
+        <p class="encabezado-sub m-0"><strong>{{ field.name }}:</strong> {{ field.value }}</p>
+      {% endfor %}
     </div>
+
+    {% if account %}
+      <div class="perfil-datos">
+        {% if account.place %}
+          <dl class="dato-card"><dt>{{ _("place in the scoreboard") }}</dt><dd>{{ puesto(account.place) }}</dd></dl>
+        {% endif %}
+        <dl class="dato-card"><dt>{% trans %}points{% endtrans %}</dt><dd>{{ account.get_score(admin=True) }}</dd></dl>
+      </div>
+    {% endif %}
   </div>
   <div class="container">
     {% include "components/errors.html" %}
@@ -145,27 +107,27 @@
             <div 
               class="progress-bar" 
               role="progressbar" 
-              :style="{ width: `${getSolvePercentage()}%`, 'background-color': 'rgb(0, 209, 64)' }" 
+              :style="{ width: `${getSolvePercentage()}%`, 'background-color': '#157a4a' }" 
             >
             </div>
             <div 
               class="progress-bar" 
               role="progressbar" 
-              :style="{ width: `${getFailPercentage()}%`, 'background-color': 'rgb(207, 38, 0)' }"
+              :style="{ width: `${getFailPercentage()}%`, 'background-color': '#c2410c' }"
             >
             </div>
           </div>
           <div class="ps-2 float-start">
             <svg height="16" width="16">
-              <circle cx="8" cy="8" r="5" fill="rgb(0, 209, 64)" />
+              <circle cx="8" cy="8" r="5" fill="#157a4a" />
             </svg>
-            <small x-text="`Solves (${getSolvePercentage()}%)`"></small>
+            <small x-text='{{ _("Solves") | tojson }} + " (" + getSolvePercentage() + "%)"'></small>
           </div>
           <div class="ps-2 float-start">
             <svg height="16" width="16">
-              <circle cx="8" cy="8" r="5" fill="rgb(207, 38, 0)" />
+              <circle cx="8" cy="8" r="5" fill="#c2410c" />
             </svg>
-            <small x-text="`Fails (${getFailPercentage()}%)`"></small>
+            <small x-text='{{ _("Fails") | tojson }} + " (" + getFailPercentage() + "%)"'></small>
           </div>
         </div>
         <div class="col-md-6 d-none d-md-block d-lg-block py-4">

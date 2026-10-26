@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% set title = _("About") %}
+
+{% block content %}
+  <div class="acerca">
+    <section>
+      <h1>{{ _("A public university project") }}</h1>
+      <p class="acerca-bajada">{{ _("CTF en Escuelas is a tool of the School of Computer Science at UNLP, part of the outreach project «Extensión en vínculo con escuelas secundarias», which works with schools in La Plata, Berisso and Ensenada. It brings cybersecurity to high school students through Capture The Flag competitions: since 2019 it has been used in seven competitions.") }}</p>
+    </section>
+
+    <section aria-labelledby="historia">
+      <h2 id="historia">{{ _("Project history") }}</h2>
+      <ol class="linea-tiempo">
+        <li>
+          <span aria-hidden="true" class="linea-punto"></span>
+          <span class="linea-fecha">{{ _("origin · since 2019") }}</span>
+          <h3>{{ _("CTFd, free software") }}</h3>
+          <p>{{ _("The platform is based on CTFd, an open source project by CTFd LLC used in competitions all over the world.") }}</p>
+        </li>
+        <li>
+          <span aria-hidden="true" class="linea-punto azul"></span>
+          <span class="linea-fecha">2026</span>
+          <h3>CTF en escuelas secundarias 2.0</h3>
+          <p>{% trans %}Benjamín Freccero Starnari adapted CTFd in his undergraduate thesis «Una plataforma libre y personalizable para “CTF en escuelas secundarias”» (Licenciatura en Sistemas, February 2026): he translated the platform, added the author role for teachers and put it to work in an inter-school CTF with 4 schools and 40 students.{% endtrans %}</p>
+        </li>
+        <li>
+          <span aria-hidden="true" class="linea-punto lleno"></span>
+          <span class="linea-fecha">2026</span>
+          <h3>{{ _("Challenge bank") }}</h3>
+          <p>{% trans %}Emilia Romero designed 32 challenges in six categories and integrated them into the tool in her thesis «Diseño e integración de contenidos en la herramienta “CTF en escuelas secundarias 2.0”. Aportes a la formación en Informática para jóvenes», together with the bank from which any teacher can put together a competition.{% endtrans %}</p>
+        </li>
+      </ol>
+    </section>
+
+    <section aria-labelledby="personas">
+      <h2 id="personas">{{ _("People") }}</h2>
+      <dl class="personas">
+        <div><dt>{{ _("Tool development") }}</dt><dd>Benjamín Freccero Starnari</dd></div>
+        <div><dt>{{ _("Challenge design and bank") }}</dt><dd>Emilia Romero</dd></div>
+        <div><dt>{{ _("Thesis supervision") }}</dt><dd>Claudia Queiruga, Paula Venosa</dd></div>
+        <div><dt>{{ _("Professional supervision (Benjamín's thesis)") }}</dt><dd>Isabel Kimura</dd></div>
+        <div><dt>{{ _("LINTI team") }}</dt><dd>Gabriela Suárez, Claudia Queiruga, Paula Venosa</dd></div>
+        {# TODO: confirmar qué área aloja y mantiene la plataforma. #}
+        <div><dt>{{ _("Hosting and maintenance") }}</dt><dd>[LINTI / área a cargo]</dd></div>
+      </dl>
+    </section>
+
+    <section aria-labelledby="publicaciones">
+      <h2 id="publicaciones">{{ _("Publications") }}</h2>
+      <ul class="repos" style="font-family: inherit; font-size: 17px">
+        <li>«La herramienta CTFd adaptada a la enseñanza de ciberseguridad en la escuela». CLEI 2024.</li>
+        <li>«CTF en escuelas secundarias 2.0». JAIIO 2025, SAEI.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="licencia">
+      <h2 id="licencia">{{ _("Free software and license") }}</h2>
+      <div class="licencia">
+        <div class="licencia-cab">LICENSE · NOTICE</div>
+        <p>{{ _("This tool is a modified version of CTFd, © CTFd LLC, distributed under the Apache License 2.0. It keeps the copyright and license notices of the original project, and its own changes are published in its repositories.") }}</p>
+      </div>
+      <ul class="repos">
+        <li><a href="https://github.com/CTFd/CTFd">github.com/CTFd/CTFd</a> <span class="texto-suave">· {{ _("original") }}</span></li>
+        <li><a href="https://github.com/Bemyi/CTFd">github.com/Bemyi/CTFd</a> <span class="texto-suave">· {{ _("adaptation for schools") }}</span></li>
+        <li><a href="https://github.com/emrome/CTFd">github.com/emrome/CTFd</a> <span class="texto-suave">· {{ _("version with the challenge bank") }}</span></li>
+        <li><a href="https://github.com/emrome/ctf-challenges">github.com/emrome/ctf-challenges</a> <span class="texto-suave">· {{ _("challenges") }}</span></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="contacto">
+      <h2 id="contacto">{{ _("Contact") }}</h2>
+      {# TODO: completar el correo de contacto del proyecto. #}
+      <p class="acerca-texto">{{ _("If you are a teacher and want to organize a CTF at your school, write to us at") }} [correo de contacto].</p>
+    </section>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ Assets.js("assets/js/page.js") }}
+{% endblock %}

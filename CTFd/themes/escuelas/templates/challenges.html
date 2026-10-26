@@ -1,66 +1,124 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="jumbotron">
-    <div class="container">
-      <h1>
-        {% trans %}Challenges{% endtrans %}
-      </h1>
-    </div>
-  </div>
-
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-        {% include "components/errors.html" %}
-      </div>
-    </div>
-
-    <div 
-      x-data="ChallengeBoard" 
-      @load-challenges.window="loadChallenges()" 
+  {% set es_equipo = Configs.user_mode == "teams" %}
+  <div
+      class="container desafios"
+      x-data="ChallengeBoard"
+      @load-challenges.window="loadChallenges()"
       @load-challenge.window="loadChallenge($event.detail)"
-    >
-      <div
-          x-ref="challengeWindow" id="challenge-window" class="modal fade" tabindex="-1" role="dialog" x-data=""
-          x-html="$store.challenge.data.view"
-      ></div>
+  >
+    <div
+        x-ref="challengeWindow" id="challenge-window" class="modal fade" tabindex="-1" role="dialog"
+        aria-modal="true" aria-labelledby="desafio-nombre" x-data=""
+        x-html="$store.challenge.data.view"
+    ></div>
 
-      <div x-show="!loaded">
-        <div class="min-vh-50 d-flex align-items-center">
-          <div class="text-center w-100">
-            <i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
-          </div>
-        </div>
+    <div class="desafios-cab">
+      <div class="desafios-titulo">
+        <h1>{% trans %}Challenges{% endtrans %}</h1>
+        <p>{{ _("Each category is a path: solving a challenge opens the next one.") }}</p>
       </div>
+      <template x-if="place">
+        <dl class="dato-card">
+          <dt>{{ _("place in the scoreboard") }}</dt>
+          <dd><span x-text="place.text"></span> <small x-text="place.of"></small></dd>
+        </dl>
+      </template>
+      <template x-if="loaded">
+        <dl class="dato-card">
+          <dt>{{ _("solved") }}</dt>
+          <dd><span x-text="solvedCount()"></span> <small x-text="t('of {num}', { num: totalCount() })"></small></dd>
+        </dl>
+      </template>
+      <template x-if="loaded && suggested()">
+        <button type="button" class="sugerido" @click="loadChallenge(suggested().id)">
+          <span class="sugerido-ante">{{ _("Suggested next") }}</span>
+          <span class="sugerido-nombre"><span x-text="suggested().name"></span> <span aria-hidden="true">→</span></span>
+        </button>
+      </template>
+    </div>
 
-      <div x-show="loaded">
-        <template x-for="(category, idx) in getCategories()" :key="idx">
-          <div class="pt-5">
-            <div class="category-header mb-3">
-              <h3 x-text="category"></h3>
+    {% include "components/errors.html" %}
+
+    <div x-show="!loaded" class="cargando">
+      <i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner" aria-hidden="true"></i>
+      <p class="mt-3 mb-0">{{ _("Loading challenges…") }}</p>
+    </div>
+
+    <div x-show="loaded" x-cloak>
+      <template x-if="getCategories().length == 0 && locked().length == 0">
+        <div class="vacio">
+          <h2>{{ _("No challenges yet") }}</h2>
+          <p>{{ _("When the CTF organizers publish them, they will show up here.") }}</p>
+        </div>
+      </template>
+
+      <template x-if="getCategories().length > 1">
+        <div role="group" aria-label="{{ _('Filter by category') }}" class="filtros mb-4">
+          <button type="button" class="filtro" :aria-pressed="filter == null ? 'true' : 'false'" @click="filter = null">{{ _("all") }}</button>
+          <template x-for="category in getCategories()" :key="category">
+            <button type="button" class="filtro" :aria-pressed="filter == category ? 'true' : 'false'" @click="filter = category" x-text="category"></button>
+          </template>
+        </div>
+      </template>
+
+      <div class="rutas">
+        <template x-for="category in visibleCategories()" :key="category">
+          <section class="ruta" :aria-label="category">
+            <div class="ruta-cab">
+              <span aria-hidden="true" class="ruta-ico" :style="{ background: categoryColor(category) }" x-text="categorySigla(category)"></span>
+              <h2 x-text="category"></h2>
+              <span class="ruta-progreso" x-text="t('{solved} of {total} solved', { solved: solvedIn(category), total: getChallenges(category).length })"></span>
             </div>
+            <ol class="ruta-lista">
+              <template x-for="(c, idx) in getChallenges(category)" :key="c.id">
+                <li>
+                  <span aria-hidden="true" class="ruta-linea" x-show="idx > 0"></span>
+                  <button
+                      type="button" class="reto challenge-button"
+                      :class="c.solved_by_me ? 'reto-resuelto challenge-solved' : ''"
+                      :value="c.id" @click="loadChallenge(c.id)"
+                  >
+                    <span class="reto-estado" x-show="c.solved_by_me"><span aria-hidden="true">✓</span> {{ _("Solved") }}</span>
+                    <span class="reto-estado" x-show="!c.solved_by_me">{{ _("Available") }}</span>
+                    <span class="reto-nombre" x-text="c.name"></span>
+                    <span class="reto-pie">
+                      <span x-text="level(c)"></span>
+                      <span class="reto-pts" x-text="t('{num} pts', { num: c.value })"></span>
+                    </span>
+                  </button>
+                </li>
+              </template>
+            </ol>
+          </section>
+        </template>
 
-            <div class="category-challenges d-flex flex-column">
-              <div class="challenges-row row">
-                <template x-for="(c, idx) in getChallenges(category)" :key="c.id">
-                  <div class="col-sm-6 col-md-4 col-lg-3">
-                    <button
-                        class="challenge-button btn btn-dark w-100 text-truncate my-3"
-                        :class="c.solved_by_me ? 'challenge-solved' : ''"
-                        :value="c.id" @click="loadChallenge(c.id)"
-                    >
-
-                      <div class="challenge-inner my-3">
-                        <p x-text="c.name"></p>
-                        <span x-text="c.value"></span>
-                      </div>
-                    </button>
+        <template x-if="filter == null && locked().length > 0">
+          <section class="ruta" aria-label="{{ _('To unlock') }}">
+            <div class="ruta-cab">
+              <span aria-hidden="true" class="ruta-ico" style="background: #F4F1EA">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+              </span>
+              <h2>{{ _("To unlock") }}</h2>
+              <span class="ruta-progreso" x-text="t('{num} locked', { num: locked().length })"></span>
+            </div>
+            <ol class="ruta-lista">
+              <template x-for="(c, idx) in locked()" :key="c.id">
+                <li>
+                  <span aria-hidden="true" class="ruta-linea tenue" x-show="idx > 0"></span>
+                  <div class="reto reto-bloqueado">
+                    <span class="reto-estado">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+                      {{ _("Locked") }}
+                    </span>
+                    <span class="reto-nombre">{{ _("Hidden challenge") }}</span>
+                    <span class="reto-pie">{{ _("Opens when you solve the previous challenges") }}</span>
                   </div>
-                </template>
-              </div>
-            </div>
-          </div>
+                </li>
+              </template>
+            </ol>
+          </section>
         </template>
       </div>
     </div>

@@ -1,0 +1,6 @@
+{% if registration_visible() %}
+  <nav class="selector" aria-label="{{ _('Choose an option') }}">
+    <a href="{{ url_for('auth.login') }}"{% if request.endpoint == 'auth.login' %} aria-current="page"{% endif %}>{% trans %}Login{% endtrans %}</a>
+    <a href="{{ url_for('auth.register') }}"{% if request.endpoint == 'auth.register' %} aria-current="page"{% endif %}>{{ _("Create account") }}</a>
+  </nav>
+{% endif %}

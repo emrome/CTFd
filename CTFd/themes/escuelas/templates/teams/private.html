@@ -16,7 +16,7 @@
             <form id="team-info-form" method="POST" @submit.prevent="updateProfile()">
 
               <div class="mb-2">
-                <b>{{ form.name.label(clas="mb-2") }}</b>
+                <b>{{ form.name.label(class="form-label") }}</b>
                 {{ form.name(class="form-control") }}
                 <small class="form-text text-muted">
                   {{ form.name.description }}
@@ -24,7 +24,7 @@
               </div>
 
               <div class="mb-2">
-                <b>{{ form.password.label(clas="mb-2") }}</b>
+                <b>{{ form.password.label(text=_("New team password"), class="form-label") }}</b>
                 {{ form.password(class="form-control") }}
                 <small class="form-text text-muted">
                   {{ form.password.description }}
@@ -32,7 +32,7 @@
               </div>
 
               <div class="mb-2">
-                <b>{{ form.confirm.label(clas="mb-2") }}</b>
+                <b>{{ form.confirm.label(class="form-label") }}</b>
                 {{ form.confirm(class="form-control") }}
                 <small class="form-text text-muted">
                   {{ form.confirm.description }}
@@ -40,7 +40,7 @@
               </div>
 
               <div class="mb-2">
-                <b>{{ form.website.label(clas="mb-2") }}</b>
+                <b>{{ form.website.label(class="form-label") }}</b>
                 {{ form.website(class="form-control") }}
                 <small class="form-text text-muted">
                   {{ form.website.description }}
@@ -48,7 +48,7 @@
               </div>
 
               <div class="mb-2">
-                <b>{{ form.affiliation.label(clas="mb-2") }}</b>
+                <b>{{ form.affiliation.label(text=_("School or institution"), class="form-label") }}</b>
                 {{ form.affiliation(class="form-control") }}
                 <small class="form-text text-muted">
                   {{ form.affiliation.description }}
@@ -56,7 +56,7 @@
               </div>
 
               <div class="mb-2">
-                <b>{{ form.country.label(clas="mb-2") }}</b>
+                <b>{{ form.country.label(class="form-label") }}</b>
                 {{ form.country(class="form-control form-select") }}
                 <small class="form-text text-muted">
                   {{ form.country.description }}
@@ -89,7 +89,7 @@
                 </template>
               </div>
 
-              {{ form.submit(class="btn btn-primary float-end px-4 modal-action") }}
+              {{ form.submit(class="btn btn-primary float-end px-4 modal-action", value=_("Save")) }}
             </form>
           {% endwith %}
         </div>
@@ -109,7 +109,7 @@
           {% with form = Forms.teams.TeamCaptainForm(captain_id=team.captain_id) %}
             <form id="team-captain-form" method="POST" @submit.prevent="updateCaptain()">
               <div class="mb-3">
-                {{ form.captain_id.label(class="form-label") }}
+                {{ form.captain_id.label(text=_("Captain"), class="form-label") }}
                 {% for member in team.members %}
                   {# Append members to the select choices #}
                   {% set _ = form.captain_id.choices.append((member.id, member.name)) %}
@@ -137,7 +137,7 @@
                   </div>
                 </template>
               </div>
-              {{ form.submit(class="btn btn-primary float-end px-4 modal-action") }}
+              {{ form.submit(class="btn btn-primary float-end px-4 modal-action", value=_("Save")) }}
             </form>
           {% endwith %}
         </div>
@@ -210,107 +210,60 @@
     </div>
   </div>
 
-  <div class="jumbotron">
-    <div class="container">
+{% from "macros/perfil.html" import puesto %}
+  <div class="container">
+    <div class="encabezado">
+      <span class="encabezado-ante">{{ _("My team") }}</span>
       <h1 id="team-id" team-id="{{ team.id }}">{{ team.name }}</h1>
-      {% if team.oauth_id %}
-        <a href="https://majorleaguecyber.org/t/{{ team.name }}">
-          <h3><span class="badge bg-primary">{% trans %}Official{% endtrans %}</span></h3>
-        </a>
-      {% endif %}
-
-      {% if team.affiliation %}
-        <h3 class="d-inline-block">
-          <span class="badge bg-primary">{{ team.affiliation }}</span>
-        </h3>
-      {% endif %}
-
-      {% if team.country %}
-        <h3 class="d-inline-block">
-          <span class="badge bg-primary">
-            <i class="flag-{{ team.country.lower() }}"></i>
-            {{ lookup_country_code(team.country) }}
-          </span>
-        </h3>
-      {% endif %}
-
+      <div class="perfil-chips">
+        {% if team.oauth_id %}
+          <a class="pastilla" href="https://majorleaguecyber.org/t/{{ team.name }}">{% trans %}Official{% endtrans %}</a>
+        {% endif %}
+        {% if team.affiliation %}
+          <span class="pastilla" style="background: #D6E0FF">{{ team.affiliation }}</span>
+        {% endif %}
+        {% if team.country %}
+          <span class="pastilla" style="background: #C5EBDB"><i class="flag-{{ team.country.lower() }} me-2" aria-hidden="true"></i>{{ lookup_country_code(team.country) }}</span>
+        {% endif %}
+        {% if team.website and (team.website.startswith('http://') or team.website.startswith('https://')) %}
+          <a class="pastilla" style="background: #F4F1EA" href="{{ team.website }}" target="_blank" rel="noopener"><i class="fas fa-external-link-alt me-2" aria-hidden="true"></i>{% trans %}Website{% endtrans %}</a>
+        {% endif %}
+      </div>
       {% for field in team.fields %}
-        <h3 class="d-block">
-          {{ field.name }}: {{ field.value }}
-        </h3>
+        <p class="encabezado-sub m-0"><strong>{{ field.name }}:</strong> {{ field.value }}</p>
       {% endfor %}
 
-      <h2 id="team-place" class="text-center">
-        {# This intentionally hides the team's place when scores are hidden because this can be their internal profile
-           and we don't want to leak their place in the CTF. #}
-        {# Public page hiding is done at the route level #}
-        {% if scores_visible() %}
-          {% if place %}
-            {{ place }}
-            <small>{% trans %}place{% endtrans %}</small>
-          {% endif %}
-        {% endif %}
-      </h2>
-
-      <h2 id="team-score" class="text-center">
-        {% if score %}
-          {{ score }}
-          <small>{% trans %}points{% endtrans %}</small>
-        {% endif %}
-      </h2>
-
-      <div x-data="CaptainMenu">
-        <a class="edit-team text-white" @click="editTeam()">
-          <i
-              class="cursor-pointer fas fa-cogs fa-2x px-2 pt-3"
-              data-bs-toggle="tooltip" data-bs-placement="top"
-              title="Edit Team"
-          ></i>
-        </a>
-        <a class="edit-captain text-white" @click="chooseCaptain()">
-          <i
-              class="cursor-pointer fas fa-user-tag fa-2x px-2 pt-3"
-              data-bs-toggle="tooltip" data-bs-placement="top"
-              title="Choose Captain"
-          ></i>
-        </a>
-
-        <a class="invite-members text-white" @click="inviteMembers()">
-          <i
-              class="cursor-pointer fas fa-ticket-alt fa-2x px-2 pt-3"
-              data-bs-toggle="tooltip" data-bs-placement="top"
-              title="Invite Users"
-          ></i>
-        </a>
-        <a class="disband-team text-white" @click="disbandTeam()">
-          <i
-              class="cursor-pointer fas fa-trash-alt fa-2x px-2 pt-3"
-              data-bs-toggle="tooltip" data-bs-placement="top"
-              title="Disband Team"
-          ></i>
-        </a>
+      <div x-data="CaptainMenu" class="perfil-acciones">
+        <button type="button" class="btn btn-sec btn-sm edit-team" @click="editTeam()">
+          <i class="fas fa-cogs" aria-hidden="true"></i> {% trans %}Edit Team{% endtrans %}
+        </button>
+        <button type="button" class="btn btn-sec btn-sm edit-captain" @click="chooseCaptain()">
+          <i class="fas fa-user-tag" aria-hidden="true"></i> {% trans %}Choose Captain{% endtrans %}
+        </button>
+        <button type="button" class="btn btn-sec btn-sm invite-members" @click="inviteMembers()">
+          <i class="fas fa-ticket-alt" aria-hidden="true"></i> {% trans %}Invite Users{% endtrans %}
+        </button>
+        <button type="button" class="btn btn-danger btn-sm disband-team" @click="disbandTeam()">
+          <i class="fas fa-trash-alt" aria-hidden="true"></i> {% trans %}Disband Team{% endtrans %}
+        </button>
       </div>
+    </div>
 
-      <div class="pt-3">{% if team.website and (team.website.startswith('http://') or team.website.startswith('https://')) %}
-          <a href="{{ team.website }}" target="_blank" style="color: inherit;" rel="noopener">
-            <i
-                class="fas fa-external-link-alt fa-2x px-2 pt-2"
-                data-toggle="tooltip" data-placement="top"
-                title="{{ team.website }}"
-            ></i>
-          </a>
-        {% endif %}
-        </div>
-      </div>
-
+    <div class="perfil-datos">
+      {# This intentionally hides the team's place when scores are hidden because this can be their internal profile
+         and we don't want to leak their place in the CTF. #}
+      {% if scores_visible() and place %}
+        <dl class="dato-card" id="team-place"><dt>{{ _("place in the scoreboard") }}</dt><dd>{{ puesto(place) }}</dd></dl>
+      {% endif %}
+      <dl class="dato-card" id="team-score"><dt>{% trans %}points{% endtrans %}</dt><dd>{{ score or 0 }}</dd></dl>
+    </div>
   </div>
-
   <div class="container">
     {% include "components/errors.html" %}
 
     <br>
 
-    <div class="row min-vh-25">
+    <div class="row">
       <div class="col-md-12">
         <h3>{% trans %}Members{% endtrans %}</h3>
         <table class="table table-striped">
@@ -408,27 +361,27 @@
             <div 
               class="progress-bar" 
               role="progressbar" 
-              :style="{ width: `${getSolvePercentage()}%`, 'background-color': 'rgb(0, 209, 64)' }" 
+              :style="{ width: `${getSolvePercentage()}%`, 'background-color': '#157a4a' }" 
             >
             </div>
             <div 
               class="progress-bar" 
               role="progressbar" 
-              :style="{ width: `${getFailPercentage()}%`, 'background-color': 'rgb(207, 38, 0)' }"
+              :style="{ width: `${getFailPercentage()}%`, 'background-color': '#c2410c' }"
             >
             </div>
           </div>
           <div class="ps-2 float-start">
             <svg height="16" width="16">
-              <circle cx="8" cy="8" r="5" fill="rgb(0, 209, 64)" />
+              <circle cx="8" cy="8" r="5" fill="#157a4a" />
             </svg>
-            <small x-text="`Solves (${getSolvePercentage()}%)`"></small>
+            <small x-text='{{ _("Solves") | tojson }} + " (" + getSolvePercentage() + "%)"'></small>
           </div>
           <div class="ps-2 float-start">
             <svg height="16" width="16">
-              <circle cx="8" cy="8" r="5" fill="rgb(207, 38, 0)" />
+              <circle cx="8" cy="8" r="5" fill="#c2410c" />
             </svg>
-            <small x-text="`Fails (${getFailPercentage()}%)`"></small>
+            <small x-text='{{ _("Fails") | tojson }} + " (" + getFailPercentage() + "%)"'></small>
           </div>
         </div>
         <div class="col-md-6 d-none d-md-block d-lg-block py-4">
@@ -463,7 +416,7 @@
         </div>
       </div>
     {% else %}
-      <div class="row min-vh-25">
+      <div class="row">
         <h3 class="opacity-50 text-center w-100 justify-content-center align-self-center">
           {% trans %}No solves yet{% endtrans %}
         </h3>

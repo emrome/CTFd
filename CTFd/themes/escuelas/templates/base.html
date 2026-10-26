@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+{# The language code of the active translation (msgstr "es" in Spanish). #}
+<html lang="{{ _("en") }}">
 <head>
-  <title>{{ title or Configs.ctf_name }}</title>
+  <title>{% if title %}{{ title }} · {% endif %}{{ Configs.ctf_name }}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" href="{{ Configs.ctf_small_icon }}" type="image/x-icon">
@@ -22,7 +23,7 @@
           'userId': {{ Session.id }},
           'userName': {{ User.name | tojson }},
           'userEmail': {{ User.email | tojson }},
-          'teamId': {{ Team.id | tojson }}, 
+          'teamId': {{ Team.id | tojson }},
           'teamName': {{ Team.name | tojson }},
           'start': {{ Configs.start | tojson }},
           'end': {{ Configs.end | tojson }},
@@ -34,25 +35,21 @@
       }
   </script>
 
+  {% include "components/js_translations.html" %}
+
   {{ Configs.theme_header }}
 </head>
 <body>
+<a href="#contenido" class="saltar">{{ _("Skip to content") }}</a>
+
 {% include "components/navbar.html" %}
 
-<main role="main">
+<main id="contenido" role="main" tabindex="-1">
   {% block content %}
   {% endblock %}
 </main>
 
-<footer class="footer">
-  <div class="container text-center">
-    <a href="https://ctfd.io" class="text-secondary">
-      <small class="text-muted">
-        {% trans %}Powered by CTFd{% endtrans %}
-      </small>
-    </a>
-  </div>
-</footer>
+{% include "components/footer.html" %}
 
 {% include "components/notifications.html" %}
 

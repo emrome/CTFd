@@ -1,0 +1,22 @@
+<footer class="pie">
+  <div class="pie-in">
+    <span>
+      {# TODO: logo oficial de la UNLP. Usarlo solo con autorización de la Universidad;
+         mientras tanto va el nombre en texto (ver guía de estilo). #}
+      Universidad Nacional de La Plata · {{ _("School of Computer Science") }}
+    </span>
+    <span>
+      <a href="{{ url_for('views.acerca') }}">{{ _("Credits") }}</a>
+      · {{ _("Based on CTFd") }} · {{ _("Apache License 2.0") }} ·
+      <a href="https://ctfd.io" rel="noopener" target="_blank">{% trans %}Powered by CTFd{% endtrans %}</a>
+    </span>
+    {% set extra_pages = Plugins.user_menu_pages %}
+    {% if extra_pages %}
+      <nav class="pie-paginas" aria-label="{{ _('Other pages') }}">
+        {% for page in extra_pages %}
+          <a href="{{ page.route }}">{{ page.title }}</a>
+        {% endfor %}
+      </nav>
+    {% endif %}
+  </div>
+</footer>
