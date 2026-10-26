@@ -41,7 +41,7 @@
   {% if authed() %}
     {% from "macros/cuenta.html" import chip_nombre, chip_label %}
     <script type="text/javascript">
-      window.escuelasCuenta = {{ {"nombre": chip_nombre() | string, "etiqueta": chip_label() | string} | tojson }};
+      window.escuelasCuenta = {{ {"nombre": chip_nombre().unescape(), "etiqueta": chip_label().unescape()} | tojson }};
     </script>
   {% endif %}
 
