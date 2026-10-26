@@ -34,6 +34,7 @@ echarts.use([
 
 export function embed(target, option) {
   let chart = echarts.init(target);
+  option.textStyle = { fontFamily: "Lexend, system-ui, sans-serif", color: "#1a1a2e" };
   chart.setOption(option);
 
   window.addEventListener("resize", () => {

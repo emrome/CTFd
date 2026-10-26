@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { Tab } from "bootstrap";
 
 import CTFd from "./index";
+import { t } from "./utils/i18n";
 
 window.Alpine = Alpine;
 
@@ -30,7 +31,7 @@ Alpine.data("SetupForm", () => ({
       if (event.key == "integrations" && event.newValue) {
         let integration = JSON.parse(event.newValue);
         if (integration["name"] == "mlc") {
-          $("#integration-mlc").text("Already Configured").attr("disabled", true);
+          $("#integration-mlc").text(t("Already Configured")).attr("disabled", true);
           window.focus();
           localStorage.removeItem("integrations");
         }
@@ -42,9 +43,10 @@ Alpine.data("SetupForm", () => ({
     if (e.target.files[0].size > limit) {
       if (
         !confirm(
-          `This image file is larger than ${
-            limit / 1000
-          }KB which may result in increased load times. Are you sure you'd like to use this file?`
+          t(
+            "This image file is larger than {size} KB which may result in increased load times. Are you sure you'd like to use this file?",
+            { size: limit / 1000 }
+          )
         )
       ) {
         e.target.value = "";

@@ -1,8 +1,9 @@
 import { Tooltip } from "bootstrap";
+import { t } from "./i18n";
 
 export function copyToClipboard($input) {
   const tooltip = new Tooltip($input, {
-    title: "Copied!",
+    title: t("Copied!"),
     trigger: "manual",
   });
 

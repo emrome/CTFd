@@ -1,10 +1,11 @@
 import { colorHash } from "@ctfdio/ctfd-js/ui";
+import { t } from "../../i18n";
 
 export function getOption(solves) {
   let option = {
     title: {
       left: "center",
-      text: "Category Breakdown",
+      text: t("Category Breakdown"),
     },
     tooltip: {
       trigger: "item",
@@ -12,7 +13,7 @@ export function getOption(solves) {
     toolbox: {
       show: true,
       feature: {
-        saveAsImage: {},
+        saveAsImage: { title: t("Save as image") },
       },
     },
     legend: {
@@ -24,7 +25,7 @@ export function getOption(solves) {
     },
     series: [
       {
-        name: "Category Breakdown",
+        name: t("Category Breakdown"),
         type: "pie",
         radius: ["30%", "50%"],
         avoidLabelOverlap: false,

@@ -1,12 +1,12 @@
-import { colorHash } from "@ctfdio/ctfd-js/ui";
 import { cumulativeSum } from "./scoreboard";
 import dayjs from "dayjs";
+import { t } from "../../i18n";
 
 export function getOption(id, name, solves, awards) {
   let option = {
     title: {
       left: "center",
-      text: "Score over Time",
+      text: t("Score over Time"),
     },
     tooltip: {
       trigger: "axis",
@@ -23,7 +23,7 @@ export function getOption(id, name, solves, awards) {
     },
     toolbox: {
       feature: {
-        saveAsImage: {},
+        saveAsImage: { title: t("Save as image") },
       },
     },
     grid: {
@@ -74,7 +74,7 @@ export function getOption(id, name, solves, awards) {
   }
 
   times.forEach(time => {
-    option.xAxis[0].data.push(time);
+    option.xAxis[0].data.push(dayjs(time).format(t("MM/DD HH:mm")));
   });
 
   option.series.push({
@@ -88,12 +88,12 @@ export function getOption(id, name, solves, awards) {
     },
     areaStyle: {
       normal: {
-        color: colorHash(name + id),
+        color: "rgba(29, 78, 216, 0.15)",
       },
     },
     itemStyle: {
       normal: {
-        color: colorHash(name + id),
+        color: "#1d4ed8",
       },
     },
     data: cumulativeSum(scores),

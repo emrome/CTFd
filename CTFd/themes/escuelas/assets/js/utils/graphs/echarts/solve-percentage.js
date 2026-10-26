@@ -1,8 +1,9 @@
+import { t } from "../../i18n";
 export function getOption(solves, fails) {
   let option = {
     title: {
       left: "center",
-      text: "Solve Percentages",
+      text: t("Solve Percentages"),
     },
     tooltip: {
       trigger: "item",
@@ -10,18 +11,18 @@ export function getOption(solves, fails) {
     toolbox: {
       show: true,
       feature: {
-        saveAsImage: {},
+        saveAsImage: { title: t("Save as image") },
       },
     },
     legend: {
       orient: "vertical",
       top: "middle",
       right: 0,
-      data: ["Fails", "Solves"],
+      data: [t("Fails"), t("Solves")],
     },
     series: [
       {
-        name: "Solve Percentages",
+        name: t("Solve Percentages"),
         type: "pie",
         radius: ["30%", "50%"],
         avoidLabelOverlap: false,
@@ -65,13 +66,13 @@ export function getOption(solves, fails) {
         data: [
           {
             value: fails,
-            name: "Fails",
-            itemStyle: { color: "rgb(207, 38, 0)" },
+            name: t("Fails"),
+            itemStyle: { color: "#c2410c" },
           },
           {
             value: solves,
-            name: "Solves",
-            itemStyle: { color: "rgb(0, 209, 64)" },
+            name: t("Solves"),
+            itemStyle: { color: "#157a4a" },
           },
         ],
       },

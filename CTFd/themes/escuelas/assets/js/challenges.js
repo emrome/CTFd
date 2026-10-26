@@ -3,8 +3,15 @@ import dayjs from "dayjs";
 
 import CTFd from "./index";
 
-import { Modal, Tab, Tooltip } from "bootstrap";
+import { Modal, Tooltip } from "bootstrap";
 import highlight from "./theme/highlight";
+import { FORMATO_FECHA } from "./theme/times";
+import {
+  colorCategoria,
+  siglaCategoria,
+  nivelDesdeEtiquetas,
+} from "./theme/categorias";
+import { t } from "./utils/i18n";
 
 function addTargetBlank(html) {
   let dom = new DOMParser();
@@ -26,31 +33,44 @@ Alpine.store("challenge", {
 
 Alpine.data("Hint", () => ({
   id: null,
+  cost: 0,
   html: null,
+  loading: false,
 
-  async showHint(event) {
-    if (event.target.open) {
+  async showHint() {
+    this.loading = true;
+    try {
       let response = await CTFd.pages.challenge.loadHint(this.id);
       let hint = response.data;
-      if (hint.content) {
-        this.html = addTargetBlank(hint.html);
-      } else {
-        let answer = await CTFd.pages.challenge.displayUnlock(this.id);
-        if (answer) {
-          let unlock = await CTFd.pages.challenge.loadUnlock(this.id);
-
-          if (unlock.success) {
-            let response = await CTFd.pages.challenge.loadHint(this.id);
-            let hint = response.data;
-            this.html = addTargetBlank(hint.html);
-          } else {
-            event.target.open = false;
-            CTFd._functions.challenge.displayUnlockError(unlock);
+      if (!hint.content) {
+        if (this.cost > 0) {
+          const ok = window.confirm(
+            this.cost === 1
+              ? t("Do you want to see this hint? It will cost you 1 point.")
+              : t("Do you want to see this hint? It will cost you {num} points.", {
+                  num: this.cost,
+                })
+          );
+          if (!ok) {
+            return;
           }
-        } else {
-          event.target.open = false;
         }
+        let unlock = await CTFd.pages.challenge.loadUnlock(this.id);
+        if (!unlock.success) {
+          CTFd._functions.challenge.displayUnlockError(unlock);
+          return;
+        }
+        response = await CTFd.pages.challenge.loadHint(this.id);
+        hint = response.data;
       }
+      this.html = addTargetBlank(hint.html);
+      this.$nextTick(() => {
+        if (this.$refs.texto) {
+          this.$refs.texto.focus();
+        }
+      });
+    } finally {
+      this.loading = false;
     }
   },
 }));
@@ -63,9 +83,17 @@ Alpine.data("Challenge", () => ({
   solves: [],
   response: null,
   share_url: null,
+  submitting: false,
+  solvesLoaded: false,
+  maxAttempts: 0,
+  attempts: 0,
 
   async init() {
     highlight();
+  },
+
+  t(msgid, params) {
+    return t(msgid, params);
   },
 
   getStyles() {
@@ -95,21 +123,40 @@ Alpine.data("Challenge", () => ({
     return styles;
   },
 
-  async init() {
-    highlight();
-  },
-
-  async showChallenge() {
-    new Tab(this.$el).show();
-  },
-
   async showSolves() {
     this.solves = await CTFd.pages.challenge.loadSolves(this.id);
     this.solves.forEach(solve => {
-      solve.date = dayjs(solve.date).format("MMMM Do, h:mm:ss A");
+      solve.date = dayjs(solve.date).format(FORMATO_FECHA);
       return solve;
     });
-    new Tab(this.$el).show();
+    this.solvesLoaded = true;
+  },
+
+  incorrectMessage() {
+    let texto = t("That is not the flag. Check the format and try again.");
+    if (this.maxAttempts > 0) {
+      const quedan = Math.max(this.maxAttempts - this.attempts, 0);
+      texto +=
+        " " +
+        (quedan === 1
+          ? t("You have 1 attempt left.")
+          : t("You have {num} attempts left.", { num: quedan }));
+    }
+    return texto;
+  },
+
+  otherMessage() {
+    const data = this.response.data || {};
+    if (data.status === "ratelimited") {
+      return t("You are going too fast. Wait a few seconds and try again.");
+    }
+    if (data.status === "paused") {
+      return data.message || t("The competition is paused.");
+    }
+    if (data.status === "authentication_required") {
+      return t("You must be logged in to submit an answer.");
+    }
+    return data.message || t("The answer could not be sent. Try again.");
   },
 
   getNextId() {
@@ -161,10 +208,29 @@ Alpine.data("Challenge", () => ({
   },
 
   async submitChallenge() {
-    this.response = await CTFd.pages.challenge.submitChallenge(
-      this.id,
-      this.submission
-    );
+    if (this.submitting) {
+      return;
+    }
+    this.submitting = true;
+    try {
+      this.response = await CTFd.pages.challenge.submitChallenge(
+        this.id,
+        this.submission
+      );
+      if (this.response.data.status === "incorrect" && this.maxAttempts > 0) {
+        this.attempts += 1;
+      }
+    } catch (error) {
+      this.response = {
+        data: {
+          status: "error",
+          message: t("Could not connect to the server. Try again."),
+        },
+      };
+      return;
+    } finally {
+      this.submitting = false;
+    }
 
     await this.renderSubmissionResponse();
   },
@@ -183,10 +249,13 @@ Alpine.data("ChallengeBoard", () => ({
   loaded: false,
   challenges: [],
   challenge: null,
+  filter: null,
+  place: null,
 
   async init() {
     this.challenges = await CTFd.pages.challenges.getChallenges();
     this.loaded = true;
+    this.loadPlace();
 
     if (window.location.hash) {
       let chalHash = decodeURIComponent(window.location.hash.substring(1));
@@ -199,10 +268,91 @@ Alpine.data("ChallengeBoard", () => ({
     }
   },
 
+  // Desafíos con requisitos sin cumplir que CTFd muestra anonimizados
+  locked() {
+    return this.challenges.filter(c => c.type === "hidden");
+  },
+
+  playable() {
+    return this.challenges.filter(c => c.type !== "hidden");
+  },
+
+  visibleCategories() {
+    const categories = this.getCategories();
+    if (this.filter === null) {
+      return categories;
+    }
+    return categories.filter(c => c === this.filter);
+  },
+
+  categoryColor(category) {
+    return colorCategoria(category);
+  },
+
+  categorySigla(category) {
+    return siglaCategoria(category);
+  },
+
+  level(challenge) {
+    return nivelDesdeEtiquetas(challenge.tags);
+  },
+
+  solvedIn(category) {
+    return this.getChallenges(category).filter(c => c.solved_by_me).length;
+  },
+
+  solvedCount() {
+    return this.playable().filter(c => c.solved_by_me).length;
+  },
+
+  totalCount() {
+    return this.playable().length;
+  },
+
+  suggested() {
+    for (const category of this.getCategories()) {
+      const next = this.getChallenges(category).find(c => !c.solved_by_me);
+      if (next) {
+        return next;
+      }
+    }
+    return null;
+  },
+
+  async loadPlace() {
+    const accountId = CTFd.config.userMode === "teams" ? CTFd.team.id : CTFd.user.id;
+    if (!accountId) {
+      return;
+    }
+    try {
+      const response = await CTFd.fetch("/api/v1/scoreboard", { method: "GET" });
+      if (!response.ok) {
+        return;
+      }
+      const body = await response.json();
+      const standings = body.data || [];
+      const idx = standings.findIndex(s => s.account_id === accountId);
+      if (idx >= 0) {
+        this.place = {
+          text: t("#{num}", { num: idx + 1 }),
+          of: t("of {num}", { num: standings.length }),
+        };
+      } else if (standings.length > 0) {
+        this.place = { text: "—", of: t("of {num}", { num: standings.length }) };
+      }
+    } catch (error) {
+      // Si el ranking está oculto, no se muestra el puesto
+    }
+  },
+
+  t(msgid, params) {
+    return t(msgid, params);
+  },
+
   getCategories() {
     const categories = [];
 
-    this.challenges.forEach(challenge => {
+    this.playable().forEach(challenge => {
       const { category } = challenge;
 
       if (!categories.includes(category)) {
@@ -226,10 +376,10 @@ Alpine.data("ChallengeBoard", () => ({
   },
 
   getChallenges(category) {
-    let challenges = this.challenges;
+    let challenges = this.playable();
 
     if (category !== null) {
-      challenges = this.challenges.filter(challenge => challenge.category === category);
+      challenges = challenges.filter(challenge => challenge.category === category);
     }
 
     try {

@@ -16,14 +16,23 @@ Alpine.data("UserGraphs", () => ({
   awardCount: 0,
 
   getSolvePercentage() {
+    if (this.solveCount + this.failCount === 0) {
+      return 0;
+    }
     return ((this.solveCount / (this.solveCount + this.failCount)) * 100).toFixed(2);
   },
 
   getFailPercentage() {
+    if (this.solveCount + this.failCount === 0) {
+      return 0;
+    }
     return ((this.failCount / (this.solveCount + this.failCount)) * 100).toFixed(2);
   },
 
   getCategoryBreakdown() {
+    if (!this.solves) {
+      return [];
+    }
     const categories = [];
     const breakdown = {};
 
