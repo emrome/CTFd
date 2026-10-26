@@ -15,8 +15,10 @@ export function cumulativeSum(arr) {
 export function getOption(mode, places) {
   let option = {
     title: {
-      left: "center",
+      // Left-aligned and smaller so longer translations don't run into the toolbox
+      left: 0,
       text: mode === "teams" ? t("Top 10 Teams") : t("Top 10 Users"),
+      textStyle: { fontSize: 15 },
     },
     tooltip: {
       trigger: "axis",
@@ -32,6 +34,9 @@ export function getOption(mode, places) {
       data: [],
     },
     toolbox: {
+      // Bottom right, so it never overlaps the title on narrow screens
+      bottom: 5,
+      right: 10,
       feature: {
         dataZoom: {
           yAxisIndex: "none",
