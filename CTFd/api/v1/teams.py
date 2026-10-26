@@ -2,6 +2,7 @@ import copy
 from typing import List
 
 from flask import abort, request, session
+from flask_babel import gettext as _
 from flask_restx import Namespace, Resource
 
 from CTFd.api.v1.helpers.request import validate_args
@@ -100,7 +101,7 @@ class TeamList(Resource):
             if is_admin() is False:
                 return {
                     "success": False,
-                    "errors": {"field": "Emails can only be queried by admins"},
+                    "errors": {"field": _("Emails can only be queried by admins")},
                 }, 400
 
         filters = build_model_filters(model=Teams, query=q, field=field)
@@ -315,7 +316,7 @@ class TeamPrivate(Resource):
             return (
                 {
                     "success": False,
-                    "errors": {"": ["Only team captains can edit team information"]},
+                    "errors": {"": [_("Only team captains can edit team information")]},
                 },
                 403,
             )
@@ -346,7 +347,7 @@ class TeamPrivate(Resource):
             return (
                 {
                     "success": False,
-                    "errors": {"": ["Team disbanding is currently disabled"]},
+                    "errors": {"": [_("Team disbanding is currently disabled")]},
                 },
                 403,
             )
@@ -356,7 +357,7 @@ class TeamPrivate(Resource):
             return (
                 {
                     "success": False,
-                    "errors": {"": ["Only team captains can disband their team"]},
+                    "errors": {"": [_("Only team captains can disband their team")]},
                 },
                 403,
             )
@@ -378,8 +379,10 @@ class TeamPrivate(Resource):
                     "success": False,
                     "errors": {
                         "": [
-                            "You cannot disband your team as it has participated in the event. "
-                            "Please contact an admin to disband your team or remove a member."
+                            _(
+                                "You cannot disband your team as it has participated in the event. "
+                                "Please contact an admin to disband your team or remove a member."
+                            )
                         ]
                     },
                 },
@@ -414,7 +417,7 @@ class TeamPrivateMembers(Resource):
             return (
                 {
                     "success": False,
-                    "errors": {"": ["Only team captains can generate invite codes"]},
+                    "errors": {"": [_("Only team captains can generate invite codes")]},
                 },
                 403,
             )
@@ -464,7 +467,7 @@ class TeamMembers(Resource):
             return (
                 {
                     "success": False,
-                    "errors": {"id": ["User has already joined a team"]},
+                    "errors": {"id": [_("User has already joined a team")]},
                 },
                 400,
             )
@@ -499,7 +502,10 @@ class TeamMembers(Resource):
             db.session.commit()
         else:
             return (
-                {"success": False, "errors": {"id": ["User is not part of this team"]}},
+                {
+                    "success": False,
+                    "errors": {"id": [_("User is not part of this team")]},
+                },
                 400,
             )
 

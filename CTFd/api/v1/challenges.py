@@ -1,6 +1,8 @@
 from typing import List  # noqa: I001
 
 from flask import abort, render_template, request, url_for
+from flask_babel import gettext as _
+from flask_babel import ngettext
 from flask_restx import Namespace, Resource
 from sqlalchemy.sql import and_
 
@@ -33,9 +35,9 @@ from CTFd.utils.config.visibility import (
 )
 from CTFd.utils.dates import ctf_ended, ctf_paused, ctftime
 from CTFd.utils.decorators import (
+    admin_or_author,
     during_ctf_time_only,
     require_verified_emails,
-    admin_or_author,
 )
 from CTFd.utils.decorators.visibility import (
     check_challenge_visibility,
@@ -300,7 +302,10 @@ class Challenge(Resource):
         except KeyError:
             abort(
                 500,
-                f"The underlying challenge type ({chal.type}) is not installed. This challenge can not be loaded.",
+                _(
+                    "The underlying challenge type (%(type)s) is not installed. This challenge can not be loaded.",
+                    type=chal.type,
+                ),
             )
 
         if chal.requirements:
@@ -525,7 +530,9 @@ class ChallengeAttempt(Resource):
                     "success": True,
                     "data": {
                         "status": "paused",
-                        "message": "{} is paused".format(config.ctf_name()),
+                        "message": _(
+                            "%(ctf_name)s is paused", ctf_name=config.ctf_name()
+                        ),
                     },
                 },
                 403,
@@ -593,7 +600,7 @@ class ChallengeAttempt(Resource):
                     "success": True,
                     "data": {
                         "status": "ratelimited",
-                        "message": "You're submitting flags too fast. Slow down.",
+                        "message": _("You're submitting flags too fast. Slow down."),
                     },
                 },
                 429,
@@ -613,7 +620,7 @@ class ChallengeAttempt(Resource):
                         "success": True,
                         "data": {
                             "status": "incorrect",
-                            "message": "You have 0 tries remaining",
+                            "message": _("You have 0 tries remaining"),
                         },
                     },
                     403,
@@ -660,9 +667,6 @@ class ChallengeAttempt(Resource):
                 if max_tries:
                     # Off by one since fails has changed since it was gotten
                     attempts_left = max_tries - fails - 1
-                    tries_str = "tries"
-                    if attempts_left == 1:
-                        tries_str = "try"
                     # Add a punctuation mark if there isn't one
                     if message[-1] not in "!().;?[]{}":
                         message = message + "."
@@ -670,8 +674,11 @@ class ChallengeAttempt(Resource):
                         "success": True,
                         "data": {
                             "status": "incorrect",
-                            "message": "{} You have {} {} remaining.".format(
-                                message, attempts_left, tries_str
+                            "message": ngettext(
+                                "%(message)s You have %(num)d try remaining.",
+                                "%(message)s You have %(num)d tries remaining.",
+                                attempts_left,
+                                message=message,
                             ),
                         },
                     }
@@ -695,7 +702,7 @@ class ChallengeAttempt(Resource):
                 "success": True,
                 "data": {
                     "status": "already_solved",
-                    "message": "You already solved this",
+                    "message": _("You already solved this"),
                 },
             }
 

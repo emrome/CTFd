@@ -1,13 +1,20 @@
 import functools
 
 from flask import abort, jsonify, redirect, request, url_for
+from flask_babel import gettext as _
 
 from CTFd.cache import cache
 from CTFd.utils import config, get_config
 from CTFd.utils import user as current_user
 from CTFd.utils.config import is_teams_mode
 from CTFd.utils.dates import ctf_ended, ctf_started, ctftime, view_after_ctf
-from CTFd.utils.user import authed, get_current_team, get_current_user, is_admin, is_author
+from CTFd.utils.user import (
+    authed,
+    get_current_team,
+    get_current_user,
+    is_admin,
+    is_author,
+)
 
 
 def during_ctf_time_only(f):
@@ -26,13 +33,15 @@ def during_ctf_time_only(f):
                 if view_after_ctf():
                     return f(*args, **kwargs)
                 else:
-                    error = "{} has ended".format(config.ctf_name())
+                    error = _("%(ctf_name)s has ended", ctf_name=config.ctf_name())
                     abort(403, description=error)
             if ctf_started() is False:
                 if is_teams_mode() and get_current_team() is None:
                     return redirect(url_for("teams.private", next=request.full_path))
                 else:
-                    error = "{} has not started yet".format(config.ctf_name())
+                    error = _(
+                        "%(ctf_name)s has not started yet", ctf_name=config.ctf_name()
+                    )
                     abort(403, description=error)
 
     return during_ctf_time_only_wrapper
@@ -142,6 +151,7 @@ def admins_only(f):
 
     return admins_only_wrapper
 
+
 def admin_or_author(f):
     """
     Decorator that requires the user to be authenticated and either an admin or an author
@@ -194,8 +204,11 @@ def ratelimit(method="POST", limit=50, interval=300, key_prefix="rl"):
                     resp = jsonify(
                         {
                             "code": 429,
-                            "message": "Too many requests. Limit is %s requests in %s seconds"
-                            % (limit, interval),
+                            "message": _(
+                                "Too many requests. Limit is %(limit)s requests in %(interval)s seconds",
+                                limit=limit,
+                                interval=interval,
+                            ),
                         }
                     )
                     resp.status_code = 429
@@ -226,7 +239,9 @@ def require_complete_profile(f):
                 if user.filled_all_required_fields is False:
                     info_for(
                         "views.settings",
-                        "Please fill out all required profile fields before continuing",
+                        _(
+                            "Please fill out all required profile fields before continuing"
+                        ),
                     )
                     return redirect(url_for("views.settings"))
 
@@ -237,7 +252,9 @@ def require_complete_profile(f):
                         # This is an abort because it's difficult for us to flash information on the teams page
                         return abort(
                             403,
-                            description="Please fill in all required team profile fields",
+                            description=_(
+                                "Please fill in all required team profile fields"
+                            ),
                         )
 
                 return f(*args, **kwargs)

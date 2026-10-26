@@ -164,7 +164,7 @@ class TeamCaptainForm(BaseForm):
     captain_id = SelectField(
         _l("Team Captain"), choices=[], validators=[InputRequired()]
     )
-    submit = SubmitField("Submit")
+    submit = SubmitField(_l("Submit"))
 
 
 class TeamSearchForm(BaseForm):

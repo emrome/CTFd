@@ -1,6 +1,7 @@
 from typing import List
 
 from flask import request
+from flask_babel import gettext as _
 from flask_restx import Namespace, Resource
 
 from CTFd.api.v1.helpers.request import validate_args
@@ -128,7 +129,7 @@ class Hint(Resource):
                 return (
                     {
                         "success": False,
-                        "errors": {"cost": ["You must login to unlock this hint"]},
+                        "errors": {"cost": [_("You must login to unlock this hint")]},
                     },
                     403,
                 )
@@ -160,7 +161,9 @@ class Hint(Resource):
                         "success": False,
                         "errors": {
                             "requirements": [
-                                "You must unlock other hints before accessing this hint"
+                                _(
+                                    "You must unlock other hints before accessing this hint"
+                                )
                             ]
                         },
                     },
