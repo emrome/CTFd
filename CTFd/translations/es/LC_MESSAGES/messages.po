@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  CTFd\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-26 03:15+0000\n"
+"POT-Creation-Date: 2026-10-26 04:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -287,12 +287,8 @@ msgstr ""
 
 #: CTFd/views.py:364
 #, python-format
-msgid ""
-"In order to participate you must either <a href=\"%(url)s\">join or "
-"create a team</a>."
-msgstr ""
-"Para participar, tenés que <a href=\"%(url)s\">unirte a un equipo o crear"
-" uno</a>."
+msgid "In order to participate you must <a href=\"%(url)s\">join a team</a>."
+msgstr "Para participar, tenés que <a href=\"%(url)s\">unirte a un equipo</a>."
 
 #: CTFd/views.py:379
 #, python-format
@@ -313,6 +309,22 @@ msgid ""
 msgstr ""
 "El tipo de desafío (%(type)s) no está instalado. No se puede cargar este "
 "desafío."
+
+#: CTFd/api/__init__.py:62
+msgid ""
+"You don't have the permission to access the requested resource. It is "
+"either read-protected or not readable by the server."
+msgstr ""
+"No tenés permiso para acceder al recurso solicitado. Está protegido o el "
+"servidor no puede leerlo."
+
+#: CTFd/api/__init__.py:70
+msgid ""
+"The requested URL was not found on the server. If you entered the URL "
+"manually please check your spelling and try again."
+msgstr ""
+"No se encontró la URL solicitada en el servidor. Si la escribiste a mano,"
+" revisá que esté bien escrita y probá de nuevo."
 
 #: CTFd/api/v1/awards.py:116
 msgid "User doesn't have a team to associate award with"
@@ -440,7 +452,7 @@ msgstr "Contraseña"
 #: CTFd/forms/users.py:171
 #: CTFd/themes/admin/templates/modals/teams/captain.html:20
 #: CTFd/themes/core-beta/templates/challenge.html:147
-#: CTFd/utils/i18n/__init__.py:97
+#: CTFd/utils/i18n/__init__.py:139
 msgid "Submit"
 msgstr "Enviar"
 
@@ -477,7 +489,7 @@ msgstr "Nombre"
 #: CTFd/themes/core-beta/templates/teams/public.html:151
 #: CTFd/themes/core-beta/templates/users/private.html:116
 #: CTFd/themes/core-beta/templates/users/public.html:115
-#: CTFd/utils/i18n/__init__.py:143
+#: CTFd/utils/i18n/__init__.py:185
 msgid "Value"
 msgstr "Puntaje"
 
@@ -495,7 +507,7 @@ msgstr "Puntaje"
 #: CTFd/themes/core-beta/templates/teams/public.html:150
 #: CTFd/themes/core-beta/templates/users/private.html:115
 #: CTFd/themes/core-beta/templates/users/public.html:114
-#: CTFd/utils/i18n/__init__.py:139
+#: CTFd/utils/i18n/__init__.py:181
 msgid "Category"
 msgstr "Categoría"
 
@@ -503,7 +515,7 @@ msgstr "Categoría"
 #: CTFd/themes/admin/templates/teams/team.html:471
 #: CTFd/themes/admin/templates/users/user.html:346
 #: CTFd/themes/core-beta/templates/settings.html:226
-#: CTFd/utils/i18n/__init__.py:246
+#: CTFd/utils/i18n/__init__.py:290
 msgid "Description"
 msgstr "Descripción"
 
@@ -586,7 +598,7 @@ msgstr "Buscar por"
 #: CTFd/forms/challenges.py:16 CTFd/forms/users.py:161
 #: CTFd/themes/admin/templates/challenges/challenges.html:82
 #: CTFd/themes/admin/templates/submissions.html:89
-#: CTFd/utils/i18n/__init__.py:89
+#: CTFd/utils/i18n/__init__.py:131
 msgid "Type"
 msgstr "Tipo"
 
@@ -603,42 +615,42 @@ msgid "Search"
 msgstr "Buscar"
 
 #: CTFd/forms/challenges.py:27 CTFd/forms/pages.py:41
-#: CTFd/utils/i18n/__init__.py:81
+#: CTFd/utils/i18n/__init__.py:123
 msgid "Upload Files"
 msgstr "Subir archivos"
 
 #: CTFd/forms/challenges.py:28 CTFd/forms/pages.py:42
-#: CTFd/utils/i18n/__init__.py:68
+#: CTFd/utils/i18n/__init__.py:110
 msgid "Attach multiple files using Control+Click or Cmd+Click."
 msgstr "Para adjuntar varios archivos, usá Control+Clic o Cmd+Clic."
 
 #: CTFd/forms/challenges.py:31
 #: CTFd/themes/admin/templates/configs/theme.html:29
 #: CTFd/themes/admin/templates/configs/theme.html:64
-#: CTFd/utils/i18n/__init__.py:72
+#: CTFd/utils/i18n/__init__.py:114
 msgid "Upload"
 msgstr "Subir"
 
-#: CTFd/forms/config.py:19 CTFd/themes/admin/templates/config.html:24
+#: CTFd/forms/config.py:20 CTFd/themes/admin/templates/config.html:24
 msgid "Accounts"
 msgstr "Cuentas"
 
-#: CTFd/forms/config.py:20 CTFd/themes/admin/templates/reset.html:46
+#: CTFd/forms/config.py:21 CTFd/themes/admin/templates/reset.html:46
 msgid "Deletes all user and team accounts and their associated information"
 msgstr "Borra todas las cuentas de usuarios y equipos y su información asociada"
 
-#: CTFd/forms/config.py:25 CTFd/themes/admin/templates/base.html:74
+#: CTFd/forms/config.py:26 CTFd/themes/admin/templates/base.html:74
 #: CTFd/themes/admin/templates/submissions.html:10
 msgid "Submissions"
 msgstr "Envíos"
 
-#: CTFd/forms/config.py:26 CTFd/themes/admin/templates/reset.html:57
+#: CTFd/forms/config.py:27 CTFd/themes/admin/templates/reset.html:57
 msgid "Deletes all records that accounts gained points or took an action"
 msgstr ""
 "Borra todos los registros de puntos obtenidos o acciones realizadas por "
 "las cuentas"
 
-#: CTFd/forms/config.py:31 CTFd/forms/config.py:119
+#: CTFd/forms/config.py:32 CTFd/forms/config.py:120
 #: CTFd/themes/admin/templates/base.html:70
 #: CTFd/themes/admin/templates/challenges/challenges.html:11
 #: CTFd/themes/core-beta/templates/challenges.html:7
@@ -646,40 +658,40 @@ msgstr ""
 msgid "Challenges"
 msgstr "Desafíos"
 
-#: CTFd/forms/config.py:31 CTFd/themes/admin/templates/reset.html:68
+#: CTFd/forms/config.py:32 CTFd/themes/admin/templates/reset.html:68
 msgid "Deletes all challenges and associated data"
 msgstr "Borra todos los desafíos y sus datos asociados"
 
-#: CTFd/forms/config.py:34 CTFd/themes/admin/templates/base.html:58
+#: CTFd/forms/config.py:35 CTFd/themes/admin/templates/base.html:58
 #: CTFd/themes/admin/templates/config.html:27
 #: CTFd/themes/admin/templates/pages.html:9
 msgid "Pages"
 msgstr "Páginas"
 
-#: CTFd/forms/config.py:34 CTFd/themes/admin/templates/reset.html:79
+#: CTFd/forms/config.py:35 CTFd/themes/admin/templates/reset.html:79
 msgid "Deletes all pages and their associated files"
 msgstr "Borra todas las páginas y sus archivos asociados"
 
-#: CTFd/forms/config.py:37 CTFd/themes/admin/templates/base.html:55
+#: CTFd/forms/config.py:38 CTFd/themes/admin/templates/base.html:55
 #: CTFd/themes/admin/templates/notifications.html:6
 #: CTFd/themes/core-beta/templates/components/navbar.html:101
 #: CTFd/themes/core-beta/templates/notifications.html:7
 msgid "Notifications"
 msgstr "Notificaciones"
 
-#: CTFd/forms/config.py:37 CTFd/themes/admin/templates/reset.html:90
+#: CTFd/forms/config.py:38 CTFd/themes/admin/templates/reset.html:90
 msgid "Deletes all notifications"
 msgstr "Borra todas las notificaciones"
 
-#: CTFd/forms/config.py:39
+#: CTFd/forms/config.py:40
 msgid "Reset CTF"
 msgstr "Reiniciar CTF"
 
-#: CTFd/forms/config.py:44
+#: CTFd/forms/config.py:45
 msgid "Account Email Whitelist"
 msgstr "Dominios de correo permitidos"
 
-#: CTFd/forms/config.py:45
+#: CTFd/forms/config.py:46
 msgid ""
 "Comma-seperated email domains which users can register under (e.g. "
 "ctfd.io, example.com, *.example.com)"
@@ -687,84 +699,84 @@ msgstr ""
 "Dominios de correo, separados por comas, con los que se pueden registrar "
 "los usuarios (por ej.: ctfd.io, example.com, *.example.com)"
 
-#: CTFd/forms/config.py:50
+#: CTFd/forms/config.py:51
 msgid "Team Creation"
 msgstr "Creación de equipos"
 
-#: CTFd/forms/config.py:51
+#: CTFd/forms/config.py:52
 msgid "Control whether users can create their own teams (Teams mode only)"
 msgstr ""
 "Define si los usuarios pueden crear sus propios equipos (solo en modo por"
 " equipos)"
 
-#: CTFd/forms/config.py:54 CTFd/forms/config.py:77 CTFd/forms/config.py:94
-#: CTFd/forms/setup.py:95 CTFd/themes/admin/templates/configs/security.html:18
+#: CTFd/forms/config.py:55 CTFd/forms/config.py:78 CTFd/forms/config.py:95
+#: CTFd/forms/setup.py:96 CTFd/themes/admin/templates/configs/security.html:18
 msgid "Enabled"
 msgstr "Habilitado"
 
-#: CTFd/forms/config.py:54 CTFd/forms/config.py:77 CTFd/forms/config.py:87
-#: CTFd/forms/config.py:94 CTFd/forms/setup.py:95
+#: CTFd/forms/config.py:55 CTFd/forms/config.py:78 CTFd/forms/config.py:88
+#: CTFd/forms/config.py:95 CTFd/forms/setup.py:96
 #: CTFd/themes/admin/templates/configs/security.html:21
 msgid "Disabled"
 msgstr "Deshabilitado"
 
-#: CTFd/forms/config.py:58
+#: CTFd/forms/config.py:59
 msgid "Team Size"
 msgstr "Tamaño de los equipos"
 
-#: CTFd/forms/config.py:60
+#: CTFd/forms/config.py:61
 msgid "Amount of users per team (Teams mode only)"
 msgstr "Cantidad de usuarios por equipo (solo en modo por equipos)"
 
-#: CTFd/forms/config.py:63
+#: CTFd/forms/config.py:64
 msgid "Total Number of Teams"
 msgstr "Cantidad máxima de equipos"
 
-#: CTFd/forms/config.py:65
+#: CTFd/forms/config.py:66
 msgid "Max number of teams (Teams mode only)"
 msgstr "Cantidad máxima de equipos (solo en modo por equipos)"
 
-#: CTFd/forms/config.py:68
+#: CTFd/forms/config.py:69
 msgid "Total Number of Users"
 msgstr "Cantidad máxima de usuarios"
 
-#: CTFd/forms/config.py:70
+#: CTFd/forms/config.py:71
 msgid "Max number of users"
 msgstr "Cantidad máxima de usuarios"
 
-#: CTFd/forms/config.py:73 CTFd/forms/setup.py:91
+#: CTFd/forms/config.py:74 CTFd/forms/setup.py:92
 msgid "Verify Emails"
 msgstr "Verificar correos"
 
-#: CTFd/forms/config.py:74
+#: CTFd/forms/config.py:75
 msgid "Control whether users must confirm their email addresses before playing"
 msgstr "Define si los usuarios tienen que confirmar su correo antes de jugar"
 
-#: CTFd/forms/config.py:81
+#: CTFd/forms/config.py:82
 msgid "Team Disbanding"
 msgstr "Disolución de equipos"
 
-#: CTFd/forms/config.py:82
+#: CTFd/forms/config.py:83
 msgid "Control whether team captains are allowed to disband their own teams"
 msgstr "Define si los capitanes pueden disolver sus propios equipos"
 
-#: CTFd/forms/config.py:86
+#: CTFd/forms/config.py:87
 msgid "Enabled for Inactive Teams"
 msgstr "Habilitado para equipos inactivos"
 
-#: CTFd/forms/config.py:92
+#: CTFd/forms/config.py:93
 msgid "Name Changes"
 msgstr "Cambios de nombre"
 
-#: CTFd/forms/config.py:93
+#: CTFd/forms/config.py:94
 msgid "Control whether users and teams can change their names"
 msgstr "Define si los usuarios y equipos pueden cambiar su nombre"
 
-#: CTFd/forms/config.py:98
+#: CTFd/forms/config.py:99
 msgid "Incorrect Submissions per Minute"
 msgstr "Envíos incorrectos por minuto"
 
-#: CTFd/forms/config.py:100
+#: CTFd/forms/config.py:101
 msgid ""
 "Amount of submissions allowed per minute for flag bruteforce protection "
 "(default: 10)"
@@ -772,7 +784,7 @@ msgstr ""
 "Cantidad de envíos permitidos por minuto, para proteger contra ataques de"
 " fuerza bruta a las flags (predeterminado: 10)"
 
-#: CTFd/forms/config.py:105 CTFd/forms/config.py:143
+#: CTFd/forms/config.py:106 CTFd/forms/config.py:144
 #: CTFd/plugins/flags/assets/regex/edit.html:18
 #: CTFd/plugins/flags/assets/static/edit.html:18
 #: CTFd/themes/admin/templates/challenges/update.html:89
@@ -785,24 +797,24 @@ msgstr ""
 #: CTFd/themes/admin/templates/configs/theme.html:153
 #: CTFd/themes/admin/templates/configs/time.html:227
 #: CTFd/themes/admin/templates/configs/usermode.html:69
-#: CTFd/utils/i18n/__init__.py:255
+#: CTFd/utils/i18n/__init__.py:299
 msgid "Update"
 msgstr "Actualizar"
 
-#: CTFd/forms/config.py:109
+#: CTFd/forms/config.py:110
 msgid "Database Table"
 msgstr "Tabla de la base de datos"
 
-#: CTFd/forms/config.py:110 CTFd/themes/admin/templates/configs/backup.html:11
+#: CTFd/forms/config.py:111 CTFd/themes/admin/templates/configs/backup.html:11
 #: CTFd/themes/admin/templates/configs/backup.html:60
 msgid "Download CSV"
 msgstr "Descargar CSV"
 
-#: CTFd/forms/config.py:115
+#: CTFd/forms/config.py:116
 msgid "CSV Type"
 msgstr "Tipo de CSV"
 
-#: CTFd/forms/config.py:117 CTFd/themes/admin/templates/base.html:64
+#: CTFd/forms/config.py:118 CTFd/themes/admin/templates/base.html:64
 #: CTFd/themes/admin/templates/configs/fields.html:12
 #: CTFd/themes/admin/templates/scoreboard.html:33
 #: CTFd/themes/admin/templates/users/users.html:9
@@ -811,7 +823,7 @@ msgstr "Tipo de CSV"
 msgid "Users"
 msgstr "Usuarios"
 
-#: CTFd/forms/config.py:118 CTFd/themes/admin/templates/base.html:66
+#: CTFd/forms/config.py:119 CTFd/themes/admin/templates/base.html:66
 #: CTFd/themes/admin/templates/configs/fields.html:17
 #: CTFd/themes/admin/templates/scoreboard.html:28
 #: CTFd/themes/admin/templates/teams/teams.html:9
@@ -820,82 +832,82 @@ msgstr "Usuarios"
 msgid "Teams"
 msgstr "Equipos"
 
-#: CTFd/forms/config.py:121
+#: CTFd/forms/config.py:122
 msgid "Type of CSV data"
 msgstr "Tipo de datos del CSV"
 
-#: CTFd/forms/config.py:123
+#: CTFd/forms/config.py:124
 msgid "CSV File"
 msgstr "Archivo CSV"
 
-#: CTFd/forms/config.py:123
+#: CTFd/forms/config.py:124
 msgid "CSV file contents"
 msgstr "Contenido del archivo CSV"
 
-#: CTFd/forms/config.py:128
+#: CTFd/forms/config.py:129
 msgid "Terms of Service URL"
 msgstr "URL de los Términos de servicio"
 
-#: CTFd/forms/config.py:129
+#: CTFd/forms/config.py:130
 msgid "External URL to a Terms of Service document hosted elsewhere"
 msgstr "URL externa de un documento de Términos de servicio alojado en otro sitio"
 
-#: CTFd/forms/config.py:132 CTFd/themes/admin/templates/configs/legal.html:8
+#: CTFd/forms/config.py:133 CTFd/themes/admin/templates/configs/legal.html:8
 msgid "Terms of Service"
 msgstr "Términos de servicio"
 
-#: CTFd/forms/config.py:133
+#: CTFd/forms/config.py:134
 msgid "Text shown on the Terms of Service page"
 msgstr "Texto que se muestra en la página de Términos de servicio"
 
-#: CTFd/forms/config.py:136
+#: CTFd/forms/config.py:137
 msgid "Privacy Policy URL"
 msgstr "URL de la Política de privacidad"
 
-#: CTFd/forms/config.py:137
+#: CTFd/forms/config.py:138
 msgid "External URL to a Privacy Policy document hosted elsewhere"
 msgstr ""
 "URL externa de un documento de Política de privacidad alojado en otro "
 "sitio"
 
-#: CTFd/forms/config.py:140 CTFd/themes/admin/templates/configs/legal.html:13
+#: CTFd/forms/config.py:141 CTFd/themes/admin/templates/configs/legal.html:13
 msgid "Privacy Policy"
 msgstr "Política de privacidad"
 
-#: CTFd/forms/config.py:141
+#: CTFd/forms/config.py:142
 msgid "Text shown on the Privacy Policy page"
 msgstr "Texto que se muestra en la página de Política de privacidad"
 
-#: CTFd/forms/config.py:148 CTFd/forms/setup.py:103
+#: CTFd/forms/config.py:149 CTFd/forms/setup.py:104
 msgid "Challenge Visibility"
 msgstr "Visibilidad de los desafíos"
 
-#: CTFd/forms/config.py:149 CTFd/forms/setup.py:104
+#: CTFd/forms/config.py:150 CTFd/forms/setup.py:105
 msgid "Control whether users must be logged in to see challenges"
 msgstr "Define si los usuarios tienen que iniciar sesión para ver los desafíos"
-
-#: CTFd/forms/config.py:151 CTFd/forms/config.py:163 CTFd/forms/config.py:175
-#: CTFd/forms/config.py:188 CTFd/forms/setup.py:106 CTFd/forms/setup.py:118
-#: CTFd/forms/setup.py:130 CTFd/forms/setup.py:143
-msgid "Public"
-msgstr "Pública"
 
 #: CTFd/forms/config.py:152 CTFd/forms/config.py:164 CTFd/forms/config.py:176
 #: CTFd/forms/config.py:189 CTFd/forms/setup.py:107 CTFd/forms/setup.py:119
 #: CTFd/forms/setup.py:131 CTFd/forms/setup.py:144
+msgid "Public"
+msgstr "Pública"
+
+#: CTFd/forms/config.py:153 CTFd/forms/config.py:165 CTFd/forms/config.py:177
+#: CTFd/forms/config.py:190 CTFd/forms/setup.py:108 CTFd/forms/setup.py:120
+#: CTFd/forms/setup.py:132 CTFd/forms/setup.py:145
 msgid "Private"
 msgstr "Privada"
 
-#: CTFd/forms/config.py:153 CTFd/forms/config.py:165 CTFd/forms/config.py:178
-#: CTFd/forms/setup.py:108 CTFd/forms/setup.py:120 CTFd/forms/setup.py:133
+#: CTFd/forms/config.py:154 CTFd/forms/config.py:166 CTFd/forms/config.py:179
+#: CTFd/forms/setup.py:109 CTFd/forms/setup.py:121 CTFd/forms/setup.py:134
 msgid "Admins Only"
 msgstr "Solo administradores"
 
-#: CTFd/forms/config.py:158 CTFd/forms/setup.py:113
+#: CTFd/forms/config.py:159 CTFd/forms/setup.py:114
 msgid "Account Visibility"
 msgstr "Visibilidad de las cuentas"
 
-#: CTFd/forms/config.py:159 CTFd/forms/setup.py:114
+#: CTFd/forms/config.py:160 CTFd/forms/setup.py:115
 msgid ""
 "Control whether accounts (users & teams) are shown to everyone, only to "
 "authenticated users, or only to admins"
@@ -903,11 +915,11 @@ msgstr ""
 "Define si las cuentas (usuarios y equipos) se muestran a todos, solo a "
 "usuarios con sesión iniciada o solo a administradores"
 
-#: CTFd/forms/config.py:170 CTFd/forms/setup.py:125
+#: CTFd/forms/config.py:171 CTFd/forms/setup.py:126
 msgid "Score Visibility"
 msgstr "Visibilidad del puntaje"
 
-#: CTFd/forms/config.py:171 CTFd/forms/setup.py:126
+#: CTFd/forms/config.py:172 CTFd/forms/setup.py:127
 msgid ""
 "Control whether solves/score are shown to the public, to logged in users,"
 " hidden to all non-admins, or only shown to admins"
@@ -916,26 +928,20 @@ msgstr ""
 "usuarios con sesión iniciada, se ocultan a todos los que no son "
 "administradores o solo se muestran a administradores"
 
-#: CTFd/forms/config.py:177 CTFd/forms/setup.py:132 CTFd/forms/teams.py:208
-#: CTFd/forms/users.py:169
-#: CTFd/themes/admin/templates/challenges/challenges.html:101
-#: CTFd/themes/admin/templates/challenges/new.html:63
-#: CTFd/themes/admin/templates/challenges/update.html:81
-#: CTFd/themes/admin/templates/teams/teams.html:79
-#: CTFd/themes/admin/templates/users/users.html:82
-#: CTFd/utils/i18n/__init__.py:110
+#: CTFd/forms/config.py:178 CTFd/forms/setup.py:133
+msgctxt "score visibility"
 msgid "Hidden"
-msgstr "Oculto"
+msgstr "Oculta"
 
-#: CTFd/forms/config.py:183 CTFd/forms/setup.py:138
+#: CTFd/forms/config.py:184 CTFd/forms/setup.py:139
 msgid "Registration Visibility"
 msgstr "Visibilidad del registro"
 
-#: CTFd/forms/config.py:184 CTFd/forms/setup.py:139
+#: CTFd/forms/config.py:185 CTFd/forms/setup.py:140
 msgid "Control whether registration is enabled for everyone or disabled"
 msgstr "Define si el registro está habilitado para todos o deshabilitado"
 
-#: CTFd/forms/config.py:190 CTFd/forms/setup.py:145
+#: CTFd/forms/config.py:191 CTFd/forms/setup.py:146
 msgid "MajorLeagueCyber Only"
 msgstr "Solo MajorLeagueCyber"
 
@@ -1084,33 +1090,33 @@ msgstr "Descripción de uso"
 msgid "Generate"
 msgstr "Generar"
 
-#: CTFd/forms/setup.py:29
+#: CTFd/forms/setup.py:30
 msgid "Event Name"
 msgstr "Nombre del evento"
 
-#: CTFd/forms/setup.py:29
+#: CTFd/forms/setup.py:30
 msgid "The name of your CTF event/workshop"
 msgstr "El nombre de tu evento o taller CTF"
 
-#: CTFd/forms/setup.py:32
+#: CTFd/forms/setup.py:33
 msgid "Event Description"
 msgstr "Descripción del evento"
 
-#: CTFd/forms/setup.py:32
+#: CTFd/forms/setup.py:33
 #: CTFd/themes/admin/templates/configs/appearance.html:16
 msgid "Description for the CTF"
 msgstr "Descripción del CTF"
 
-#: CTFd/forms/setup.py:35 CTFd/forms/setup.py:36
+#: CTFd/forms/setup.py:36 CTFd/forms/setup.py:37
 #: CTFd/themes/admin/templates/configs/usermode.html:43
 msgid "User Mode"
 msgstr "Modo individual"
 
-#: CTFd/forms/setup.py:36 CTFd/themes/admin/templates/configs/usermode.html:19
+#: CTFd/forms/setup.py:37 CTFd/themes/admin/templates/configs/usermode.html:19
 msgid "Team Mode"
 msgstr "Modo por equipos"
 
-#: CTFd/forms/setup.py:38 CTFd/themes/admin/templates/configs/usermode.html:6
+#: CTFd/forms/setup.py:39 CTFd/themes/admin/templates/configs/usermode.html:6
 msgid ""
 "Controls whether users join together in teams to play (Team Mode) or play"
 " as themselves (User Mode)"
@@ -1118,35 +1124,35 @@ msgstr ""
 "Define si los usuarios juegan en equipos (modo por equipos) o cada uno "
 "por su cuenta (modo individual)"
 
-#: CTFd/forms/setup.py:45
+#: CTFd/forms/setup.py:46
 msgid "Admin Username"
 msgstr "Nombre de usuario del administrador"
 
-#: CTFd/forms/setup.py:46
+#: CTFd/forms/setup.py:47
 msgid "Your username for the administration account"
 msgstr "Tu nombre de usuario para la cuenta de administración"
 
-#: CTFd/forms/setup.py:50
+#: CTFd/forms/setup.py:51
 msgid "Admin Email"
 msgstr "Correo del administrador"
 
-#: CTFd/forms/setup.py:51
+#: CTFd/forms/setup.py:52
 msgid "Your email address for the administration account"
 msgstr "Tu correo para la cuenta de administración"
 
-#: CTFd/forms/setup.py:55
+#: CTFd/forms/setup.py:56
 msgid "Admin Password"
 msgstr "Contraseña del administrador"
 
-#: CTFd/forms/setup.py:56
+#: CTFd/forms/setup.py:57
 msgid "Your password for the administration account"
 msgstr "Tu contraseña para la cuenta de administración"
 
-#: CTFd/forms/setup.py:61
+#: CTFd/forms/setup.py:62
 msgid "Logo"
 msgstr "Logo"
 
-#: CTFd/forms/setup.py:62
+#: CTFd/forms/setup.py:63
 msgid ""
 "Logo to use for the website instead of a CTF name. Used as the home page "
 "button. Optional."
@@ -1154,20 +1160,20 @@ msgstr ""
 "Logo que se muestra en el sitio en lugar del nombre del CTF. Se usa como "
 "botón para volver al inicio. Opcional."
 
-#: CTFd/forms/setup.py:67
+#: CTFd/forms/setup.py:68
 msgid "Banner"
 msgstr "Banner"
 
-#: CTFd/forms/setup.py:67
+#: CTFd/forms/setup.py:68
 msgid "Banner to use for the homepage. Optional."
 msgstr "Banner para la página de inicio. Opcional."
 
-#: CTFd/forms/setup.py:70 CTFd/themes/admin/templates/configs/theme.html:40
+#: CTFd/forms/setup.py:71 CTFd/themes/admin/templates/configs/theme.html:40
 #: CTFd/themes/admin/templates/configs/theme.html:59
 msgid "Small Icon"
 msgstr "Ícono pequeño"
 
-#: CTFd/forms/setup.py:71
+#: CTFd/forms/setup.py:72
 msgid ""
 "favicon used in user's browsers. Only PNGs accepted. Must be 32x32px. "
 "Optional."
@@ -1175,20 +1181,20 @@ msgstr ""
 "Favicon que se muestra en el navegador. Solo se aceptan archivos PNG de "
 "32x32 px. Opcional."
 
-#: CTFd/forms/setup.py:76 CTFd/themes/admin/templates/config.html:21
+#: CTFd/forms/setup.py:77 CTFd/themes/admin/templates/config.html:21
 #: CTFd/themes/admin/templates/configs/theme.html:90
 msgid "Theme"
 msgstr "Tema"
 
-#: CTFd/forms/setup.py:77
+#: CTFd/forms/setup.py:78
 msgid "CTFd Theme to use. Can be changed later."
 msgstr "Tema de CTFd a usar. Lo podés cambiar después."
 
-#: CTFd/forms/setup.py:84 CTFd/themes/admin/templates/configs/theme.html:105
+#: CTFd/forms/setup.py:85 CTFd/themes/admin/templates/configs/theme.html:105
 msgid "Theme Color"
 msgstr "Color del tema"
 
-#: CTFd/forms/setup.py:85
+#: CTFd/forms/setup.py:86
 msgid ""
 "Color used by theme to control aesthetics. Requires theme support. "
 "Optional."
@@ -1196,33 +1202,33 @@ msgstr ""
 "Color que usa el tema para su apariencia. El tema tiene que admitirlo. "
 "Opcional."
 
-#: CTFd/forms/setup.py:92
+#: CTFd/forms/setup.py:93
 msgid ""
 "Control whether users must confirm their email addresses before "
 "participating"
 msgstr "Define si los usuarios tienen que confirmar su correo antes de jugar"
 
-#: CTFd/forms/setup.py:100
+#: CTFd/forms/setup.py:101
 msgid "Amount of users per team (Teams mode only) Optional."
 msgstr "Cantidad de usuarios por equipo (solo en modo por equipos). Opcional."
 
-#: CTFd/forms/setup.py:151 CTFd/themes/admin/templates/configs/time.html:6
+#: CTFd/forms/setup.py:152 CTFd/themes/admin/templates/configs/time.html:6
 msgid "Start Time"
 msgstr "Fecha y hora de inicio"
 
-#: CTFd/forms/setup.py:152
+#: CTFd/forms/setup.py:153
 msgid "Time when your CTF is scheduled to start. Optional."
 msgstr "Cuándo está previsto que empiece tu CTF. Opcional."
 
-#: CTFd/forms/setup.py:155 CTFd/themes/admin/templates/configs/time.html:11
+#: CTFd/forms/setup.py:156 CTFd/themes/admin/templates/configs/time.html:11
 msgid "End Time"
 msgstr "Fecha y hora de fin"
 
-#: CTFd/forms/setup.py:156
+#: CTFd/forms/setup.py:157
 msgid "Time when your CTF is scheduled to end. Optional."
 msgstr "Cuándo está previsto que termine tu CTF. Opcional."
 
-#: CTFd/forms/setup.py:158 CTFd/themes/admin/templates/challenges/new.html:68
+#: CTFd/forms/setup.py:159 CTFd/themes/admin/templates/challenges/new.html:68
 msgid "Finish"
 msgstr "Finalizar"
 
@@ -1240,7 +1246,7 @@ msgstr "ID de desafío"
 
 #: CTFd/forms/submissions.py:17
 #: CTFd/themes/admin/templates/challenges/update.html:9
-#: CTFd/utils/i18n/__init__.py:178
+#: CTFd/utils/i18n/__init__.py:220
 msgid "Challenge Name"
 msgstr "Nombre del desafío"
 
@@ -1300,10 +1306,20 @@ msgstr "El país de tu equipo, visible para los demás participantes"
 msgid "Team Captain"
 msgstr "Capitán del equipo"
 
+#: CTFd/forms/teams.py:208 CTFd/forms/users.py:169
+#: CTFd/themes/admin/templates/challenges/challenges.html:101
+#: CTFd/themes/admin/templates/challenges/new.html:63
+#: CTFd/themes/admin/templates/challenges/update.html:81
+#: CTFd/themes/admin/templates/teams/teams.html:79
+#: CTFd/themes/admin/templates/users/users.html:82
+#: CTFd/utils/i18n/__init__.py:152
+msgid "Hidden"
+msgstr "Oculto"
+
 #: CTFd/forms/teams.py:209 CTFd/forms/users.py:170
 #: CTFd/themes/admin/templates/teams/teams.html:80
 #: CTFd/themes/admin/templates/users/users.html:83
-#: CTFd/utils/i18n/__init__.py:220
+#: CTFd/utils/i18n/__init__.py:264
 msgid "Banned"
 msgstr "Suspendido"
 
@@ -1351,7 +1367,7 @@ msgid "Author"
 msgstr "Autor"
 
 #: CTFd/forms/users.py:168 CTFd/themes/admin/templates/users/users.html:81
-#: CTFd/utils/i18n/__init__.py:233
+#: CTFd/utils/i18n/__init__.py:277
 msgid "Verified"
 msgstr "Verificado"
 
@@ -1639,12 +1655,12 @@ msgid "Regex parse error occured"
 msgstr "Error al procesar la expresión regular de la flag"
 
 #: CTFd/plugins/flags/assets/regex/create.html:2
-#: CTFd/utils/i18n/__init__.py:253
+#: CTFd/utils/i18n/__init__.py:297
 msgid "Regex Flag"
 msgstr "Flag regex"
 
 #: CTFd/plugins/flags/assets/regex/create.html:3
-#: CTFd/utils/i18n/__init__.py:247
+#: CTFd/utils/i18n/__init__.py:291
 msgid "Enter regex flag data"
 msgstr "Ingresá la flag como expresión regular"
 
@@ -1653,7 +1669,7 @@ msgstr "Ingresá la flag como expresión regular"
 #: CTFd/plugins/flags/assets/static/create.html:10
 #: CTFd/plugins/flags/assets/static/edit.html:10
 #: CTFd/themes/admin/templates/challenges/new.html:39
-#: CTFd/utils/i18n/__init__.py:245
+#: CTFd/utils/i18n/__init__.py:289
 msgid "Case Sensitive"
 msgstr "Distingue mayúsculas"
 
@@ -1662,41 +1678,41 @@ msgstr "Distingue mayúsculas"
 #: CTFd/plugins/flags/assets/static/create.html:11
 #: CTFd/plugins/flags/assets/static/edit.html:11
 #: CTFd/themes/admin/templates/challenges/new.html:40
-#: CTFd/utils/i18n/__init__.py:244
+#: CTFd/utils/i18n/__init__.py:288
 msgid "Case Insensitive"
 msgstr "No distingue mayúsculas"
 
 #: CTFd/plugins/flags/assets/regex/create.html:15
-#: CTFd/utils/i18n/__init__.py:250
+#: CTFd/utils/i18n/__init__.py:294
 msgid "Examples"
 msgstr "Ejemplos"
 
 #: CTFd/plugins/flags/assets/regex/create.html:24
-#: CTFd/utils/i18n/__init__.py:251
+#: CTFd/utils/i18n/__init__.py:295
 msgid "Match any content inside of flag{}:"
 msgstr "Aceptar cualquier contenido dentro de flag{}:"
 
 #: CTFd/plugins/flags/assets/regex/create.html:28
-#: CTFd/utils/i18n/__init__.py:252
+#: CTFd/utils/i18n/__init__.py:296
 msgid "Match numeric flags:"
 msgstr "Aceptar flags numéricas:"
 
 #: CTFd/plugins/flags/assets/regex/create.html:32
-#: CTFd/utils/i18n/__init__.py:243
+#: CTFd/utils/i18n/__init__.py:287
 msgid "Accept flags with or without the flag format prefix:"
 msgstr "Aceptar flags con o sin el prefijo del formato de flag:"
 
-#: CTFd/plugins/flags/assets/regex/edit.html:3 CTFd/utils/i18n/__init__.py:248
+#: CTFd/plugins/flags/assets/regex/edit.html:3 CTFd/utils/i18n/__init__.py:292
 msgid "Enter regex key data"
 msgstr "Ingresá la flag como expresión regular"
 
 #: CTFd/plugins/flags/assets/static/create.html:2
-#: CTFd/plugins/flags/assets/static/edit.html:2 CTFd/utils/i18n/__init__.py:254
+#: CTFd/plugins/flags/assets/static/edit.html:2 CTFd/utils/i18n/__init__.py:298
 msgid "Static"
 msgstr "Estática"
 
 #: CTFd/plugins/flags/assets/static/create.html:3
-#: CTFd/plugins/flags/assets/static/edit.html:3 CTFd/utils/i18n/__init__.py:249
+#: CTFd/plugins/flags/assets/static/edit.html:3 CTFd/utils/i18n/__init__.py:293
 msgid "Enter static flag data"
 msgstr "Ingresá el texto exacto de la flag"
 
@@ -1876,7 +1892,8 @@ msgstr "Campos personalizados"
 #: CTFd/themes/admin/templates/config.html:36
 #: CTFd/themes/core-beta/templates/components/navbar.html:139
 #: CTFd/themes/core-beta/templates/settings.html:8
-#: CTFd/themes/core-beta/templates/setup.html:50 CTFd/utils/i18n/__init__.py:71
+#: CTFd/themes/core-beta/templates/setup.html:50
+#: CTFd/utils/i18n/__init__.py:113
 msgid "Settings"
 msgstr "Ajustes"
 
@@ -1920,7 +1937,7 @@ msgstr "Reiniciar"
 #: CTFd/themes/admin/templates/users/user.html:44
 #: CTFd/themes/admin/templates/users/user.html:60
 #: CTFd/themes/admin/templates/users/user.html:76
-#: CTFd/utils/i18n/__init__.py:45
+#: CTFd/utils/i18n/__init__.py:87
 msgid "Close"
 msgstr "Cerrar"
 
@@ -1936,7 +1953,7 @@ msgstr "Escribir"
 msgid "Preview"
 msgstr "Vista previa"
 
-#: CTFd/themes/admin/templates/editor.html:87 CTFd/utils/i18n/__init__.py:80
+#: CTFd/themes/admin/templates/editor.html:87 CTFd/utils/i18n/__init__.py:122
 msgid "Media Library"
 msgstr "Biblioteca de medios"
 
@@ -1944,7 +1961,7 @@ msgstr "Biblioteca de medios"
 msgid "CTFd Page variables"
 msgstr "Variables de página de CTFd"
 
-#: CTFd/themes/admin/templates/editor.html:127 CTFd/utils/i18n/__init__.py:59
+#: CTFd/themes/admin/templates/editor.html:127 CTFd/utils/i18n/__init__.py:101
 msgid "Save"
 msgstr "Guardar"
 
@@ -2000,7 +2017,7 @@ msgstr "Ya podés cerrar esta pestaña."
 msgid "Create Page"
 msgstr "Crear página"
 
-#: CTFd/themes/admin/templates/pages.html:24 CTFd/utils/i18n/__init__.py:167
+#: CTFd/themes/admin/templates/pages.html:24 CTFd/utils/i18n/__init__.py:209
 msgid "Delete Pages"
 msgstr "Borrar páginas"
 
@@ -2149,10 +2166,10 @@ msgstr "Página %(page)s de %(total)s resultados"
 
 #: CTFd/themes/admin/templates/submissions.html:33
 msgid "Search for matching submission"
-msgstr "Buscá envíos que coincidan"
+msgstr "Buscar envíos que coincidan"
 
 #: CTFd/themes/admin/templates/submissions.html:52
-#: CTFd/utils/i18n/__init__.py:196
+#: CTFd/utils/i18n/__init__.py:239
 msgid "Mark submissions correct"
 msgstr "Marcar envíos como correctos"
 
@@ -2203,12 +2220,12 @@ msgstr ""
 #: CTFd/themes/admin/templates/teams/teams.html:126
 #: CTFd/themes/admin/templates/users/user.html:98
 #: CTFd/themes/admin/templates/users/users.html:139
-#: CTFd/utils/i18n/__init__.py:135
+#: CTFd/utils/i18n/__init__.py:177
 msgid "hidden"
 msgstr "oculto"
 
 #: CTFd/themes/admin/templates/challenges/challenge.html:57
-#: CTFd/utils/i18n/__init__.py:136
+#: CTFd/utils/i18n/__init__.py:178
 msgid "visible"
 msgstr "visible"
 
@@ -2222,7 +2239,7 @@ msgid "Preview Challenge"
 msgstr "Vista previa del desafío"
 
 #: CTFd/themes/admin/templates/challenges/challenge.html:78
-#: CTFd/utils/i18n/__init__.py:129
+#: CTFd/utils/i18n/__init__.py:171
 msgid "Delete Challenge"
 msgstr "Borrar desafío"
 
@@ -2248,7 +2265,7 @@ msgstr "Pistas"
 
 #: CTFd/themes/admin/templates/challenges/challenge.html:93
 #: CTFd/themes/admin/templates/challenges/challenge.html:141
-#: CTFd/utils/i18n/__init__.py:96
+#: CTFd/utils/i18n/__init__.py:138
 msgid "Requirements"
 msgstr "Requisitos"
 
@@ -2265,7 +2282,7 @@ msgstr "Siguiente"
 #: CTFd/themes/admin/templates/challenges/challenge.html:149
 #: CTFd/themes/admin/templates/challenges/preview.html:39
 #: CTFd/themes/core-beta/templates/challenge.html:168
-#: CTFd/utils/i18n/__init__.py:104
+#: CTFd/utils/i18n/__init__.py:146
 msgid "Next Challenge"
 msgstr "Siguiente desafío"
 
@@ -2290,27 +2307,27 @@ msgstr "%(total)s resultados"
 
 #: CTFd/themes/admin/templates/challenges/challenges.html:38
 msgid "Search for matching challenge"
-msgstr "Buscá desafíos que coincidan"
+msgstr "Buscar desafíos que coincidan"
 
 #: CTFd/themes/admin/templates/challenges/challenges.html:56
-#: CTFd/utils/i18n/__init__.py:141
+#: CTFd/utils/i18n/__init__.py:183
 msgid "Edit Challenges"
 msgstr "Editar desafíos"
 
 #: CTFd/themes/admin/templates/challenges/challenges.html:59
-#: CTFd/utils/i18n/__init__.py:140
+#: CTFd/utils/i18n/__init__.py:182
 msgid "Delete Challenges"
 msgstr "Borrar desafíos"
 
 #: CTFd/themes/admin/templates/challenges/challenges.html:83
 #: CTFd/themes/admin/templates/challenges/new.html:58
 #: CTFd/themes/admin/templates/challenges/update.html:75
-#: CTFd/utils/i18n/__init__.py:142
+#: CTFd/utils/i18n/__init__.py:184
 msgid "State"
 msgstr "Estado"
 
 #: CTFd/themes/admin/templates/challenges/challenges.html:101
-#: CTFd/utils/i18n/__init__.py:144
+#: CTFd/utils/i18n/__init__.py:186
 msgid "Visible"
 msgstr "Visible"
 
@@ -2395,7 +2412,7 @@ msgstr "Tipos de desafío"
 #: CTFd/themes/core-beta/templates/teams/private.html:371
 #: CTFd/themes/core-beta/templates/teams/public.html:145
 #: CTFd/themes/core-beta/templates/users/private.html:110
-#: CTFd/utils/i18n/__init__.py:41
+#: CTFd/utils/i18n/__init__.py:83
 msgid "Solves"
 msgstr "Resoluciones"
 
@@ -3099,7 +3116,7 @@ msgstr "Puntaje"
 
 #: CTFd/themes/admin/templates/scoreboard/standings.html:12
 #: CTFd/themes/admin/templates/scoreboard/users.html:12
-#: CTFd/utils/i18n/__init__.py:175
+#: CTFd/utils/i18n/__init__.py:217
 msgid "Visibility"
 msgstr "Visibilidad"
 
@@ -3142,7 +3159,7 @@ msgstr "Invitación al equipo"
 
 #: CTFd/themes/admin/templates/teams/team.html:61
 msgid "Share this link for users to join this team"
-msgstr "Compartí este link para que los usuarios se unan a este equipo"
+msgstr "Compartí este enlace para que los usuarios se unan a este equipo"
 
 #: CTFd/themes/admin/templates/teams/team.html:75
 #: CTFd/themes/admin/templates/teams/team.html:236
@@ -3203,10 +3220,10 @@ msgstr "puntos"
 
 #: CTFd/themes/admin/templates/teams/team.html:215
 msgid "Team Invite Link"
-msgstr "Link de invitación al equipo"
+msgstr "Enlace de invitación al equipo"
 
 #: CTFd/themes/admin/templates/teams/team.html:230
-#: CTFd/utils/i18n/__init__.py:207
+#: CTFd/utils/i18n/__init__.py:251
 msgid "Delete Team"
 msgstr "Borrar equipo"
 
@@ -3232,7 +3249,7 @@ msgstr "Quitar a %(name)s"
 #: CTFd/themes/admin/templates/teams/team.html:382
 #: CTFd/themes/admin/templates/users/user.html:191
 #: CTFd/themes/admin/templates/users/user.html:262
-#: CTFd/utils/i18n/__init__.py:179
+#: CTFd/utils/i18n/__init__.py:221
 msgid "Fails"
 msgstr "Fallos"
 
@@ -3288,12 +3305,12 @@ msgid "Search for matching teams"
 msgstr "Buscar equipos que coincidan"
 
 #: CTFd/themes/admin/templates/teams/teams.html:55
-#: CTFd/utils/i18n/__init__.py:222
+#: CTFd/utils/i18n/__init__.py:266
 msgid "Edit Teams"
 msgstr "Editar equipos"
 
 #: CTFd/themes/admin/templates/teams/teams.html:58
-#: CTFd/utils/i18n/__init__.py:221
+#: CTFd/utils/i18n/__init__.py:265
 msgid "Delete Teams"
 msgstr "Borrar equipos"
 
@@ -3335,7 +3352,7 @@ msgid "admin"
 msgstr "administrador"
 
 #: CTFd/themes/admin/templates/users/user.html:168
-#: CTFd/utils/i18n/__init__.py:228
+#: CTFd/utils/i18n/__init__.py:272
 msgid "Delete User"
 msgstr "Borrar usuario"
 
@@ -3349,12 +3366,12 @@ msgstr ""
 "<strong>%(q)s</strong>"
 
 #: CTFd/themes/admin/templates/users/users.html:56
-#: CTFd/utils/i18n/__init__.py:232
+#: CTFd/utils/i18n/__init__.py:276
 msgid "Edit Users"
 msgstr "Editar usuarios"
 
 #: CTFd/themes/admin/templates/users/users.html:59
-#: CTFd/utils/i18n/__init__.py:231
+#: CTFd/utils/i18n/__init__.py:275
 msgid "Delete Users"
 msgstr "Borrar usuarios"
 
@@ -3582,9 +3599,9 @@ msgid "Join Team"
 msgstr "Unirme a un equipo"
 
 #: CTFd/themes/core-beta/templates/teams/invite.html:15
-#: CTFd/themes/core-beta/templates/teams/team_enrollment.html:12
-msgid "Welcome to"
-msgstr "Bienvenido a"
+#, python-format
+msgid "Welcome to <strong>%(name)s</strong>!"
+msgstr "¡Te damos la bienvenida a <strong>%(name)s</strong>!"
 
 #: CTFd/themes/core-beta/templates/teams/invite.html:19
 msgid "Click the button below to join the team!"
@@ -3621,12 +3638,12 @@ msgid "Are you sure you want to disband your team?"
 msgstr "¿Seguro que querés disolver tu equipo?"
 
 #: CTFd/themes/core-beta/templates/teams/private.html:206
-#: CTFd/utils/i18n/__init__.py:241
+#: CTFd/utils/i18n/__init__.py:285
 msgid "No"
 msgstr "No"
 
 #: CTFd/themes/core-beta/templates/teams/private.html:207
-#: CTFd/utils/i18n/__init__.py:240
+#: CTFd/utils/i18n/__init__.py:284
 msgid "Yes"
 msgstr "Sí"
 
@@ -3642,9 +3659,14 @@ msgstr "Integrantes"
 msgid "No solves yet"
 msgstr "Todavía no hay resoluciones"
 
+#: CTFd/themes/core-beta/templates/teams/team_enrollment.html:12
+#, python-format
+msgid "Welcome to %(name)s!"
+msgstr "¡Te damos la bienvenida a %(name)s!"
+
 #: CTFd/themes/core-beta/templates/teams/team_enrollment.html:14
-msgid "In order to participate you must either join or create a team."
-msgstr "Para participar, tenés que unirte a un equipo o crear uno."
+msgid "In order to participate you must join a team."
+msgstr "Para participar, tenés que unirte a un equipo."
 
 #: CTFd/themes/core-beta/templates/teams/team_enrollment.html:22
 msgid "Play with Official Team"
@@ -3767,211 +3789,211 @@ msgstr ""
 msgid "No mail settings configured"
 msgstr "El envío de correos no está configurado"
 
-#: CTFd/utils/i18n/__init__.py:43
+#: CTFd/utils/i18n/__init__.py:85
 msgid "Add comment"
 msgstr "Agregá un comentario"
 
-#: CTFd/utils/i18n/__init__.py:44
+#: CTFd/utils/i18n/__init__.py:86
 msgid "Are you sure you'd like to delete this comment?"
 msgstr "¿Seguro que querés borrar este comentario?"
 
-#: CTFd/utils/i18n/__init__.py:46
+#: CTFd/utils/i18n/__init__.py:88
 msgid "Comment"
 msgstr "Comentar"
 
-#: CTFd/utils/i18n/__init__.py:47
+#: CTFd/utils/i18n/__init__.py:89
 msgid "Page {0} of {1} comments"
 msgstr "Página {0} de {1} comentarios"
 
-#: CTFd/utils/i18n/__init__.py:49
+#: CTFd/utils/i18n/__init__.py:91
 msgid "Are you sure you'd like to delete this field?"
 msgstr "¿Seguro que querés borrar este campo?"
 
-#: CTFd/utils/i18n/__init__.py:50
+#: CTFd/utils/i18n/__init__.py:92
 msgid "Checkbox"
 msgstr "Casilla de verificación"
 
-#: CTFd/utils/i18n/__init__.py:51
+#: CTFd/utils/i18n/__init__.py:93
 msgid "Editable by user in profile"
 msgstr "El usuario lo puede editar en su perfil"
 
-#: CTFd/utils/i18n/__init__.py:52
+#: CTFd/utils/i18n/__init__.py:94
 msgid "Field Description"
 msgstr "Descripción del campo"
 
-#: CTFd/utils/i18n/__init__.py:53
+#: CTFd/utils/i18n/__init__.py:95
 msgid "Field Name"
 msgstr "Nombre del campo"
 
-#: CTFd/utils/i18n/__init__.py:54
+#: CTFd/utils/i18n/__init__.py:96
 msgid "Field Type"
 msgstr "Tipo de campo"
 
-#: CTFd/utils/i18n/__init__.py:55
+#: CTFd/utils/i18n/__init__.py:97
 msgid "Field has been created!"
 msgstr "¡Se creó el campo!"
 
-#: CTFd/utils/i18n/__init__.py:56
+#: CTFd/utils/i18n/__init__.py:98
 msgid "Field has been updated!"
 msgstr "¡Se actualizó el campo!"
 
-#: CTFd/utils/i18n/__init__.py:57
+#: CTFd/utils/i18n/__init__.py:99
 msgid "Field name"
 msgstr "Nombre del campo"
 
-#: CTFd/utils/i18n/__init__.py:58
+#: CTFd/utils/i18n/__init__.py:100
 msgid "Required on registration"
 msgstr "Obligatorio en el registro"
 
-#: CTFd/utils/i18n/__init__.py:60
+#: CTFd/utils/i18n/__init__.py:102
 msgid "Shown on public profile"
 msgstr "Se muestra en el perfil público"
 
-#: CTFd/utils/i18n/__init__.py:61
+#: CTFd/utils/i18n/__init__.py:103
 msgid "Success"
 msgstr "Listo"
 
-#: CTFd/utils/i18n/__init__.py:62
+#: CTFd/utils/i18n/__init__.py:104
 msgid "Text Field"
 msgstr "Campo de texto"
 
-#: CTFd/utils/i18n/__init__.py:63
+#: CTFd/utils/i18n/__init__.py:105
 msgid "Type of field shown to the user"
 msgstr "Tipo de campo que ve el usuario"
 
-#: CTFd/utils/i18n/__init__.py:65
+#: CTFd/utils/i18n/__init__.py:107
 msgid "Add New Field"
 msgstr "Agregar campo nuevo"
 
-#: CTFd/utils/i18n/__init__.py:67
+#: CTFd/utils/i18n/__init__.py:109
 msgid "Are you sure you want to delete this file?"
 msgstr "¿Seguro que querés borrar este archivo?"
 
-#: CTFd/utils/i18n/__init__.py:69
+#: CTFd/utils/i18n/__init__.py:111
 msgid "Delete Files"
 msgstr "Borrar archivos"
 
-#: CTFd/utils/i18n/__init__.py:70
+#: CTFd/utils/i18n/__init__.py:112
 msgid "File"
 msgstr "Archivo"
 
-#: CTFd/utils/i18n/__init__.py:74
+#: CTFd/utils/i18n/__init__.py:116
 msgid "Delete file"
 msgstr "Borrar archivo"
 
-#: CTFd/utils/i18n/__init__.py:75
+#: CTFd/utils/i18n/__init__.py:117
 msgid "Download file"
 msgstr "Descargar archivo"
 
-#: CTFd/utils/i18n/__init__.py:76
+#: CTFd/utils/i18n/__init__.py:118
 msgid "Insert"
 msgstr "Insertar"
 
-#: CTFd/utils/i18n/__init__.py:77
+#: CTFd/utils/i18n/__init__.py:119
 msgid "Insert link into editor"
 msgstr "Insertar el enlace en el editor"
 
-#: CTFd/utils/i18n/__init__.py:78
+#: CTFd/utils/i18n/__init__.py:120
 msgid "Link:"
 msgstr "Enlace:"
 
-#: CTFd/utils/i18n/__init__.py:79
+#: CTFd/utils/i18n/__init__.py:121
 msgid "Media Details"
 msgstr "Detalles del archivo"
 
-#: CTFd/utils/i18n/__init__.py:83
+#: CTFd/utils/i18n/__init__.py:125
 msgid "Choose Flag Type"
 msgstr "Elegí el tipo de flag"
 
-#: CTFd/utils/i18n/__init__.py:84
+#: CTFd/utils/i18n/__init__.py:126
 msgid "Create Flag"
 msgstr "Crear flag"
 
-#: CTFd/utils/i18n/__init__.py:86
+#: CTFd/utils/i18n/__init__.py:128
 msgid "Edit Flag"
 msgstr "Editar flag"
 
-#: CTFd/utils/i18n/__init__.py:88
+#: CTFd/utils/i18n/__init__.py:130
 msgid "Are you sure you'd like to delete this flag?"
 msgstr "¿Seguro que querés borrar esta flag?"
 
-#: CTFd/utils/i18n/__init__.py:91
+#: CTFd/utils/i18n/__init__.py:133
 msgid "Cost"
 msgstr "Costo"
 
-#: CTFd/utils/i18n/__init__.py:92
+#: CTFd/utils/i18n/__init__.py:134
 msgid "Hint"
 msgstr "Pista"
 
-#: CTFd/utils/i18n/__init__.py:93
+#: CTFd/utils/i18n/__init__.py:135
 msgid "Hints that must be unlocked before unlocking this hint"
 msgstr "Pistas que hay que desbloquear antes de desbloquear esta"
 
-#: CTFd/utils/i18n/__init__.py:94
+#: CTFd/utils/i18n/__init__.py:136
 msgid "How many points it costs to see your hint."
 msgstr "Cuántos puntos cuesta ver tu pista."
 
-#: CTFd/utils/i18n/__init__.py:95
+#: CTFd/utils/i18n/__init__.py:137
 msgid "Markdown & HTML are supported"
 msgstr "Se admite Markdown y HTML"
 
-#: CTFd/utils/i18n/__init__.py:99
+#: CTFd/utils/i18n/__init__.py:141
 msgid "Are you sure you want to delete this hint?"
 msgstr "¿Seguro que querés borrar esta pista?"
 
-#: CTFd/utils/i18n/__init__.py:100
+#: CTFd/utils/i18n/__init__.py:142
 msgid "Create Hint"
 msgstr "Crear pista"
 
-#: CTFd/utils/i18n/__init__.py:101
+#: CTFd/utils/i18n/__init__.py:143
 msgid "Delete Hint"
 msgstr "Borrar pista"
 
-#: CTFd/utils/i18n/__init__.py:103
+#: CTFd/utils/i18n/__init__.py:145
 msgid "Challenge to recommend after solving this challenge"
 msgstr "Desafío que se recomienda después de resolver este"
 
-#: CTFd/utils/i18n/__init__.py:106
+#: CTFd/utils/i18n/__init__.py:148
 msgid "Are you sure you want to delete this notification?"
 msgstr "¿Seguro que querés borrar esta notificación?"
 
-#: CTFd/utils/i18n/__init__.py:108
+#: CTFd/utils/i18n/__init__.py:150
 msgid "Anonymized"
 msgstr "Anónimo"
 
-#: CTFd/utils/i18n/__init__.py:109
+#: CTFd/utils/i18n/__init__.py:151
 msgid "Behavior if not unlocked"
 msgstr "Qué pasa si no está desbloqueado"
 
-#: CTFd/utils/i18n/__init__.py:112
+#: CTFd/utils/i18n/__init__.py:154
 msgid "Tag"
 msgstr "Etiqueta"
 
-#: CTFd/utils/i18n/__init__.py:113
+#: CTFd/utils/i18n/__init__.py:155
 msgid "Type tag and press Enter"
 msgstr "Escribí la etiqueta y apretá Enter"
 
-#: CTFd/utils/i18n/__init__.py:115
+#: CTFd/utils/i18n/__init__.py:157
 msgid "Add Users"
 msgstr "Agregar usuarios"
 
-#: CTFd/utils/i18n/__init__.py:116
+#: CTFd/utils/i18n/__init__.py:158
 msgid "Confirm Team Removal"
 msgstr "Confirmar cambio de equipo"
 
-#: CTFd/utils/i18n/__init__.py:117
+#: CTFd/utils/i18n/__init__.py:159
 msgid "No users found"
 msgstr "No se encontraron usuarios"
 
-#: CTFd/utils/i18n/__init__.py:118
+#: CTFd/utils/i18n/__init__.py:160
 msgid "Search Users"
 msgstr "Buscar usuarios"
 
-#: CTFd/utils/i18n/__init__.py:119
+#: CTFd/utils/i18n/__init__.py:161
 msgid "Search for users"
-msgstr "Buscá usuarios"
+msgstr "Buscar usuarios"
 
-#: CTFd/utils/i18n/__init__.py:120
+#: CTFd/utils/i18n/__init__.py:162
 msgid ""
 "The following users are currently in teams:<br><br> {0} <br><br>Are you "
 "sure you want to remove them from their current teams and add them to "
@@ -3983,27 +4005,27 @@ msgstr ""
 "<br><br>¡También se van a borrar todas sus resoluciones de desafíos, "
 "intentos, premios y pistas desbloqueadas!"
 
-#: CTFd/utils/i18n/__init__.py:123
+#: CTFd/utils/i18n/__init__.py:165
 msgid "already in a team"
 msgstr "ya está en un equipo"
 
-#: CTFd/utils/i18n/__init__.py:125
+#: CTFd/utils/i18n/__init__.py:167
 msgid "Topic"
 msgstr "Tema"
 
-#: CTFd/utils/i18n/__init__.py:126
+#: CTFd/utils/i18n/__init__.py:168
 msgid "Type topic and press Enter"
 msgstr "Escribí el tema y apretá Enter"
 
-#: CTFd/utils/i18n/__init__.py:128
+#: CTFd/utils/i18n/__init__.py:170
 msgid "Are you sure you want to delete {0}"
 msgstr "¿Seguro que querés borrar {0}?"
 
-#: CTFd/utils/i18n/__init__.py:130
+#: CTFd/utils/i18n/__init__.py:172
 msgid "Missing Flags"
 msgstr "Faltan flags"
 
-#: CTFd/utils/i18n/__init__.py:131
+#: CTFd/utils/i18n/__init__.py:173
 msgid ""
 "This challenge does not have any flags meaning it may be unsolveable. Are"
 " you sure you'd like to update this challenge?"
@@ -4011,31 +4033,31 @@ msgstr ""
 "Este desafío no tiene ninguna flag, así que puede que no se pueda "
 "resolver. ¿Seguro que querés actualizarlo?"
 
-#: CTFd/utils/i18n/__init__.py:134
+#: CTFd/utils/i18n/__init__.py:176
 msgid "Your challenge has been updated!"
 msgstr "¡Se actualizó tu desafío!"
 
-#: CTFd/utils/i18n/__init__.py:138
+#: CTFd/utils/i18n/__init__.py:180
 msgid "Are you sure you want to delete {0} {1}?"
 msgstr "¿Seguro que querés borrar {0} {1}?"
 
-#: CTFd/utils/i18n/__init__.py:145
+#: CTFd/utils/i18n/__init__.py:187
 msgid "challenge"
 msgstr "desafío"
 
-#: CTFd/utils/i18n/__init__.py:146
+#: CTFd/utils/i18n/__init__.py:188
 msgid "challenges"
 msgstr "desafíos"
 
-#: CTFd/utils/i18n/__init__.py:148
+#: CTFd/utils/i18n/__init__.py:190
 msgid "Are you sure you'd like to remove the CTF logo?"
 msgstr "¿Seguro que querés quitar el logo del CTF?"
 
-#: CTFd/utils/i18n/__init__.py:149
+#: CTFd/utils/i18n/__init__.py:191
 msgid "Are you sure you'd like to remove the small site icon?"
 msgstr "¿Seguro que querés quitar el ícono chico del sitio?"
 
-#: CTFd/utils/i18n/__init__.py:150
+#: CTFd/utils/i18n/__init__.py:192
 msgid ""
 "Are you sure you'd like to switch user modes?\n"
 "\n"
@@ -4046,149 +4068,157 @@ msgstr ""
 "¡Se van a borrar todos los envíos, premios, desbloqueos y registros de "
 "seguimiento de los usuarios!"
 
-#: CTFd/utils/i18n/__init__.py:153
+#: CTFd/utils/i18n/__init__.py:195
 msgid "Error!"
 msgstr "¡Error!"
 
-#: CTFd/utils/i18n/__init__.py:154
+#: CTFd/utils/i18n/__init__.py:196
 msgid "Icon uploading failed!"
 msgstr "¡No se pudo subir el ícono!"
 
-#: CTFd/utils/i18n/__init__.py:155
+#: CTFd/utils/i18n/__init__.py:197
 msgid "Line {0}"
 msgstr "Línea {0}"
 
-#: CTFd/utils/i18n/__init__.py:156
+#: CTFd/utils/i18n/__init__.py:198
 msgid "Logo uploading failed!"
 msgstr "¡No se pudo subir el logo!"
 
-#: CTFd/utils/i18n/__init__.py:157
+#: CTFd/utils/i18n/__init__.py:199
 msgid "Okay"
 msgstr "OK"
 
-#: CTFd/utils/i18n/__init__.py:158
+#: CTFd/utils/i18n/__init__.py:200
 msgid "Remove icon"
 msgstr "Quitar ícono"
 
-#: CTFd/utils/i18n/__init__.py:159
+#: CTFd/utils/i18n/__init__.py:201
 msgid "Remove logo"
 msgstr "Quitar logo"
 
-#: CTFd/utils/i18n/__init__.py:160
+#: CTFd/utils/i18n/__init__.py:202
 msgid "Upload Progress"
 msgstr "Progreso de la subida"
 
-#: CTFd/utils/i18n/__init__.py:162
+#: CTFd/utils/i18n/__init__.py:204
 msgid "Saved"
 msgstr "Guardado"
 
-#: CTFd/utils/i18n/__init__.py:163
+#: CTFd/utils/i18n/__init__.py:205
 msgid "Your changes have been saved"
 msgstr "Se guardaron tus cambios"
 
-#: CTFd/utils/i18n/__init__.py:165
+#: CTFd/utils/i18n/__init__.py:207
 msgid "Could not send notification. Please try again."
 msgstr "No se pudo enviar la notificación. Probá de nuevo."
 
-#: CTFd/utils/i18n/__init__.py:168
+#: CTFd/utils/i18n/__init__.py:210
 msgid "page"
 msgstr "página"
 
-#: CTFd/utils/i18n/__init__.py:169
+#: CTFd/utils/i18n/__init__.py:211
 msgid "pages"
 msgstr "páginas"
 
-#: CTFd/utils/i18n/__init__.py:171
+#: CTFd/utils/i18n/__init__.py:213
 msgid "Are you sure you want to reset your CTFd instance?"
 msgstr "¿Seguro que querés reiniciar tu instancia de CTFd?"
 
-#: CTFd/utils/i18n/__init__.py:172
+#: CTFd/utils/i18n/__init__.py:214
 msgid "Reset CTF?"
 msgstr "¿Reiniciar el CTF?"
 
-#: CTFd/utils/i18n/__init__.py:174
+#: CTFd/utils/i18n/__init__.py:216
 msgid "Toggle Visibility"
 msgstr "Cambiar visibilidad"
 
-#: CTFd/utils/i18n/__init__.py:177
+#: CTFd/utils/i18n/__init__.py:219
 msgid "Category Breakdown"
 msgstr "Desafíos por categoría"
 
-#: CTFd/utils/i18n/__init__.py:180
+#: CTFd/utils/i18n/__init__.py:222
 msgid "Number of Teams"
 msgstr "Cantidad de equipos"
 
-#: CTFd/utils/i18n/__init__.py:181
+#: CTFd/utils/i18n/__init__.py:223
 msgid "Number of Users"
 msgstr "Cantidad de usuarios"
 
-#: CTFd/utils/i18n/__init__.py:182
+#: CTFd/utils/i18n/__init__.py:224
 msgid "Percentage of Teams (%)"
 msgstr "Porcentaje de equipos (%)"
 
-#: CTFd/utils/i18n/__init__.py:183
+#: CTFd/utils/i18n/__init__.py:225
 msgid "Percentage of Users (%)"
 msgstr "Porcentaje de usuarios (%)"
 
-#: CTFd/utils/i18n/__init__.py:184
+#: CTFd/utils/i18n/__init__.py:226
 msgid "Score Bracket"
 msgstr "Rango de puntaje"
 
-#: CTFd/utils/i18n/__init__.py:185
+#: CTFd/utils/i18n/__init__.py:227
 msgid "Score Distribution"
 msgstr "Distribución de puntajes"
 
-#: CTFd/utils/i18n/__init__.py:186
+#: CTFd/utils/i18n/__init__.py:228
 msgid "Solve Count"
 msgstr "Cantidad de resoluciones"
 
-#: CTFd/utils/i18n/__init__.py:187
+#: CTFd/utils/i18n/__init__.py:229
 msgid "Solve Counts"
 msgstr "Cantidad de resoluciones"
 
-#: CTFd/utils/i18n/__init__.py:188
+#: CTFd/utils/i18n/__init__.py:230
 msgid "Solve Percentages per Challenge"
 msgstr "Porcentaje de resoluciones por desafío"
 
-#: CTFd/utils/i18n/__init__.py:189
+#: CTFd/utils/i18n/__init__.py:231
 msgid "Submission Percentages"
 msgstr "Porcentaje de envíos"
 
-#: CTFd/utils/i18n/__init__.py:191
+#: CTFd/utils/i18n/__init__.py:233
 msgid ""
 "Are you sure you want to delete correct submission from {0} for challenge"
 " {1}"
 msgstr "¿Seguro que querés borrar el envío correcto de {0} para el desafío {1}?"
 
-#: CTFd/utils/i18n/__init__.py:192
+#: CTFd/utils/i18n/__init__.py:234
+msgid "Are you sure you want to mark 1 {0} correct?"
+msgstr "¿Seguro que querés marcar 1 {0} como correcto?"
+
+#: CTFd/utils/i18n/__init__.py:235
 msgid "Are you sure you want to mark {0} {1} correct?"
 msgstr "¿Seguro que querés marcar {0} {1} como correctos?"
 
-#: CTFd/utils/i18n/__init__.py:193
+#: CTFd/utils/i18n/__init__.py:236
 msgid "Copied!"
 msgstr "¡Copiado!"
 
-#: CTFd/utils/i18n/__init__.py:194
+#: CTFd/utils/i18n/__init__.py:237
 msgid "Delete Submission"
 msgstr "Borrar envío"
 
-#: CTFd/utils/i18n/__init__.py:195
+#: CTFd/utils/i18n/__init__.py:238
 msgid "Delete Submissions"
 msgstr "Borrar envíos"
 
-#: CTFd/utils/i18n/__init__.py:197
+#: CTFd/utils/i18n/__init__.py:240
 msgid "submission"
 msgstr "envío"
 
-#: CTFd/utils/i18n/__init__.py:198
+#: CTFd/utils/i18n/__init__.py:241
 msgid "submissions"
 msgstr "envíos"
 
-#: CTFd/utils/i18n/__init__.py:200
+#: CTFd/utils/i18n/__init__.py:243
+msgid "Are you sure you want to mark 1 {0} correct for {1}?"
+msgstr "¿Seguro que querés marcar 1 {0} como resuelto para {1}?"
+
+#: CTFd/utils/i18n/__init__.py:244
 msgid "Are you sure you want to mark {0} {1} correct for {2}?"
 msgstr "¿Seguro que querés marcar {0} {1} como resueltos para {2}?"
 
-#: CTFd/utils/i18n/__init__.py:201
+#: CTFd/utils/i18n/__init__.py:245
 msgid ""
 "Are you sure you want to remove {0} from {1}? <br><br><strong>All of "
 "their challenge solves, attempts, awards, and unlocked hints will also be"
@@ -4198,99 +4228,99 @@ msgstr ""
 " borrar todas sus resoluciones de desafíos, intentos, premios y pistas "
 "desbloqueadas!</strong>"
 
-#: CTFd/utils/i18n/__init__.py:204
+#: CTFd/utils/i18n/__init__.py:248
 msgid "Delete Awards"
 msgstr "Borrar premios"
 
-#: CTFd/utils/i18n/__init__.py:205
+#: CTFd/utils/i18n/__init__.py:249
 msgid "Delete Fails"
 msgstr "Borrar fallos"
 
-#: CTFd/utils/i18n/__init__.py:206
+#: CTFd/utils/i18n/__init__.py:250
 msgid "Delete Solves"
 msgstr "Borrar resoluciones"
 
-#: CTFd/utils/i18n/__init__.py:208
+#: CTFd/utils/i18n/__init__.py:252
 msgid "Mark Correct"
 msgstr "Marcar como correcto"
 
-#: CTFd/utils/i18n/__init__.py:209
+#: CTFd/utils/i18n/__init__.py:253
 msgid "Please select a team member"
 msgstr "Elegí un integrante del equipo"
 
-#: CTFd/utils/i18n/__init__.py:210
+#: CTFd/utils/i18n/__init__.py:254
 msgid "Remove Member"
 msgstr "Quitar integrante"
 
-#: CTFd/utils/i18n/__init__.py:211
+#: CTFd/utils/i18n/__init__.py:255
 msgid "User Attribution"
 msgstr "Atribución al usuario"
 
-#: CTFd/utils/i18n/__init__.py:212
+#: CTFd/utils/i18n/__init__.py:256
 msgid "Which user on {0} solved these challenges?"
 msgstr "¿Qué integrante de {0} resolvió estos desafíos?"
 
-#: CTFd/utils/i18n/__init__.py:213
+#: CTFd/utils/i18n/__init__.py:257
 msgid "award"
 msgstr "premio"
 
-#: CTFd/utils/i18n/__init__.py:214
+#: CTFd/utils/i18n/__init__.py:258
 msgid "awards"
 msgstr "premios"
 
-#: CTFd/utils/i18n/__init__.py:215
+#: CTFd/utils/i18n/__init__.py:259
 msgid "fail"
 msgstr "fallo"
 
-#: CTFd/utils/i18n/__init__.py:216
+#: CTFd/utils/i18n/__init__.py:260
 msgid "fails"
 msgstr "fallos"
 
-#: CTFd/utils/i18n/__init__.py:217
+#: CTFd/utils/i18n/__init__.py:261
 msgid "solve"
 msgstr "resolución"
 
-#: CTFd/utils/i18n/__init__.py:218
+#: CTFd/utils/i18n/__init__.py:262
 msgid "solves"
 msgstr "resoluciones"
 
-#: CTFd/utils/i18n/__init__.py:223
+#: CTFd/utils/i18n/__init__.py:267
 msgid "False"
 msgstr "No"
 
-#: CTFd/utils/i18n/__init__.py:224
+#: CTFd/utils/i18n/__init__.py:268
 msgid "True"
 msgstr "Sí"
 
-#: CTFd/utils/i18n/__init__.py:225 CTFd/utils/modes/__init__.py:37
+#: CTFd/utils/i18n/__init__.py:269 CTFd/utils/modes/__init__.py:37
 msgid "team"
 msgid_plural "teams"
 msgstr[0] "equipo"
 msgstr[1] "equipos"
 
-#: CTFd/utils/i18n/__init__.py:226
+#: CTFd/utils/i18n/__init__.py:270
 msgid "teams"
 msgstr "equipos"
 
-#: CTFd/utils/i18n/__init__.py:229
+#: CTFd/utils/i18n/__init__.py:273
 msgid "E-Mail sent successfully!"
 msgstr "¡El correo se envió correctamente!"
 
-#: CTFd/utils/i18n/__init__.py:234 CTFd/utils/modes/__init__.py:35
+#: CTFd/utils/i18n/__init__.py:278 CTFd/utils/modes/__init__.py:35
 msgid "user"
 msgid_plural "users"
 msgstr[0] "usuario"
 msgstr[1] "usuarios"
 
-#: CTFd/utils/i18n/__init__.py:235
+#: CTFd/utils/i18n/__init__.py:279
 msgid "users"
 msgstr "usuarios"
 
-#: CTFd/utils/i18n/__init__.py:237
+#: CTFd/utils/i18n/__init__.py:281
 msgid "Score over Time"
 msgstr "Puntaje en el tiempo"
 
-#: CTFd/utils/i18n/__init__.py:238
+#: CTFd/utils/i18n/__init__.py:282
 msgid "Solve Percentages"
 msgstr "Porcentaje de resoluciones"
 
@@ -4316,4 +4346,19 @@ msgstr "Idioma no válido"
 
 #~ msgid "Create Unofficial Team"
 #~ msgstr "Crear un equipo no oficial"
+
+#~ msgid ""
+#~ "In order to participate you must "
+#~ "either <a href=\"%(url)s\">join or create "
+#~ "a team</a>."
+#~ msgstr ""
+#~ "Para participar, tenés que <a "
+#~ "href=\"%(url)s\">unirte a un equipo o "
+#~ "crear uno</a>."
+
+#~ msgid "In order to participate you must either join or create a team."
+#~ msgstr "Para participar, tenés que unirte a un equipo o crear uno."
+
+#~ msgid "Welcome to"
+#~ msgstr "Te damos la bienvenida a"
 
