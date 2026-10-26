@@ -12,7 +12,7 @@
         {% include "components/errors.html" %}
 
         <p class="h3 text-center mt-md-4">
-          {% trans %}Welcome to{% endtrans %} <strong>{{ team.name }}</strong>!
+          {% trans name=team.name %}Welcome to <strong>{{ name }}</strong>!{% endtrans %}
         </p>
 
         <p class="text-center">

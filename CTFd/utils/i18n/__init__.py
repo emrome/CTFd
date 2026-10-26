@@ -231,6 +231,7 @@ JS_STRINGS = (
     N_("Submission Percentages"),
     # admin/assets/js/pages/submissions.js
     N_("Are you sure you want to delete correct submission from {0} for challenge {1}"),
+    N_("Are you sure you want to mark 1 {0} correct?"),
     N_("Are you sure you want to mark {0} {1} correct?"),
     N_("Copied!"),
     N_("Delete Submission"),
@@ -239,6 +240,7 @@ JS_STRINGS = (
     N_("submission"),
     N_("submissions"),
     # admin/assets/js/pages/team.js
+    N_("Are you sure you want to mark 1 {0} correct for {1}?"),
     N_("Are you sure you want to mark {0} {1} correct for {2}?"),
     N_(
         "Are you sure you want to remove {0} from {1}? <br><br><strong>All of their challenge solves, attempts, awards, and unlocked hints will also be deleted!</strong>"
