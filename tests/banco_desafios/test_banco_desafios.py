@@ -1,6 +1,4 @@
-import os
-
-from CTFd.models import ChallengeFiles, Challenges, Flags, Hints, Tags, Users
+from CTFd.models import ChallengeFiles, Challenges, Flags, Hints, Tags
 from CTFd.plugins.banco_desafios.banco import cargar_banco, nivel_desde_tags
 from tests.helpers import create_ctfd, destroy_ctfd, login_as_user, register_user
 
@@ -84,10 +82,18 @@ def test_importar_con_requisitos(tmpdir):
         segundo = Challenges.query.filter_by(name="Segundo").first()
         assert primero.value == 20 and segundo.value == 50
         assert segundo.requirements == {"prerequisites": [primero.id]}
-        assert Flags.query.filter_by(challenge_id=primero.id).first().data == "case_insensitive"
-        assert Flags.query.filter_by(challenge_id=segundo.id).first().content == "flag{b}"
+        assert (
+            Flags.query.filter_by(challenge_id=primero.id).first().data
+            == "case_insensitive"
+        )
+        assert (
+            Flags.query.filter_by(challenge_id=segundo.id).first().content == "flag{b}"
+        )
         assert Hints.query.filter_by(challenge_id=primero.id).first().cost == 5
-        assert Tags.query.filter_by(challenge_id=primero.id).first().value == "nivel: fácil"
+        assert (
+            Tags.query.filter_by(challenge_id=primero.id).first().value
+            == "nivel: fácil"
+        )
         archivo = ChallengeFiles.query.filter_by(challenge_id=primero.id).first()
         assert archivo.location.endswith("datos.txt")
 
