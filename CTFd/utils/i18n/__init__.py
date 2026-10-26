@@ -254,6 +254,9 @@ JS_STRINGS = (
     N_("Static"),
     N_("Update"),
     # escuelas/assets/js (and Alpine expressions in escuelas templates)
+    N_("You have no attempts left for this challenge."),
+    N_("1 challenge"),
+    N_("{0} challenges"),
     N_("Show"),
     N_("Hide"),
     N_("Do you want to see this hint? It will cost you points."),

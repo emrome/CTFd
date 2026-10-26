@@ -88,6 +88,9 @@ Alpine.data("Challenge", () => ({
   solvesLoaded: false,
   maxAttempts: 0,
   attempts: 0,
+  // False after the CTF ended (view_after_ctf): answers are checked but not recorded
+  countsSubmissions: true,
+  solvedByMe: false,
 
   async init() {
     highlight();
@@ -133,9 +136,34 @@ Alpine.data("Challenge", () => ({
     this.solvesLoaded = true;
   },
 
+  // Ask the server how many attempts the account has used (teammates count too)
+  async refreshAttempts() {
+    try {
+      const response = await CTFd.fetch(`/api/v1/challenges/${this.id}`, {
+        method: "GET",
+      });
+      const body = await response.json();
+      if (body.success && typeof body.data.attempts === "number") {
+        this.attempts = Math.min(body.data.attempts, this.maxAttempts);
+      }
+    } catch (error) {
+      // Keep the last known count
+    }
+  },
+
+  // True when the challenge has a limit of attempts and they were all used
+  noAttemptsLeft() {
+    return (
+      !this.solvedByMe && this.maxAttempts > 0 && this.attempts >= this.maxAttempts
+    );
+  },
+
   incorrectMessage() {
+    if (this.noAttemptsLeft()) {
+      return t("You have no attempts left for this challenge.");
+    }
     let texto = t("That is not the flag. Check the format and try again.");
-    if (this.maxAttempts > 0) {
+    if (this.maxAttempts > 0 && this.countsSubmissions) {
       const quedan = Math.max(this.maxAttempts - this.attempts, 0);
       texto +=
         " " +
@@ -209,7 +237,7 @@ Alpine.data("Challenge", () => ({
   },
 
   async submitChallenge() {
-    if (this.submitting) {
+    if (this.submitting || this.noAttemptsLeft()) {
       return;
     }
     this.submitting = true;
@@ -219,7 +247,7 @@ Alpine.data("Challenge", () => ({
         this.submission
       );
       if (this.response.data.status === "incorrect" && this.maxAttempts > 0) {
-        this.attempts += 1;
+        await this.refreshAttempts();
       }
     } catch (error) {
       this.response = {
@@ -239,6 +267,9 @@ Alpine.data("Challenge", () => ({
   async renderSubmissionResponse() {
     if (this.response.data.status === "correct") {
       this.submission = "";
+      if (this.countsSubmissions) {
+        this.solvedByMe = true;
+      }
     }
 
     // Dispatch load-challenges event to call loadChallenges in the ChallengeBoard

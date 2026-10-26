@@ -1,7 +1,7 @@
 {% from "macros/categorias.html" import color, nivel %}
 {% set es_equipo = Configs.user_mode == "teams" %}
 {% set nivel_txt = nivel(tags) %}
-<div :class="getStyles()" role="document" x-data="Challenge" x-init="id = {{ challenge.id }}; maxAttempts = {{ max_attempts or 0 }}; attempts = {{ attempts or 0 }}">
+<div :class="getStyles()" role="document" x-data="Challenge" x-init="id = {{ challenge.id }}; maxAttempts = {{ max_attempts or 0 }}; attempts = {{ attempts or 0 }}; solvedByMe = {{ 'true' if solved_by_me else 'false' }}; countsSubmissions = {{ 'false' if counts_submissions is defined and not counts_submissions else 'true' }}">
   <div class="modal-content">
     <div class="desafio">
       <button type="button" class="btn-link-plano desafio-volver" data-bs-dismiss="modal">
@@ -84,18 +84,26 @@
                     aria-describedby="flag-formato flag-resultado"
                     :aria-invalid="response && response.data.status == 'incorrect' ? 'true' : 'false'"
                     x-model="submission"
+                    :disabled="noAttemptsLeft()"
                 >
               {% endblock %}
               {% block submit %}
-                <button id="challenge-submit" class="challenge-submit btn btn-primary" type="submit" :disabled="submitting">
+                <button id="challenge-submit" class="challenge-submit btn btn-primary" type="submit" :disabled="submitting || noAttemptsLeft()">
                   <span x-show="!submitting">{% trans %}Submit{% endtrans %}</span>
                   <span x-show="submitting" x-cloak>{{ _("Sending…") }}</span>
                 </button>
               {% endblock %}
             </div>
 
-            <template x-if="maxAttempts > 0">
+            <template x-if="maxAttempts > 0 && !solvedByMe">
               <span class="campo-ayuda" x-text="t('Attempts used: {0} of {1}', attempts, maxAttempts)"></span>
+            </template>
+            <template x-if="noAttemptsLeft() && !response">
+              <div class="resultado">
+                <div class="resultado-linea resultado-mal" role="status">
+                  <span>{{ _("You have no attempts left for this challenge.") }}</span>
+                </div>
+              </div>
             </template>
 
             <div id="flag-resultado" class="notification-row" aria-live="polite">
@@ -104,7 +112,8 @@
                   <template x-if="response.data.status == 'correct'">
                     <div class="resultado-linea resultado-bien" role="status">
                       <span aria-hidden="true">✓</span>
-                      <span>{{ _("Well done! You captured the flag: +%(num)s pts.", num=challenge.value) }}</span>
+                      <span x-show="countsSubmissions">{{ _("Well done! You captured the flag: +%(num)s pts.", num=challenge.value) }}</span>
+                      <span x-show="!countsSubmissions" x-cloak>{{ _("That is the flag! The competition is over, so it does not add points.") }}</span>
                     </div>
                   </template>
                   <template x-if="response.data.status == 'already_solved'">

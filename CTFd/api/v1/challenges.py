@@ -442,6 +442,8 @@ class Challenge(Resource):
             max_attempts=chal.max_attempts,
             attempts=attempts,
             challenge=chal,
+            # Submissions only count (solves, fails) during the CTF or for staff
+            counts_submissions=ctftime() or is_admin() or is_author(),
         )
 
         db.session.close()
