@@ -37,7 +37,7 @@ translations-init:
 	pybabel init -i messages.pot -d CTFd/translations -l $(lang)
 
 translations-extract:
-	pybabel extract -F babel.cfg -k lazy_gettext -k _l -o messages.pot .
+	pybabel extract -F babel.cfg -k lazy_gettext -k _l -k lazy_pgettext:1c,2 -o messages.pot .
 
 translations-update:
 	pybabel update --ignore-obsolete -i messages.pot -d CTFd/translations
