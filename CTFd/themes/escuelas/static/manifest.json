@@ -5,11 +5,12 @@
     "isEntry": true
   },
   "assets/js/page.js": {
-    "file": "assets/page.c63490c0.js",
+    "file": "assets/page.4195ecef.js",
     "src": "assets/js/page.js",
     "isEntry": true,
     "imports": [
-      "assets/js/index.js"
+      "assets/js/index.js",
+      "_categorias.af5e0864.js"
     ]
   },
   "assets/js/setup.js": {
@@ -30,11 +31,12 @@
     ]
   },
   "assets/js/challenges.js": {
-    "file": "assets/challenges.427bf200.js",
+    "file": "assets/challenges.a06b5e24.js",
     "src": "assets/js/challenges.js",
     "isEntry": true,
     "imports": [
-      "assets/js/index.js"
+      "assets/js/index.js",
+      "_categorias.af5e0864.js"
     ]
   },
   "assets/js/scoreboard.js": {
@@ -118,6 +120,12 @@
   },
   "_echarts.128204f2.js": {
     "file": "assets/echarts.128204f2.js"
+  },
+  "_categorias.af5e0864.js": {
+    "file": "assets/categorias.af5e0864.js",
+    "imports": [
+      "assets/js/index.js"
+    ]
   },
   "_clipboard.30c7c4fa.js": {
     "file": "assets/clipboard.30c7c4fa.js",
