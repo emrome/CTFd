@@ -1,6 +1,7 @@
 from typing import List
 
 from flask import abort, request, session
+from flask_babel import gettext as _
 from flask_restx import Namespace, Resource
 
 from CTFd.api.v1.helpers.request import validate_args
@@ -103,7 +104,7 @@ class UserList(Resource):
             if is_admin() is False:
                 return {
                     "success": False,
-                    "errors": {"field": "Emails can only be queried by admins"},
+                    "errors": {"field": _("Emails can only be queried by admins")},
                 }, 400
 
         filters = build_model_filters(model=Users, query=q, field=field)
@@ -233,7 +234,7 @@ class UserPublic(Resource):
             data.get("banned") is True or data.get("banned") == "true"
         ):
             return (
-                {"success": False, "errors": {"id": "You cannot ban yourself"}},
+                {"success": False, "errors": {"id": _("You cannot ban yourself")}},
                 400,
             )
 
@@ -265,7 +266,7 @@ class UserPublic(Resource):
         # Admins should not be able to delete themselves
         if user_id == session["id"]:
             return (
-                {"success": False, "errors": {"id": "You cannot delete yourself"}},
+                {"success": False, "errors": {"id": _("You cannot delete yourself")}},
                 400,
             )
 
@@ -495,13 +496,19 @@ class UserEmails(Resource):
 
         if get_mail_provider() is None:
             return (
-                {"success": False, "errors": {"": ["Email settings not configured"]}},
+                {
+                    "success": False,
+                    "errors": {"": [_("Email settings not configured")]},
+                },
                 400,
             )
 
         if not text:
             return (
-                {"success": False, "errors": {"text": ["Email text cannot be empty"]}},
+                {
+                    "success": False,
+                    "errors": {"text": [_("Email text cannot be empty")]},
+                },
                 400,
             )
 

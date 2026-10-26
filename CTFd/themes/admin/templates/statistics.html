@@ -3,25 +3,25 @@
 {% block content %}
 <div class="jumbotron">
 	<div class="container">
-		<h1>Estadísticas</h1>
+		<h1>{% trans %}Statistics{% endtrans %}</h1>
 	</div>
 </div>
 <div class="container">
 	<div class="row d-flex align-items-center">
 		<div class="col-md-4 text-right">
-			<h5><b>{{ user_count }}</b> usuarios registrados</h5>
+			<h5>{% trans user_count=user_count %}<b>{{ user_count }}</b> users registered{% endtrans %}</h5>
 			{% if get_config('user_mode') == 'teams' %}
-			<h5><b>{{ team_count }}</b> equipos registrados</h5>
+			<h5>{% trans team_count=team_count %}<b>{{ team_count }}</b> teams registered{% endtrans %}</h5>
 			{% endif %}
-			<h5><b>{{ ip_count }}</b> direcciones IP</h5>
+			<h5>{% trans ip_count=ip_count %}<b>{{ ip_count }}</b> IP addresses{% endtrans %}</h5>
 			<hr>
-			<h5><b>{{ total_points }}</b> puntos posibles en total</h5>
-			<h5><b>{{ challenge_count }}</b> desafíos</h5>
+			<h5>{% trans total_points=total_points %}<b>{{ total_points }}</b> total possible points{% endtrans %}</h5>
+			<h5>{% trans challenge_count=challenge_count %}<b>{{ challenge_count }}</b> challenges{% endtrans %}</h5>
 			{% if most_solved %}
-				<h5><b>{{ most_solved }}</b> es el que tiene más resoluciones, con <br>{{ solve_data[most_solved] }} resoluciones</h5>
+				<h5>{% trans name=most_solved, count=solve_data[most_solved] %}<b>{{ name }}</b> has the most solves with <br>{{ count }} solves{% endtrans %}</h5>
 			{% endif %}
 			{% if least_solved %}
-			<h5><b>{{ least_solved }}</b> es el que tiene menos resoluciones, con <br>{{ solve_data[least_solved] }} resoluciones</h5>
+			<h5>{% trans name=least_solved, count=solve_data[least_solved] %}<b>{{ name }}</b> has the least solves with <br>{{ count }} solves{% endtrans %}</h5>
 			{% endif %}
 		</div>
 
@@ -68,8 +68,8 @@
 				</div>
 			</div>
 			<div class="text-center">
-				<h5><b>{{ solve_count }}</b> envíos correctos</h5>
-				<h5><b>{{ wrong_count }}</b> envíos incorrectos</h5>
+				<h5>{% trans solve_count=solve_count %}<b>{{ solve_count }}</b> right submissions{% endtrans %}</h5>
+				<h5>{% trans wrong_count=wrong_count %}<b>{{ wrong_count }}</b> wrong submissions{% endtrans %}</h5>
 			</div>
 		</div>
 		<div class="col-md-6">

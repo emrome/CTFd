@@ -1,5 +1,7 @@
 from flask import Blueprint, current_app
+from flask_babel import gettext as _
 from flask_restx import Api
+from werkzeug.exceptions import Forbidden, NotFound
 
 from CTFd.api.v1.awards import awards_namespace
 from CTFd.api.v1.challenges import challenges_namespace
@@ -46,6 +48,30 @@ CTFd_API_v1 = Api(
     },
     security=["AccessToken", "ContentType"],
 )
+
+
+def _default_description(e, translated):
+    # Only replace Werkzeug's stock text. A description passed to abort() is kept.
+    if e.description == type(e).description:
+        return translated
+    return e.description
+
+
+@CTFd_API_v1.errorhandler(Forbidden)
+def handle_forbidden(e):
+    message = _(
+        "You don't have the permission to access the requested resource. It is either read-protected or not readable by the server."
+    )
+    return {"message": _default_description(e, message)}, 403
+
+
+@CTFd_API_v1.errorhandler(NotFound)
+def handle_not_found(e):
+    message = _(
+        "The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again."
+    )
+    return {"message": _default_description(e, message)}, 404
+
 
 CTFd_API_v1.schema_model("APISimpleErrorResponse", APISimpleErrorResponse.schema())
 CTFd_API_v1.schema_model(

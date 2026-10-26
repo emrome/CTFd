@@ -6,7 +6,7 @@
           <div class="container">
             <div class="row">
               <div class="col-md-12">
-                <h3>Pista</h3>
+                <h3>{{ t("Hint") }}</h3>
               </div>
             </div>
           </div>
@@ -14,7 +14,7 @@
             type="button"
             class="close"
             data-dismiss="modal"
-            aria-label="Cerrar"
+            :aria-label="t('Close')"
           >
             <span aria-hidden="true">&times;</span>
           </button>
@@ -26,8 +26,8 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label>
-                      Pista<br />
-                      <small>Se admite Markdown y HTML</small>
+                      {{ t("Hint") }}<br />
+                      <small>{{ t("Markdown & HTML are supported") }}</small>
                     </label>
                     <!-- Explicitly don't put the markdown class on this because we will add it later -->
                     <textarea
@@ -42,8 +42,10 @@
 
                   <div class="form-group">
                     <label>
-                      Costo<br />
-                      <small>Cuántos puntos cuesta ver tu pista.</small>
+                      {{ t("Cost") }}<br />
+                      <small>{{
+                        t("How many points it costs to see your hint.")
+                      }}</small>
                     </label>
                     <input
                       type="number"
@@ -55,11 +57,12 @@
 
                   <div class="form-group">
                     <label>
-                      Requisitos<br />
-                      <small
-                        >Pistas que hay que desbloquear antes de desbloquear
-                        esta</small
-                      >
+                      {{ t("Requirements") }}<br />
+                      <small>{{
+                        t(
+                          "Hints that must be unlocked before unlocking this hint"
+                        )
+                      }}</small>
                     </label>
                     <div
                       class="form-check"
@@ -85,7 +88,9 @@
             <div class="container">
               <div class="row">
                 <div class="col-md-12">
-                  <button class="btn btn-primary float-right">Enviar</button>
+                  <button class="btn btn-primary float-right">
+                    {{ t("Submit") }}
+                  </button>
                 </div>
               </div>
             </div>
@@ -99,6 +104,7 @@
 <script>
 import CTFd from "core/CTFd";
 import { bindMarkdownEditor } from "../../styles";
+import { t } from "core/i18n";
 
 export default {
   name: "HintEditForm",
@@ -133,6 +139,7 @@ export default {
     }
   },
   methods: {
+    t,
     loadHint: function() {
       CTFd.fetch(`/api/v1/hints/${this.$props.hint_id}?preview=true`, {
         method: "GET",

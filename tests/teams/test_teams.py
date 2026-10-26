@@ -249,3 +249,21 @@ def test_team_creation_disable():
             r = client.post("/teams/new", data=data)
             assert r.status_code == 403
     destroy_ctfd(app)
+
+
+def test_teamless_user_pages_in_teams_mode():
+    """A user without a team can open /team and /user in both themes"""
+    app = create_ctfd(user_mode="teams")
+    with app.app_context():
+        register_user(app)
+        for theme in ("core", "core-beta"):
+            set_config("ctf_theme", theme)
+            with login_as_user(app) as client:
+                r = client.get("/team")
+                assert r.status_code == 200
+                html = r.get_data(as_text=True)
+                assert "/teams/join" in html
+                assert "/teams/new" not in html
+                r = client.get("/user")
+                assert r.status_code == 200
+    destroy_ctfd(app)

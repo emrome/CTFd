@@ -4,6 +4,8 @@ import os
 import sys
 
 from flask import abort, redirect, render_template, request, session, url_for
+from flask_babel import gettext as _
+from flask_babel import pgettext
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
@@ -23,6 +25,7 @@ from CTFd.utils.config.pages import get_pages
 from CTFd.utils.dates import isoformat, unix_time, unix_time_millis, unix_time_to_utc
 from CTFd.utils.events import EventManager, RedisEventManager
 from CTFd.utils.humanize.words import pluralize
+from CTFd.utils.i18n import get_js_translations
 from CTFd.utils.modes import generate_account_url, get_mode_as_word
 from CTFd.utils.plugins import (
     get_configurable_plugins,
@@ -97,6 +100,9 @@ def init_template_globals(app):
     app.jinja_env.globals.update(generate_account_url=generate_account_url)
     app.jinja_env.globals.update(get_countries=get_countries)
     app.jinja_env.globals.update(lookup_country_code=lookup_country_code)
+    # Flask-Babel 2 only installs gettext and ngettext in Jinja
+    app.jinja_env.globals.update(pgettext=pgettext)
+    app.jinja_env.globals.update(get_js_translations=get_js_translations)
     app.jinja_env.globals.update(lookup_ip_address=lookup_ip_address)
     app.jinja_env.globals.update(lookup_ip_address_city=lookup_ip_address_city)
     app.jinja_env.globals.update(accounts_visible=accounts_visible)
@@ -268,7 +274,7 @@ def init_request_processors(app):
             if user and user.banned:
                 return (
                     render_template(
-                        "errors/403.html", error="You have been banned from this CTF"
+                        "errors/403.html", error=_("You have been banned from this CTF")
                     ),
                     403,
                 )
@@ -277,7 +283,7 @@ def init_request_processors(app):
                 return (
                     render_template(
                         "errors/403.html",
-                        error="Your team has been banned from this CTF",
+                        error=_("Your team has been banned from this CTF"),
                     ),
                     403,
                 )
@@ -300,7 +306,7 @@ def init_request_processors(app):
             except UserNotFoundException:
                 abort(401)
             except UserTokenExpiredException:
-                abort(401, description="Your access token has expired")
+                abort(401, description=_("Your access token has expired"))
             except Exception:
                 abort(401)
             else:

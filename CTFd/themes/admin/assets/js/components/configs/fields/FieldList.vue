@@ -17,7 +17,7 @@
           type="button"
           @click="addField()"
         >
-          Agregar campo nuevo
+          {{ t("Add New Field") }}
         </button>
       </div>
     </div>
@@ -27,6 +27,7 @@
 <script>
 import CTFd from "core/CTFd";
 import Field from "./Field.vue";
+import { t } from "core/i18n";
 
 export default {
   name: "FieldList",
@@ -42,6 +43,7 @@ export default {
     };
   },
   methods: {
+    t,
     loadFields: function() {
       CTFd.fetch(`/api/v1/configs/fields?type=${this.type}`, {
         method: "GET",

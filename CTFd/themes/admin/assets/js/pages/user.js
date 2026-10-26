@@ -6,6 +6,7 @@ import { ezQuery, ezBadge } from "core/ezq";
 import { createGraph, updateGraph } from "core/graphs";
 import Vue from "vue/dist/vue.esm.browser";
 import CommentBox from "../components/comments/CommentBox.vue";
+import { t } from "core/i18n";
 
 function createUser(event) {
   event.preventDefault();
@@ -121,8 +122,9 @@ function updateUser(event) {
 function deleteUser(event) {
   event.preventDefault();
   ezQuery({
-    title: "Borrar usuario",
-    body: "¿Seguro que querés borrar {0}?".format(
+    title: t("Delete User"),
+    body: t(
+      "Are you sure you want to delete {0}",
       "<strong>" + htmlEntities(window.USER_NAME) + "</strong>"
     ),
     success: function() {
@@ -199,7 +201,7 @@ function emailUser(event) {
         $("#user-mail-form > #results").append(
           ezBadge({
             type: "success",
-            body: "¡El correo se envió correctamente!"
+            body: t("E-Mail sent successfully!")
           })
         );
         $("#user-mail-form")
@@ -230,13 +232,18 @@ function correctSubmissions(_event) {
   let submissionIDs = submissions.map(function() {
     return $(this).data("submission-id");
   });
-  let target = submissionIDs.length === 1 ? "envío" : "envíos";
+  let target = submissionIDs.length === 1 ? t("submission") : t("submissions");
 
   ezQuery({
-    title: "Marcar envíos como correctos",
-    body: `¿Seguro que querés marcar ${
-      submissionIDs.length
-    } ${target} como correctos?`,
+    title: t("Mark submissions correct"),
+    body:
+      submissionIDs.length === 1
+        ? t("Are you sure you want to mark 1 {0} correct?", target)
+        : t(
+            "Are you sure you want to mark {0} {1} correct?",
+            submissionIDs.length,
+            target
+          ),
     success: function() {
       const reqs = [];
       for (var subId of submissionIDs) {
@@ -266,15 +273,15 @@ function deleteSelectedSubmissions(event, target) {
   switch (target) {
     case "solves":
       submissions = $("input[data-submission-type=correct]:checked");
-      type = "resolución";
-      types = "resoluciones";
-      title = "resoluciones";
+      type = t("solve");
+      types = t("solves");
+      title = t("Delete Solves");
       break;
     case "fails":
       submissions = $("input[data-submission-type=incorrect]:checked");
-      type = "fallo";
-      types = "fallos";
-      title = "fallos";
+      type = t("fail");
+      types = t("fails");
+      title = t("Delete Fails");
       break;
     default:
       break;
@@ -286,8 +293,12 @@ function deleteSelectedSubmissions(event, target) {
   let target_string = submissionIDs.length === 1 ? type : types;
 
   ezQuery({
-    title: `Borrar ${title}`,
-    body: `¿Seguro que querés borrar ${submissionIDs.length} ${target_string}?`,
+    title: title,
+    body: t(
+      "Are you sure you want to delete {0} {1}?",
+      submissionIDs.length,
+      target_string
+    ),
     success: function() {
       const reqs = [];
       for (var subId of submissionIDs) {
@@ -304,11 +315,15 @@ function deleteSelectedAwards(_event) {
   let awardIDs = $("input[data-award-id]:checked").map(function() {
     return $(this).data("award-id");
   });
-  let target = awardIDs.length === 1 ? "premio" : "premios";
+  let target = awardIDs.length === 1 ? t("award") : t("awards");
 
   ezQuery({
-    title: `Borrar premios`,
-    body: `¿Seguro que querés borrar ${awardIDs.length} ${target}?`,
+    title: t("Delete Awards"),
+    body: t(
+      "Are you sure you want to delete {0} {1}?",
+      awardIDs.length,
+      target
+    ),
     success: function() {
       const reqs = [];
       for (var awardID of awardIDs) {
@@ -336,13 +351,23 @@ function solveSelectedMissingChallenges(event) {
       return $(this).data("missing-challenge-id");
     }
   );
-  let target = challengeIDs.length === 1 ? "desafío" : "desafíos";
+  let target = challengeIDs.length === 1 ? t("challenge") : t("challenges");
 
   ezQuery({
-    title: `Marcar como correcto`,
-    body: `¿Seguro que querés marcar ${
-      challengeIDs.length
-    } ${target} como resueltos para ${htmlEntities(window.USER_NAME)}?`,
+    title: t("Mark Correct"),
+    body:
+      challengeIDs.length === 1
+        ? t(
+            "Are you sure you want to mark 1 {0} correct for {1}?",
+            target,
+            htmlEntities(window.USER_NAME)
+          )
+        : t(
+            "Are you sure you want to mark {0} {1} correct for {2}?",
+            challengeIDs.length,
+            target,
+            htmlEntities(window.USER_NAME)
+          ),
     success: function() {
       const reqs = [];
       for (var challengeID of challengeIDs) {

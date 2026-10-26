@@ -13,9 +13,9 @@
 
     <div class="form-group">
       <label
-        >Etiqueta
+        >{{ t("Tag") }}
         <br />
-        <small class="text-muted">Escribí la etiqueta y apretá Enter</small>
+        <small class="text-muted">{{ t("Type tag and press Enter") }}</small>
       </label>
       <input
         id="tags-add-input"
@@ -32,6 +32,7 @@
 <script>
 import $ from "jquery";
 import CTFd from "core/CTFd";
+import { t } from "core/i18n";
 
 export default {
   props: {
@@ -44,6 +45,7 @@ export default {
     };
   },
   methods: {
+    t,
     loadTags: function() {
       CTFd.fetch(`/api/v1/challenges/${this.$props.challenge_id}/tags`, {
         method: "GET",

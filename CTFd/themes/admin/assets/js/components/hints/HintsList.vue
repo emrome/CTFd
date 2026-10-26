@@ -23,9 +23,15 @@
       <thead>
         <tr>
           <td class="text-center"><b>ID</b></td>
-          <td class="text-center"><b>Pista</b></td>
-          <td class="text-center"><b>Costo</b></td>
-          <td class="text-center"><b>Ajustes</b></td>
+          <td class="text-center">
+            <b>{{ t("Hint") }}</b>
+          </td>
+          <td class="text-center">
+            <b>{{ t("Cost") }}</b>
+          </td>
+          <td class="text-center">
+            <b>{{ t("Settings") }}</b>
+          </td>
         </tr>
       </thead>
       <tbody>
@@ -52,7 +58,7 @@
     </table>
     <div class="col-md-12">
       <button class="btn btn-success float-right" @click="addHint">
-        Crear pista
+        {{ t("Create Hint") }}
       </button>
     </div>
   </div>
@@ -63,6 +69,7 @@ import { ezQuery } from "core/ezq";
 import CTFd from "core/CTFd";
 import HintCreationForm from "./HintCreationForm.vue";
 import HintEditForm from "./HintEditForm.vue";
+import { t } from "core/i18n";
 
 export default {
   components: {
@@ -79,6 +86,7 @@ export default {
     };
   },
   methods: {
+    t,
     loadHints: function() {
       CTFd.fetch(`/api/v1/challenges/${this.$props.challenge_id}/hints`, {
         method: "GET",
@@ -125,8 +133,8 @@ export default {
     },
     deleteHint: function(hintId) {
       ezQuery({
-        title: "Borrar pista",
-        body: "¿Seguro que querés borrar esta pista?",
+        title: t("Delete Hint"),
+        body: t("Are you sure you want to delete this hint?"),
         success: () => {
           CTFd.fetch(`/api/v1/hints/${hintId}`, {
             method: "DELETE"

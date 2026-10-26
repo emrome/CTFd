@@ -8,6 +8,8 @@ import os
 import unicodedata
 
 import yaml
+from flask_babel import gettext as _
+from flask_babel import lazy_gettext as _l
 
 NIVELES = ["introductorio", "facil", "medio", "avanzado"]
 
@@ -25,10 +27,10 @@ ALIAS_NIVEL = {
 }
 
 NOMBRE_NIVEL = {
-    "introductorio": "Introductorio",
-    "facil": "Fácil",
-    "medio": "Medio",
-    "avanzado": "Avanzado",
+    "introductorio": _l("Introductory"),
+    "facil": _l("Easy"),
+    "medio": _l("Medium"),
+    "avanzado": _l("Advanced"),
 }
 
 
@@ -83,7 +85,7 @@ class Desafio(object):
 
     @property
     def nombre_nivel(self):
-        return NOMBRE_NIVEL.get(self.nivel, "Sin nivel")
+        return NOMBRE_NIVEL.get(self.nivel, _("No level"))
 
     @property
     def requisitos(self):
@@ -103,15 +105,17 @@ class Desafio(object):
     def errores(self):
         errores = []
         if not self.nombre:
-            errores.append("falta el nombre")
+            errores.append(_("missing name"))
         if not self.datos.get("flags"):
-            errores.append("no tiene flags")
+            errores.append(_("has no flags"))
         tipo = self.datos.get("type", "standard")
         if tipo not in ("standard", "dynamic"):
-            errores.append("tipo no soportado: {}".format(tipo))
+            errores.append(_("unsupported type: %(type)s", type=tipo))
         for archivo in self.archivos:
             if not os.path.isfile(archivo):
-                errores.append("falta el archivo {}".format(os.path.basename(archivo)))
+                errores.append(
+                    _("missing file %(file)s", file=os.path.basename(archivo))
+                )
         return errores
 
 

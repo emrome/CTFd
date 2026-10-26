@@ -16,6 +16,7 @@ import TagsList from "../components/tags/TagsList.vue";
 import ChallengeFilesList from "../components/files/ChallengeFilesList.vue";
 import HintsList from "../components/hints/HintsList.vue";
 import NextChallenge from "../components/next/NextChallenge.vue";
+import { t } from "core/i18n";
 
 function loadChalTemplate(challenge) {
   CTFd._internal.challenge = {};
@@ -154,8 +155,9 @@ $(() => {
 
   $(".delete-challenge").click(function(_e) {
     ezQuery({
-      title: "Borrar desafío",
-      body: "¿Seguro que querés borrar {0}?".format(
+      title: t("Delete Challenge"),
+      body: t(
+        "Are you sure you want to delete {0}",
         "<strong>" + htmlEntities(window.CHALLENGE_NAME) + "</strong>"
       ),
       success: function() {
@@ -205,7 +207,10 @@ $(() => {
             })
             .then(function(response) {
               if (response.success) {
-                const stateLabels = { visible: "visible", hidden: "oculto" };
+                const stateLabels = {
+                  visible: t("visible"),
+                  hidden: t("hidden")
+                };
                 $(".challenge-state").text(
                   stateLabels[response.data.state] || response.data.state
                 );
@@ -224,8 +229,8 @@ $(() => {
                     break;
                 }
                 ezToast({
-                  title: "Listo",
-                  body: "¡Se actualizó tu desafío!"
+                  title: t("Success"),
+                  body: t("Your challenge has been updated!")
                 });
               } else {
                 let body = "";
@@ -245,9 +250,10 @@ $(() => {
         // Check if the challenge doesn't have any flags before marking visible
         if (response.data.length === 0 && params.state === "visible") {
           ezQuery({
-            title: "Faltan flags",
-            body:
-              "Este desafío no tiene ninguna flag, así que puede que no se pueda resolver. ¿Seguro que querés actualizarlo?",
+            title: t("Missing Flags"),
+            body: t(
+              "This challenge does not have any flags meaning it may be unsolveable. Are you sure you'd like to update this challenge?"
+            ),
             success: update_challenge
           });
         } else {

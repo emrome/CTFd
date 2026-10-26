@@ -3,8 +3,12 @@
     <table id="filesboard" class="table table-striped">
       <thead>
         <tr>
-          <td class="text-center"><b>Archivo</b></td>
-          <td class="text-center"><b>Ajustes</b></td>
+          <td class="text-center">
+            <b>{{ t("File") }}</b>
+          </td>
+          <td class="text-center">
+            <b>{{ t("Settings") }}</b>
+          </td>
         </tr>
       </thead>
       <tbody>
@@ -38,7 +42,7 @@
             type="file"
           />
           <sub class="text-muted">
-            Para adjuntar varios archivos, usá Control+Clic o Cmd+Clic.
+            {{ t("Attach multiple files using Control+Click or Cmd+Click.") }}
           </sub>
         </div>
         <div class="form-group">
@@ -47,7 +51,7 @@
             id="_submit"
             name="_submit"
             type="submit"
-            value="Subir"
+            :value="t('Upload')"
           />
         </div>
       </form>
@@ -59,6 +63,7 @@
 import { ezQuery } from "core/ezq";
 import { default as helpers } from "core/helpers";
 import CTFd from "core/CTFd";
+import { t } from "core/i18n";
 
 export default {
   props: {
@@ -71,6 +76,7 @@ export default {
     };
   },
   methods: {
+    t,
     loadFiles: function() {
       CTFd.fetch(`/api/v1/challenges/${this.$props.challenge_id}/files`, {
         method: "GET"
@@ -98,8 +104,8 @@ export default {
     },
     deleteFile: function(fileId) {
       ezQuery({
-        title: "Borrar archivos",
-        body: "¿Seguro que querés borrar este archivo?",
+        title: t("Delete Files"),
+        body: t("Are you sure you want to delete this file?"),
         success: () => {
           CTFd.fetch(`/api/v1/files/${fileId}`, {
             method: "DELETE"

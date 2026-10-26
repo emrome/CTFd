@@ -8,6 +8,7 @@ import Vue from "vue/dist/vue.esm.browser";
 import CommentBox from "../components/comments/CommentBox.vue";
 import UserAddForm from "../components/teams/UserAddForm.vue";
 import { copyToClipboard } from "../../../../core/assets/js/utils";
+import { t } from "core/i18n";
 
 function createTeam(event) {
   event.preventDefault();
@@ -117,13 +118,18 @@ function correctSubmissions(_event) {
   let submissionIDs = submissions.map(function() {
     return $(this).data("submission-id");
   });
-  let target = submissionIDs.length === 1 ? "envío" : "envíos";
+  let target = submissionIDs.length === 1 ? t("submission") : t("submissions");
 
   ezQuery({
-    title: "Marcar envíos como correctos",
-    body: `¿Seguro que querés marcar ${
-      submissionIDs.length
-    } ${target} como correctos?`,
+    title: t("Mark submissions correct"),
+    body:
+      submissionIDs.length === 1
+        ? t("Are you sure you want to mark 1 {0} correct?", target)
+        : t(
+            "Are you sure you want to mark {0} {1} correct?",
+            submissionIDs.length,
+            target
+          ),
     success: function() {
       const reqs = [];
       for (var subId of submissionIDs) {
@@ -153,15 +159,15 @@ function deleteSelectedSubmissions(event, target) {
   switch (target) {
     case "solves":
       submissions = $("input[data-submission-type=correct]:checked");
-      type = "resolución";
-      types = "resoluciones";
-      title = "resoluciones";
+      type = t("solve");
+      types = t("solves");
+      title = t("Delete Solves");
       break;
     case "fails":
       submissions = $("input[data-submission-type=incorrect]:checked");
-      type = "fallo";
-      types = "fallos";
-      title = "fallos";
+      type = t("fail");
+      types = t("fails");
+      title = t("Delete Fails");
       break;
     default:
       break;
@@ -173,8 +179,12 @@ function deleteSelectedSubmissions(event, target) {
   let target_string = submissionIDs.length === 1 ? type : types;
 
   ezQuery({
-    title: `Borrar ${title}`,
-    body: `¿Seguro que querés borrar ${submissionIDs.length} ${target_string}?`,
+    title: title,
+    body: t(
+      "Are you sure you want to delete {0} {1}?",
+      submissionIDs.length,
+      target_string
+    ),
     success: function() {
       const reqs = [];
       for (var subId of submissionIDs) {
@@ -191,11 +201,15 @@ function deleteSelectedAwards(_event) {
   let awardIDs = $("input[data-award-id]:checked").map(function() {
     return $(this).data("award-id");
   });
-  let target = awardIDs.length === 1 ? "premio" : "premios";
+  let target = awardIDs.length === 1 ? t("award") : t("awards");
 
   ezQuery({
-    title: `Borrar premios`,
-    body: `¿Seguro que querés borrar ${awardIDs.length} ${target}?`,
+    title: t("Delete Awards"),
+    body: t(
+      "Are you sure you want to delete {0} {1}?",
+      awardIDs.length,
+      target
+    ),
     success: function() {
       const reqs = [];
       for (var awardID of awardIDs) {
@@ -223,25 +237,36 @@ function solveSelectedMissingChallenges(event) {
       return $(this).data("missing-challenge-id");
     }
   );
-  let target = challengeIDs.length === 1 ? "desafío" : "desafíos";
+  let target = challengeIDs.length === 1 ? t("challenge") : t("challenges");
 
   ezQuery({
-    title: `Marcar como correcto`,
-    body: `¿Seguro que querés marcar ${
-      challengeIDs.length
-    } ${target} como resueltos para ${htmlEntities(window.TEAM_NAME)}?`,
+    title: t("Mark Correct"),
+    body:
+      challengeIDs.length === 1
+        ? t(
+            "Are you sure you want to mark 1 {0} correct for {1}?",
+            target,
+            htmlEntities(window.TEAM_NAME)
+          )
+        : t(
+            "Are you sure you want to mark {0} {1} correct for {2}?",
+            challengeIDs.length,
+            target,
+            htmlEntities(window.TEAM_NAME)
+          ),
     success: function() {
       ezAlert({
-        title: `Atribución al usuario`,
+        title: t("User Attribution"),
         body: `
-        ¿Qué integrante de ${htmlEntities(
-          window.TEAM_NAME
-        )} resolvió estos desafíos?
+        ${t(
+          "Which user on {0} solved these challenges?",
+          htmlEntities(window.TEAM_NAME)
+        )}
         <div class="pb-3" id="query-team-member-solve">
         ${$("#team-member-select").html()}
         </div>
         `,
-        button: "Marcar como correcto",
+        button: t("Mark Correct"),
         success: function() {
           const USER_ID = $("#query-team-member-solve > select").val();
           const reqs = [];
@@ -463,7 +488,7 @@ $(() => {
       $("#user-award-form > #results").append(
         ezBadge({
           type: "error",
-          body: "Elegí un integrante del equipo"
+          body: t("Please select a team member")
         })
       );
       return;
@@ -517,8 +542,9 @@ $(() => {
       .parent();
 
     ezQuery({
-      title: "Quitar integrante",
-      body: "¿Seguro que querés quitar a {0} de {1}? <br><br><strong>¡También se van a borrar todas sus resoluciones de desafíos, intentos, premios y pistas desbloqueadas!</strong>".format(
+      title: t("Remove Member"),
+      body: t(
+        "Are you sure you want to remove {0} from {1}? <br><br><strong>All of their challenge solves, attempts, awards, and unlocked hints will also be deleted!</strong>",
         "<strong>" + htmlEntities(member_name) + "</strong>",
         "<strong>" + htmlEntities(window.TEAM_NAME) + "</strong>"
       ),
@@ -541,8 +567,9 @@ $(() => {
 
   $(".delete-team").click(function(_e) {
     ezQuery({
-      title: "Borrar equipo",
-      body: "¿Seguro que querés borrar {0}?".format(
+      title: t("Delete Team"),
+      body: t(
+        "Are you sure you want to delete {0}",
         "<strong>" + htmlEntities(window.TEAM_NAME) + "</strong>"
       ),
       success: function() {

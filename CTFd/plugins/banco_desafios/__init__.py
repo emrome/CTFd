@@ -4,6 +4,7 @@ repositorio (directorio con challenge.yml en formato ctfcli) e importarlos a la
 instancia sin usar la linea de comandos.
 """
 from flask import Blueprint, render_template, request
+from flask_babel import lazy_gettext as _l
 
 from CTFd.models import Challenges
 from CTFd.plugins import register_admin_plugin_menu_bar
@@ -62,4 +63,4 @@ def importar_seleccionados():
 
 def load(app):
     app.register_blueprint(banco_desafios)
-    register_admin_plugin_menu_bar(title="Banco de desafíos", route="/admin/banco")
+    register_admin_plugin_menu_bar(title=_l("Challenge Bank"), route="/admin/banco")

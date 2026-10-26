@@ -19,9 +19,13 @@
     <table id="flagsboard" class="table table-striped">
       <thead>
         <tr>
-          <td class="text-center"><b>Tipo</b></td>
+          <td class="text-center">
+            <b>{{ t("Type") }}</b>
+          </td>
           <td class="text-center"><b>Flag</b></td>
-          <td class="text-center"><b>Ajustes</b></td>
+          <td class="text-center">
+            <b>{{ t("Settings") }}</b>
+          </td>
         </tr>
       </thead>
       <tbody>
@@ -55,7 +59,7 @@
         class="btn btn-success d-inline-block float-right"
         @click="addFlag()"
       >
-        Crear flag
+        {{ t("Create Flag") }}
       </button>
     </div>
   </div>
@@ -66,6 +70,7 @@ import $ from "jquery";
 import CTFd from "core/CTFd";
 import FlagCreationForm from "./FlagCreationForm.vue";
 import FlagEditForm from "./FlagEditForm.vue";
+import { t } from "core/i18n";
 
 export default {
   components: {
@@ -82,6 +87,7 @@ export default {
     };
   },
   methods: {
+    t,
     loadFlags: function() {
       CTFd.fetch(`/api/v1/challenges/${this.$props.challenge_id}/flags`, {
         method: "GET",
@@ -126,7 +132,7 @@ export default {
       $(modal).modal();
     },
     deleteFlag: function(flag_id) {
-      if (confirm("¿Seguro que querés borrar esta flag?")) {
+      if (confirm(t("Are you sure you'd like to delete this flag?"))) {
         CTFd.fetch(`/api/v1/flags/${flag_id}`, {
           method: "DELETE"
         })

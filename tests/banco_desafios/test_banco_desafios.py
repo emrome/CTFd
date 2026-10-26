@@ -75,7 +75,7 @@ def test_importar_con_requisitos(tmpdir):
             )
             html = r.get_data(as_text=True)
             assert r.status_code == 200
-            assert "Se importaron 2" in html
+            assert "Imported 2 challenges" in html
             assert "Fuera del banco" in html
 
         primero = Challenges.query.filter_by(name="Primero").first()
@@ -107,7 +107,7 @@ def test_importar_con_requisitos(tmpdir):
                 "/admin/banco",
                 data={"desafio": ["osint/primero"], "nonce": nonce},
             )
-            assert "ya importado" in r.get_data(as_text=True)
+            assert "already imported" in r.get_data(as_text=True)
         assert Challenges.query.filter_by(name="Primero").count() == 1
     destroy_ctfd(app)
 

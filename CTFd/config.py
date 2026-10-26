@@ -239,6 +239,10 @@ class ServerConfig(object):
 
     SAFE_MODE: bool = process_boolean_str(empty_str_cast(config_ini["optional"].get("SAFE_MODE", False), default=False))
 
+    DEFAULT_LOCALE: str = empty_str_cast(config_ini["optional"].get("DEFAULT_LOCALE", ""), default="es")
+
+    BABEL_DEFAULT_LOCALE: str = DEFAULT_LOCALE
+
     if DATABASE_URL.startswith("sqlite") is False:
         SQLALCHEMY_ENGINE_OPTIONS = {
             "max_overflow": int(empty_str_cast(config_ini["optional"]["SQLALCHEMY_MAX_OVERFLOW"], default=20)),  # noqa: E131
@@ -264,6 +268,8 @@ class TestingConfig(ServerConfig):
     CACHE_TYPE = "simple"
     CACHE_THRESHOLD = 500
     SAFE_MODE = True
+    DEFAULT_LOCALE = "en"
+    BABEL_DEFAULT_LOCALE = "en"
 
 
 # Actually initialize ServerConfig to allow us to add more attributes on

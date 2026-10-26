@@ -8,6 +8,7 @@ import "codemirror/mode/htmlmixed/htmlmixed.js";
 import { ezAlert, ezToast } from "core/ezq";
 import Vue from "vue/dist/vue.esm.browser";
 import CommentBox from "../components/comments/CommentBox.vue";
+import { t } from "core/i18n";
 
 function submit_form() {
   // Save the CodeMirror data to the Textarea
@@ -53,8 +54,8 @@ function submit_form() {
 
       if (method === "PATCH" && response.success) {
         ezToast({
-          title: "Guardado",
-          body: "Se guardaron tus cambios"
+          title: t("Saved"),
+          body: t("Your changes have been saved")
         });
       } else {
         window.location =

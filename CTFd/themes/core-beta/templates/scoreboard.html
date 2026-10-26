@@ -17,8 +17,7 @@
       </div>
     </div>
 
-    {% cache 60, CacheKeys.PUBLIC_SCOREBOARD_TABLE %}
-      {% if standings %}
+    {% if standings %}
 
         <div id="scoreboard" class="row">
           <div class="col-md-12">
@@ -31,6 +30,8 @@
               </tr>
               </thead>
 
+              {# The header is translated, so only the rows are cached for everyone #}
+              {% cache 60, CacheKeys.PUBLIC_SCOREBOARD_TABLE %}
               <tbody>
               {% for standing in standings %}
                 <tr>
@@ -56,13 +57,13 @@
                 </tr>
               {% endfor %}
               </tbody>
+              {% endcache %}
 
             </table>
           </div>
         </div>
 
-      {% endif %}
-    {% endcache %}
+    {% endif %}
   </div>
 {% endblock %}
 

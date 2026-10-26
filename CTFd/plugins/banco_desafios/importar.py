@@ -3,6 +3,7 @@ Importacion de desafios del banco a la instancia de CTFd.
 """
 import os
 
+from flask_babel import gettext as _
 from werkzeug.datastructures import FileStorage
 
 from CTFd.models import Challenges, Flags, Hints, Tags, db
@@ -126,7 +127,9 @@ def importar(seleccionados, banco, incluir_requisitos=True, ocultos=False):
             )
             continue
         if Challenges.query.filter_by(name=desafio.nombre).first():
-            resultado["omitidos"].append((desafio.nombre, "ya existe en la instancia"))
+            resultado["omitidos"].append(
+                (desafio.nombre, _("already exists in this instance"))
+            )
             continue
         creados.append((desafio, crear_desafio(desafio, ocultos=ocultos)))
         resultado["creados"].append(desafio.nombre)
@@ -142,8 +145,12 @@ def importar(seleccionados, banco, incluir_requisitos=True, ocultos=False):
                 ids.append(previo.id)
             else:
                 resultado["avisos"].append(
-                    '"{}" requiere "{}", que no está en la instancia; '
-                    "se importó sin ese requisito".format(desafio.nombre, requisito)
+                    _(
+                        '"%(challenge)s" requires "%(requirement)s", which is not in '
+                        "this instance; it was imported without that prerequisite",
+                        challenge=desafio.nombre,
+                        requirement=requisito,
+                    )
                 )
         if ids:
             challenge.requirements = {"prerequisites": ids}
