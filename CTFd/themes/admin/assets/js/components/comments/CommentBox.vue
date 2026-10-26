@@ -7,7 +7,7 @@
             class="form-control mb-2"
             rows="2"
             id="comment-input"
-            placeholder="Agregá un comentario"
+            :placeholder="t('Add comment')"
             v-model.lazy="comment"
           ></textarea>
           <button
@@ -15,7 +15,7 @@
             type="submit"
             @click="submitComment()"
           >
-            Comentar
+            {{ t("Comment") }}
           </button>
         </div>
       </div>
@@ -45,9 +45,9 @@
       </div>
       <div class="col-md-12">
         <div class="text-center">
-          <small class="text-muted"
-            >Página {{ page }} de {{ total }} comentarios</small
-          >
+          <small class="text-muted">{{
+            t("Page {0} of {1} comments", page, total)
+          }}</small>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
             <button
               type="button"
               class="close float-right"
-              aria-label="Cerrar"
+              :aria-label="t('Close')"
               @click="deleteComment(comment.id)"
             >
               <span aria-hidden="true">&times;</span>
@@ -108,9 +108,9 @@
       </div>
       <div class="col-md-12">
         <div class="text-center">
-          <small class="text-muted"
-            >Página {{ page }} de {{ total }} comentarios</small
-          >
+          <small class="text-muted">{{
+            t("Page {0} of {1} comments", page, total)
+          }}</small>
         </div>
       </div>
     </div>
@@ -122,6 +122,7 @@ import CTFd from "core/CTFd";
 import { default as helpers } from "core/helpers";
 import dayjs from "dayjs";
 import hljs from "highlight.js";
+import { t } from "core/i18n";
 export default {
   props: {
     // These props are passed to the api via query string.
@@ -142,6 +143,7 @@ export default {
     };
   },
   methods: {
+    t,
     toLocalTime(date) {
       return dayjs(date).format("MMMM Do, h:mm:ss A");
     },
@@ -188,7 +190,7 @@ export default {
       this.comment = "";
     },
     deleteComment: function(commentId) {
-      if (confirm("¿Seguro que querés borrar este comentario?")) {
+      if (confirm(t("Are you sure you'd like to delete this comment?"))) {
         helpers.comments.delete_comment(commentId).then(response => {
           if (response.success === true) {
             for (let i = this.comments.length - 1; i >= 0; --i) {

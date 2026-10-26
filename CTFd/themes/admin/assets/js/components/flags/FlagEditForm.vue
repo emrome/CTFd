@@ -6,7 +6,7 @@
           <div class="container">
             <div class="row">
               <div class="col-md-12">
-                <h3 class="text-center">Editar flag</h3>
+                <h3 class="text-center">{{ t("Edit Flag") }}</h3>
               </div>
             </div>
           </div>
@@ -14,7 +14,7 @@
             type="button"
             class="close"
             data-dismiss="modal"
-            aria-label="Cerrar"
+            :aria-label="t('Close')"
           >
             <span aria-hidden="true">&times;</span>
           </button>
@@ -35,6 +35,7 @@
 import $ from "jquery";
 import CTFd from "core/CTFd";
 import nunjucks from "nunjucks";
+import { t } from "core/i18n";
 
 export default {
   name: "FlagEditForm",
@@ -58,6 +59,7 @@ export default {
     }
   },
   methods: {
+    t,
     loadFlag: function() {
       CTFd.fetch(`/api/v1/flags/${this.$props.flag_id}`, {
         method: "GET"
@@ -71,7 +73,8 @@ export default {
 
           $.get(CTFd.config.urlRoot + editFormURL, template_data => {
             const template = nunjucks.compile(template_data);
-            this.editForm = template.render(this.flag);
+            // Flag type templates translate their text with _()
+            this.editForm = template.render(Object.assign({ _: t }, this.flag));
 
             // TODO: See https://github.com/CTFd/CTFd/issues/1779
             if (this.editForm.includes("<script")) {

@@ -2,6 +2,7 @@ import $ from "jquery";
 import echarts from "echarts/dist/echarts-en.common";
 import dayjs from "dayjs";
 import { cumulativeSum, colorHash } from "./utils";
+import { t } from "core/i18n";
 
 const graph_configs = {
   score_graph: {
@@ -9,7 +10,7 @@ const graph_configs = {
       let option = {
         title: {
           left: "center",
-          text: "Puntaje en el tiempo"
+          text: t("Score over Time")
         },
         tooltip: {
           trigger: "axis",
@@ -112,7 +113,7 @@ const graph_configs = {
       let option = {
         title: {
           left: "center",
-          text: "Desafíos por categoría"
+          text: t("Category Breakdown")
         },
         tooltip: {
           trigger: "item"
@@ -132,7 +133,7 @@ const graph_configs = {
         },
         series: [
           {
-            name: "Desafíos por categoría",
+            name: t("Category Breakdown"),
             type: "pie",
             radius: ["30%", "50%"],
             avoidLabelOverlap: false,
@@ -219,7 +220,7 @@ const graph_configs = {
       let option = {
         title: {
           left: "center",
-          text: "Porcentaje de resoluciones"
+          text: t("Solve Percentages")
         },
         tooltip: {
           trigger: "item"
@@ -234,11 +235,11 @@ const graph_configs = {
           orient: "vertical",
           top: "middle",
           right: 0,
-          data: ["Fallos", "Resoluciones"]
+          data: [t("Fails"), t("Solves")]
         },
         series: [
           {
-            name: "Porcentaje de resoluciones",
+            name: t("Solve Percentages"),
             type: "pie",
             radius: ["30%", "50%"],
             avoidLabelOverlap: false,
@@ -282,12 +283,12 @@ const graph_configs = {
             data: [
               {
                 value: fails_count,
-                name: "Fallos",
+                name: t("Fails"),
                 itemStyle: { color: "rgb(207, 38, 0)" }
               },
               {
                 value: solves_count,
-                name: "Resoluciones",
+                name: t("Solves"),
                 itemStyle: { color: "rgb(0, 209, 64)" }
               }
             ]

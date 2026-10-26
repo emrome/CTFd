@@ -3,11 +3,11 @@
     <form @submit.prevent="updateNext">
       <div class="form-group">
         <label>
-          Siguiente desafío
+          {{ t("Next Challenge") }}
           <br />
-          <small class="text-muted"
-            >Desafío que se recomienda después de resolver este</small
-          >
+          <small class="text-muted">{{
+            t("Challenge to recommend after solving this challenge")
+          }}</small>
         </label>
         <select class="form-control custom-select" v-model="selected_id">
           <option value="null"> -- </option>
@@ -24,7 +24,7 @@
           class="btn btn-success float-right"
           :disabled="!updateAvailable"
         >
-          Guardar
+          {{ t("Save") }}
         </button>
       </div>
     </form>
@@ -33,6 +33,7 @@
 
 <script>
 import CTFd from "core/CTFd";
+import { t } from "core/i18n";
 
 export default {
   props: {
@@ -61,6 +62,7 @@ export default {
     }
   },
   methods: {
+    t,
     loadData: function() {
       CTFd.fetch(`/api/v1/challenges/${this.$props.challenge_id}`, {
         method: "GET",

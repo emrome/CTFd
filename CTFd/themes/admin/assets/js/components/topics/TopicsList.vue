@@ -9,9 +9,9 @@
 
     <div class="form-group">
       <label>
-        Tema
+        {{ t("Topic") }}
         <br />
-        <small class="text-muted">Escribí el tema y apretá Enter</small>
+        <small class="text-muted">{{ t("Type topic and press Enter") }}</small>
       </label>
       <input
         id="tags-add-input"
@@ -45,6 +45,7 @@
 
 <script>
 import CTFd from "core/CTFd";
+import { t } from "core/i18n";
 
 export default {
   props: {
@@ -61,6 +62,7 @@ export default {
     };
   },
   methods: {
+    t,
     loadTopics: function() {
       CTFd.fetch(`/api/v1/challenges/${this.$props.challenge_id}/topics`, {
         method: "GET",

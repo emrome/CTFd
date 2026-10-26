@@ -3,6 +3,7 @@ import CTFd from "core/CTFd";
 import $ from "jquery";
 import { htmlEntities } from "core/utils";
 import { ezQuery } from "core/ezq";
+import { t } from "core/i18n";
 
 function deleteCorrectSubmission(_event) {
   const key_id = $(this).data("submission-id");
@@ -23,8 +24,9 @@ function deleteCorrectSubmission(_event) {
     .parent();
 
   ezQuery({
-    title: "Borrar envío",
-    body: "¿Seguro que querés borrar el envío correcto de {0} para el desafío {1}?".format(
+    title: t("Delete Submission"),
+    body: t(
+      "Are you sure you want to delete correct submission from {0} for challenge {1}",
       "<strong>" + htmlEntities(team_name) + "</strong>",
       "<strong>" + htmlEntities(chal_name) + "</strong>"
     ),
@@ -44,11 +46,15 @@ function deleteSelectedSubmissions(_event) {
   let submissionIDs = $("input[data-submission-id]:checked").map(function() {
     return $(this).data("submission-id");
   });
-  let target = submissionIDs.length === 1 ? "envío" : "envíos";
+  let target = submissionIDs.length === 1 ? t("submission") : t("submissions");
 
   ezQuery({
-    title: "Borrar envíos",
-    body: `¿Seguro que querés borrar ${submissionIDs.length} ${target}?`,
+    title: t("Delete Submissions"),
+    body: t(
+      "Are you sure you want to delete {0} {1}?",
+      submissionIDs.length,
+      target
+    ),
     success: function() {
       const reqs = [];
       for (var subId of submissionIDs) {
@@ -65,13 +71,15 @@ function correctSubmissions(_event) {
   let submissionIDs = $("input[data-submission-id]:checked").map(function() {
     return $(this).data("submission-id");
   });
-  let target = submissionIDs.length === 1 ? "envío" : "envíos";
+  let target = submissionIDs.length === 1 ? t("submission") : t("submissions");
 
   ezQuery({
-    title: "Marcar envíos como correctos",
-    body: `¿Seguro que querés marcar ${
-      submissionIDs.length
-    } ${target} como correctos?`,
+    title: t("Mark submissions correct"),
+    body: t(
+      "Are you sure you want to mark {0} {1} correct?",
+      submissionIDs.length,
+      target
+    ),
     success: function() {
       const reqs = [];
       for (var subId of submissionIDs) {
@@ -127,7 +135,7 @@ function copyFlag(event) {
   navigator.clipboard.writeText(text);
 
   $(event.currentTarget).tooltip({
-    title: "¡Copiado!",
+    title: t("Copied!"),
     trigger: "manual"
   });
   $(event.currentTarget).tooltip("show");

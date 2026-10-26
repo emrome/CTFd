@@ -1,6 +1,7 @@
 import "bootstrap/js/dist/modal";
 import $ from "jquery";
 import hljs from "highlight.js";
+import { t } from "./i18n";
 
 const modalTpl =
   '<div class="modal fade" tabindex="-1" role="dialog">' +
@@ -157,8 +158,8 @@ export function ezQuery(args) {
     obj.find(".modal-body").append($(args.body));
   }
 
-  const yes = $(yesTpl);
-  const no = $(noTpl);
+  const yes = $(yesTpl).text(t("Yes"));
+  const no = $(noTpl).text(t("No"));
 
   obj.find(".modal-footer").append(no);
   obj.find(".modal-footer").append(yes);

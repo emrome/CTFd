@@ -38,15 +38,15 @@
 
       <div class="form-group">
         <label>
-          <b>Qué pasa si no está desbloqueado</b>
+          <b>{{ t("Behavior if not unlocked") }}</b>
         </label>
         <select
           class="form-control custom-select"
           name="anonymize"
           v-model="selectedAnonymize"
         >
-          <option :value="false">Oculto</option>
-          <option :value="true">Anónimo</option>
+          <option :value="false">{{ t("Hidden") }}</option>
+          <option :value="true">{{ t("Anonymized") }}</option>
         </select>
       </div>
 
@@ -55,7 +55,7 @@
           class="btn btn-success float-right"
           :disabled="!newRequirements"
         >
-          Guardar
+          {{ t("Save") }}
         </button>
       </div>
     </form>
@@ -64,6 +64,7 @@
 
 <script>
 import CTFd from "core/CTFd";
+import { t } from "core/i18n";
 
 export default {
   props: {
@@ -109,6 +110,7 @@ export default {
     }
   },
   methods: {
+    t,
     loadChallenges: function() {
       CTFd.fetch("/api/v1/challenges?view=admin", {
         method: "GET",

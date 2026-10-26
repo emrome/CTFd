@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="form-group">
-      <label>Buscar usuarios</label>
+      <label>{{ t("Search Users") }}</label>
       <input
         type="text"
         class="form-control"
-        placeholder="Buscá usuarios"
+        :placeholder="t('Search for users')"
         v-model="searchedName"
         @keyup.down="moveCursor('down')"
         @keyup.up="moveCursor('up')"
@@ -32,7 +32,7 @@
         "
       >
         <span class="text-muted">
-          No se encontraron usuarios
+          {{ t("No users found") }}
         </span>
       </div>
       <ul class="list-group">
@@ -54,7 +54,7 @@
               'text-muted': idx !== selectedResultIdx
             }"
           >
-            ya está en un equipo
+            {{ t("already in a team") }}
           </small>
         </li>
       </ul>
@@ -64,7 +64,7 @@
         class="btn btn-success d-inline-block float-right"
         @click="addUsers()"
       >
-        Agregar usuarios
+        {{ t("Add Users") }}
       </button>
     </div>
   </div>
@@ -74,6 +74,7 @@
 import CTFd from "core/CTFd";
 import { ezQuery } from "core/ezq";
 import { htmlEntities } from "core/utils";
+import { t } from "core/i18n";
 
 export default {
   name: "UserAddForm",
@@ -91,6 +92,7 @@ export default {
     };
   },
   methods: {
+    t,
     searchUsers: function() {
       this.selectedResultIdx = 0;
       if (this.searchedName == "") {
@@ -194,8 +196,11 @@ export default {
       if (usersInTeams.length) {
         let users = htmlEntities(usersInTeams.join(", "));
         ezQuery({
-          title: "Confirmar cambio de equipo",
-          body: `Estos usuarios ya están en un equipo:<br><br> ${users} <br><br>¿Seguro que querés quitarlos de sus equipos actuales y agregarlos a este? <br><br>¡También se van a borrar todas sus resoluciones de desafíos, intentos, premios y pistas desbloqueadas!`,
+          title: t("Confirm Team Removal"),
+          body: t(
+            "The following users are currently in teams:<br><br> {0} <br><br>Are you sure you want to remove them from their current teams and add them to this one? <br><br>All of their challenge solves, attempts, awards, and unlocked hints will also be deleted!",
+            users
+          ),
           success: () => {
             this.handleRemoveUsersFromTeams().then(_resps => {
               this.handleAddUsersRequest().then(_resps => {

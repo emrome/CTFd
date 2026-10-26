@@ -4,7 +4,7 @@
       <button
         type="button"
         class="close float-right"
-        aria-label="Cerrar"
+        :aria-label="t('Close')"
         @click="deleteField()"
       >
         <span aria-hidden="true">&times;</span>
@@ -14,38 +14,38 @@
     <div class="row">
       <div class="col-md-3">
         <div class="form-group">
-          <label>Tipo de campo</label>
+          <label>{{ t("Field Type") }}</label>
           <select
             class="form-control custom-select"
             v-model.lazy="field.field_type"
           >
-            <option value="text">Campo de texto</option>
-            <option value="boolean">Casilla de verificación</option>
+            <option value="text">{{ t("Text Field") }}</option>
+            <option value="boolean">{{ t("Checkbox") }}</option>
           </select>
-          <small class="form-text text-muted"
-            >Tipo de campo que ve el usuario</small
-          >
+          <small class="form-text text-muted">{{
+            t("Type of field shown to the user")
+          }}</small>
         </div>
       </div>
       <div class="col-md-9">
         <div class="form-group">
-          <label>Nombre del campo</label>
+          <label>{{ t("Field Name") }}</label>
           <input type="text" class="form-control" v-model.lazy="field.name" />
-          <small class="form-text text-muted">Nombre del campo</small>
+          <small class="form-text text-muted">{{ t("Field name") }}</small>
         </div>
       </div>
 
       <div class="col-md-12">
         <div class="form-group">
-          <label>Descripción del campo</label>
+          <label>{{ t("Field Description") }}</label>
           <input
             type="text"
             class="form-control"
             v-model.lazy="field.description"
           />
-          <small id="emailHelp" class="form-text text-muted"
-            >Descripción del campo</small
-          >
+          <small id="emailHelp" class="form-text text-muted">{{
+            t("Field Description")
+          }}</small>
         </div>
       </div>
 
@@ -57,7 +57,7 @@
               type="checkbox"
               v-model.lazy="field.editable"
             />
-            El usuario lo puede editar en su perfil
+            {{ t("Editable by user in profile") }}
           </label>
         </div>
         <div class="form-check">
@@ -67,7 +67,7 @@
               type="checkbox"
               v-model.lazy="field.required"
             />
-            Obligatorio en el registro
+            {{ t("Required on registration") }}
           </label>
         </div>
         <div class="form-check">
@@ -77,7 +77,7 @@
               type="checkbox"
               v-model.lazy="field.public"
             />
-            Se muestra en el perfil público
+            {{ t("Shown on public profile") }}
           </label>
         </div>
       </div>
@@ -91,7 +91,7 @@
             type="button"
             @click="saveField()"
           >
-            Guardar
+            {{ t("Save") }}
           </button>
         </div>
       </div>
@@ -102,6 +102,7 @@
 <script>
 import CTFd from "core/CTFd";
 import { ezToast } from "core/ezq";
+import { t } from "core/i18n";
 
 export default {
   props: {
@@ -114,6 +115,7 @@ export default {
     };
   },
   methods: {
+    t,
     persistedField: function() {
       // We're using Math.random() for unique IDs so new items have IDs < 1
       // Real items will have an ID > 1
@@ -138,8 +140,8 @@ export default {
             if (response.success === true) {
               this.field = response.data;
               ezToast({
-                title: "Listo",
-                body: "¡Se actualizó el campo!",
+                title: t("Success"),
+                body: t("Field has been updated!"),
                 delay: 1000
               });
             }
@@ -161,8 +163,8 @@ export default {
             if (response.success === true) {
               this.field = response.data;
               ezToast({
-                title: "Listo",
-                body: "¡Se creó el campo!",
+                title: t("Success"),
+                body: t("Field has been created!"),
                 delay: 1000
               });
             }
@@ -170,7 +172,7 @@ export default {
       }
     },
     deleteField: function() {
-      if (confirm("¿Seguro que querés borrar este campo?")) {
+      if (confirm(t("Are you sure you'd like to delete this field?"))) {
         if (this.persistedField()) {
           CTFd.fetch(`/api/v1/configs/fields/${this.field.id}`, {
             method: "DELETE",

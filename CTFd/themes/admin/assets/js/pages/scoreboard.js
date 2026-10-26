@@ -2,6 +2,7 @@ import "./main";
 import CTFd from "core/CTFd";
 import $ from "jquery";
 import { ezAlert } from "core/ezq";
+import { t } from "core/i18n";
 
 const api_func = {
   users: (x, y) => CTFd.api.patch_user_public({ userId: x }, y),
@@ -28,11 +29,11 @@ function toggleAccount() {
       if (hidden) {
         $btn.data("state", "hidden");
         $btn.addClass("btn-danger").removeClass("btn-success");
-        $btn.text("Oculto");
+        $btn.text(t("Hidden"));
       } else {
         $btn.data("state", "visible");
         $btn.addClass("btn-success").removeClass("btn-danger");
-        $btn.text("Visible");
+        $btn.text(t("Visible"));
       }
     }
   });
@@ -76,20 +77,20 @@ function bulkToggleAccounts(_event) {
   };
 
   ezAlert({
-    title: "Cambiar visibilidad",
+    title: t("Toggle Visibility"),
     body: $(`
     <form id="scoreboard-bulk-edit">
       <div class="form-group">
-        <label>Visibilidad</label>
+        <label>${t("Visibility")}</label>
         <select name="visibility" data-initial="">
           <option value="">--</option>
-          <option value="visible">Visible</option>
-          <option value="hidden">Oculto</option>
+          <option value="visible">${t("Visible")}</option>
+          <option value="hidden">${t("Hidden")}</option>
         </select>
       </div>
     </form>
     `),
-    button: "Enviar",
+    button: t("Submit"),
     success: function() {
       let data = $("#scoreboard-bulk-edit").serializeJSON(true);
       let state = data.visibility;

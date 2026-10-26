@@ -5,6 +5,7 @@ import CTFd from "core/CTFd";
 import { ezAlert } from "core/ezq";
 import Vue from "vue/dist/vue.esm.browser";
 import Notification from "../components/notifications/Notification.vue";
+import { t } from "core/i18n";
 
 const notificationCard = Vue.extend(Notification);
 
@@ -27,7 +28,7 @@ function submit(event) {
     if (!response.success) {
       ezAlert({
         title: "Error",
-        body: "No se pudo enviar la notificación. Probá de nuevo.",
+        body: t("Could not send notification. Please try again."),
         button: "OK"
       });
     }
@@ -51,7 +52,7 @@ function deleteNotification(event) {
   const $elem = $(this);
   const id = $elem.data("notif-id");
 
-  if (confirm("¿Seguro que querés borrar esta notificación?")) {
+  if (confirm(t("Are you sure you want to delete this notification?"))) {
     CTFd.api.delete_notification({ notificationId: id }).then(response => {
       if (response.success) {
         $elem.parent().remove();

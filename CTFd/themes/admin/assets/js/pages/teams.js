@@ -2,16 +2,17 @@ import "./main";
 import CTFd from "core/CTFd";
 import $ from "jquery";
 import { ezAlert, ezQuery } from "core/ezq";
+import { t } from "core/i18n";
 
 function deleteSelectedTeams(_event) {
   let teamIDs = $("input[data-team-id]:checked").map(function() {
     return $(this).data("team-id");
   });
-  let target = teamIDs.length === 1 ? "equipo" : "equipos";
+  let target = teamIDs.length === 1 ? t("team") : t("teams");
 
   ezQuery({
-    title: "Borrar equipos",
-    body: `¿Seguro que querés borrar ${teamIDs.length} ${target}?`,
+    title: t("Delete Teams"),
+    body: t("Are you sure you want to delete {0} {1}?", teamIDs.length, target),
     success: function() {
       const reqs = [];
       for (var teamID of teamIDs) {
@@ -34,28 +35,28 @@ function bulkEditTeams(_event) {
   });
 
   ezAlert({
-    title: "Editar equipos",
+    title: t("Edit Teams"),
     body: $(`
     <form id="teams-bulk-edit">
       <div class="form-group">
-        <label>Suspendido</label>
+        <label>${t("Banned")}</label>
         <select name="banned" data-initial="">
           <option value="">--</option>
-          <option value="true">Sí</option>
-          <option value="false">No</option>
+          <option value="true">${t("True")}</option>
+          <option value="false">${t("False")}</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Oculto</label>
+        <label>${t("Hidden")}</label>
         <select name="hidden" data-initial="">
           <option value="">--</option>
-          <option value="true">Sí</option>
-          <option value="false">No</option>
+          <option value="true">${t("True")}</option>
+          <option value="false">${t("False")}</option>
         </select>
       </div>
     </form>
     `),
-    button: "Enviar",
+    button: t("Submit"),
     success: function() {
       let data = $("#teams-bulk-edit").serializeJSON(true);
       const reqs = [];

@@ -5,6 +5,7 @@ import EasyMDE from "easymde";
 import Vue from "vue/dist/vue.esm.browser";
 import MediaLibrary from "./components/files/MediaLibrary.vue";
 import hljs from "highlight.js";
+import { t } from "core/i18n";
 
 export function showMediaLibrary(editor) {
   const mediaModal = Vue.extend(MediaLibrary);
@@ -52,7 +53,7 @@ export function bindMarkdownEditor(elem) {
             showMediaLibrary(editor);
           },
           className: "fas fa-file-upload",
-          title: "Biblioteca de medios"
+          title: t("Media Library")
         },
         "|",
         "preview",
