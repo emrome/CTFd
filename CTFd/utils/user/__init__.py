@@ -142,7 +142,6 @@ def is_admin():
 def is_author():
     if authed():
         user = get_current_user_attrs()
-        print(user)
         return user.type == "author"
     else:
         return False
