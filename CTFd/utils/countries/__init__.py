@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
+import unicodedata
 from collections import OrderedDict
+
+from flask_babel import get_locale
+from flask_babel.speaklater import LazyString
 
 COUNTRIES_LIST = [
     ("AF", "Afghanistan"),
@@ -262,9 +266,48 @@ COUNTRIES_LIST = [
 # Nicely titled (and translatable) country names.
 COUNTRIES_DICT = OrderedDict(COUNTRIES_LIST)
 
+
+def get_country_name(country_code):
+    """
+    Returns the country name in the current locale (using Babel's CLDR data),
+    falling back to the English name
+    """
+    name = COUNTRIES_DICT.get(country_code)
+    if name is None:
+        return None
+    try:
+        locale = get_locale()
+    except RuntimeError:
+        locale = None
+    if locale is None or locale.language == "en":
+        return name
+    return locale.territories.get(country_code, name)
+
+
+def _sort_key(choice):
+    name = str(choice[1])
+    return unicodedata.normalize("NFKD", name).encode("ascii", "ignore").lower()
+
+
+class LocalizedCountryChoices(list):
+    """
+    List of (code, name) choices whose names are translated and sorted
+    according to the current locale every time it is iterated
+    """
+
+    def __iter__(self):
+        choices = list(super().__iter__())
+        blank = [c for c in choices if c[0] == ""]
+        countries = sorted((c for c in choices if c[0] != ""), key=_sort_key)
+        return iter(blank + countries)
+
+
 # List of countries suitable for use in forms
 # TODO: CTFd 4.0 Move SELECT_COUNTRIES_LIST into constants
-SELECT_COUNTRIES_LIST = [("", "")] + COUNTRIES_LIST
+SELECT_COUNTRIES_LIST = LocalizedCountryChoices(
+    [("", "")]
+    + [(code, LazyString(get_country_name, code)) for code, _name in COUNTRIES_LIST]
+)
 
 
 def get_countries():
@@ -272,4 +315,4 @@ def get_countries():
 
 
 def lookup_country_code(country_code):
-    return COUNTRIES_DICT.get(country_code)
+    return get_country_name(country_code)

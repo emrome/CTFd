@@ -1,20 +1,20 @@
 <div role="tabpanel" class="tab-pane config-section" id="fields">
 	<form method="POST" autocomplete="off" class="w-100">
-		<h5>Campos personalizados</h5>
+		<h5>{% trans %}Custom Fields{% endtrans %}</h5>
 
 		<small class="form-text text-muted">
-			Agregá campos personalizados para pedirles más datos a tus participantes
+			{% trans %}Add custom fields to get additional data from your participants{% endtrans %}
 		</small>
 
 		<ul class="nav nav-tabs mt-3" role="tablist">
 			<li class="nav-item active">
 				<a class="nav-link active" href="#user-fields" role="tab" data-toggle="tab">
-					Usuarios
+					{% trans %}Users{% endtrans %}
 				</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#team-fields" role="tab" data-toggle="tab">
-					Equipos
+					{% trans %}Teams{% endtrans %}
 				</a>
 			</li>
 		</ul>
@@ -22,7 +22,7 @@
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="user-fields">
 				<div class="col-md-12 py-3">
-					<small>Los campos personalizados de usuario se muestran durante el registro. Los usuarios pueden editarlos desde su perfil si quieren.</small>
+					<small>{% trans %}Custom user fields are shown during registration. Users can optionally edit these fields in their profile.{% endtrans %}</small>
 				</div>
 
 				<div id="user-field-list" class="pt-3">
@@ -30,7 +30,7 @@
 			</div>
 			<div role="tabpanel" class="tab-pane" id="team-fields">
 				<div class="col-md-12 py-3">
-					<small>Los campos personalizados de equipo se muestran al crear un equipo. Los capitanes pueden editarlos desde el perfil del equipo si quieren.</small>
+					<small>{% trans %}Custom team fields are shown during team creation. Team captains can optionally edit these fields in the team profile.{% endtrans %}</small>
 				</div>
 
 				<div id="team-field-list" class="pt-3">

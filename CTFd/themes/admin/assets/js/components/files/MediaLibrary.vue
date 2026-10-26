@@ -6,7 +6,7 @@
           <div class="container">
             <div class="row">
               <div class="col-md-12">
-                <h3 class="text-center">Biblioteca de medios</h3>
+                <h3 class="text-center">{{ t("Media Library") }}</h3>
               </div>
             </div>
           </div>
@@ -14,7 +14,7 @@
             type="button"
             class="close"
             data-dismiss="modal"
-            aria-label="Cerrar"
+            :aria-label="t('Close')"
           >
             <span aria-hidden="true">&times;</span>
           </button>
@@ -47,7 +47,7 @@
                   </div>
                 </div>
                 <div class="col-md-6" id="media-library-details">
-                  <h4 class="text-center">Detalles del archivo</h4>
+                  <h4 class="text-center">{{ t("Media Details") }}</h4>
                   <div id="media-item">
                     <div class="text-center" id="media-icon">
                       <div v-if="this.selectedFile">
@@ -88,7 +88,7 @@
 
                     <div class="form-group">
                       <div v-if="this.selectedFile">
-                        Enlace:
+                        {{ t("Link:") }}
                         <input
                           class="form-control"
                           type="text"
@@ -98,7 +98,7 @@
                         />
                       </div>
                       <div v-else>
-                        Enlace:
+                        {{ t("Link:") }}
                         <input
                           class="form-control"
                           type="text"
@@ -117,9 +117,9 @@
                             id="media-insert"
                             data-toggle="tooltip"
                             data-placement="top"
-                            title="Insertar el enlace en el editor"
+                            :title="t('Insert link into editor')"
                           >
-                            Insertar
+                            {{ t("Insert") }}
                           </button>
                         </div>
                         <div class="col-md-3">
@@ -129,7 +129,7 @@
                             id="media-download"
                             data-toggle="tooltip"
                             data-placement="top"
-                            title="Descargar archivo"
+                            :title="t('Download file')"
                           >
                             <i class="fas fa-download"></i>
                           </button>
@@ -141,7 +141,7 @@
                             id="media-delete"
                             data-toggle="tooltip"
                             data-placement="top"
-                            title="Borrar archivo"
+                            :title="t('Delete file')"
                           >
                             <i class="far fa-trash-alt"></i>
                           </button>
@@ -157,7 +157,7 @@
           <form id="media-library-upload" enctype="multipart/form-data">
             <div class="form-group">
               <label for="media-files">
-                Subir archivos
+                {{ t("Upload Files") }}
               </label>
               <input
                 type="file"
@@ -167,7 +167,9 @@
                 multiple
               />
               <sub class="help-block">
-                Para adjuntar varios archivos, usá Control+Clic o Cmd+Clic.
+                {{
+                  t("Attach multiple files using Control+Click or Cmd+Click.")
+                }}
               </sub>
             </div>
             <input type="hidden" value="page" name="type" />
@@ -180,7 +182,7 @@
               type="submit"
               class="btn btn-primary media-upload-button"
             >
-              Subir
+              {{ t("Upload") }}
             </button>
           </div>
         </div>
@@ -193,6 +195,7 @@
 import CTFd from "core/CTFd";
 import { ezQuery, ezToast } from "core/ezq";
 import { default as helpers } from "core/helpers";
+import { t } from "core/i18n";
 
 function get_page_files() {
   return CTFd.fetch("/api/v1/files?type=page", {
@@ -213,6 +216,7 @@ export default {
     };
   },
   methods: {
+    t,
     getPageFiles: function() {
       get_page_files().then(response => {
         this.files = response.data;
@@ -237,7 +241,7 @@ export default {
     deleteSelectedFile: function() {
       var file_id = this.selectedFile.id;
 
-      if (confirm("¿Seguro que querés borrar este archivo?")) {
+      if (confirm(t("Are you sure you want to delete this file?"))) {
         CTFd.fetch("/api/v1/files/" + file_id, {
           method: "DELETE"
         }).then(response => {

@@ -7,7 +7,7 @@
 {% block content %}
 <div class="jumbotron">
 	<div class="container">
-		<h1>Configuración</h1>
+		<h1>{% trans %}Configuration{% endtrans %}</h1>
 	</div>
 </div>
 <div class="container">
@@ -15,46 +15,46 @@
 		<div class="col-md-3">
 			<ul class="nav nav-pills flex-column">
 				<li class="nav-item">
-					<a class="nav-link rounded-0 active" href="#appearance" role="tab" data-toggle="tab">Apariencia</a>
+					<a class="nav-link rounded-0 active" href="#appearance" role="tab" data-toggle="tab">{% trans %}Appearance{% endtrans %}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link rounded-0" href="#theme" role="tab" data-toggle="tab">Tema</a>
+					<a class="nav-link rounded-0" href="#theme" role="tab" data-toggle="tab">{% trans %}Theme{% endtrans %}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link rounded-0" href="#accounts" role="tab" data-toggle="tab">Cuentas</a>
+					<a class="nav-link rounded-0" href="#accounts" role="tab" data-toggle="tab">{% trans %}Accounts{% endtrans %}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link rounded-0" href="#pages" role="tab" data-toggle="tab">Páginas</a>
+					<a class="nav-link rounded-0" href="#pages" role="tab" data-toggle="tab">{% trans %}Pages{% endtrans %}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link rounded-0" href="#fields" role="tab" data-toggle="tab">Campos personalizados</a>
+					<a class="nav-link rounded-0" href="#fields" role="tab" data-toggle="tab">{% trans %}Custom Fields{% endtrans %}</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link rounded-0" href="#mlc" role="tab" data-toggle="tab">MajorLeagueCyber</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link rounded-0" href="#settings" role="tab" data-toggle="tab">Ajustes</a>
+					<a class="nav-link rounded-0" href="#settings" role="tab" data-toggle="tab">{% trans %}Settings{% endtrans %}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link rounded-0" href="#security" role="tab" data-toggle="tab">Seguridad</a>
+					<a class="nav-link rounded-0" href="#security" role="tab" data-toggle="tab">{% trans %}Security{% endtrans %}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link rounded-0" href="#email" role="tab" data-toggle="tab">Correo</a>
+					<a class="nav-link rounded-0" href="#email" role="tab" data-toggle="tab">{% trans %}Email{% endtrans %}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link rounded-0" href="#ctftime" role="tab" data-toggle="tab">Horarios</a>
+					<a class="nav-link rounded-0" href="#ctftime" role="tab" data-toggle="tab">{{ pgettext("settings", "Time") }}</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link rounded-0" href="#legal" role="tab" data-toggle="tab">Legal</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link rounded-0" href="#backup" role="tab" data-toggle="tab">Copia de seguridad</a>
+					<a class="nav-link rounded-0" href="#backup" role="tab" data-toggle="tab">{% trans %}Backup{% endtrans %}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link rounded-0" href="#usermode" role="tab" data-toggle="tab">Modo de juego</a>
+					<a class="nav-link rounded-0" href="#usermode" role="tab" data-toggle="tab">{{ pgettext("settings", "User Mode") }}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link rounded-0" href="{{ url_for('admin.reset') }}" role="tab">Reiniciar</a>
+					<a class="nav-link rounded-0" href="{{ url_for('admin.reset') }}" role="tab">{% trans %}Reset{% endtrans %}</a>
 				</li>
 			</ul>
 		</div>
@@ -63,7 +63,7 @@
 				<div class="alert alert-danger alert-dismissable" role="alert">
 					<span class="sr-only">Error:</span>
 					{{ error }}
-					<button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+					<button type="button" class="close" data-dismiss="alert" aria-label="{% trans %}Close{% endtrans %}">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>

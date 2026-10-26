@@ -1,3 +1,4 @@
+from flask_babel import lazy_gettext as _l
 from wtforms import MultipleFileField, SelectField, StringField
 from wtforms.validators import InputRequired
 
@@ -7,24 +8,24 @@ from CTFd.forms.fields import SubmitField
 
 class ChallengeSearchForm(BaseForm):
     field = SelectField(
-        "Buscar por",
+        _l("Search Field"),
         choices=[
-            ("name", "Nombre"),
+            ("name", _l("Name")),
             ("id", "ID"),
-            ("category", "Categoría"),
-            ("type", "Tipo"),
+            ("category", _l("Category")),
+            ("type", _l("Type")),
         ],
         default="name",
         validators=[InputRequired()],
     )
-    q = StringField("Término de búsqueda", validators=[InputRequired()])
-    submit = SubmitField("Buscar")
+    q = StringField(_l("Parameter"), validators=[InputRequired()])
+    submit = SubmitField(_l("Search"))
 
 
 class ChallengeFilesUploadForm(BaseForm):
     file = MultipleFileField(
-        "Subir archivos",
-        description="Elegí varios archivos con Control+Clic o Cmd+Clic.",
+        _l("Upload Files"),
+        description=_l("Attach multiple files using Control+Click or Cmd+Click."),
         validators=[InputRequired()],
     )
-    submit = SubmitField("Subir")
+    submit = SubmitField(_l("Upload"))

@@ -11,6 +11,7 @@ from flask import (
     session,
     url_for,
 )
+from flask_babel import gettext as _
 from jinja2.exceptions import TemplateNotFound
 from sqlalchemy.exc import IntegrityError
 from werkzeug.utils import safe_join
@@ -165,19 +166,19 @@ def setup():
             team_name_email_check = validators.validate_email(name)
 
             if not valid_email:
-                errors.append("Please enter a valid email address")
+                errors.append(_("Please enter a valid email address"))
             if names:
-                errors.append("That user name is already taken")
+                errors.append(_("That user name is already taken"))
             if team_name_email_check is True:
-                errors.append("Your user name cannot be an email address")
+                errors.append(_("Your user name cannot be an email address"))
             if emails:
-                errors.append("That email has already been used")
+                errors.append(_("That email has already been used"))
             if pass_short:
-                errors.append("Pick a longer password")
+                errors.append(_("Pick a longer password"))
             if pass_long:
-                errors.append("Pick a shorter password")
+                errors.append(_("Pick a shorter password"))
             if name_len:
-                errors.append("Pick a longer user name")
+                errors.append(_("Pick a longer user name"))
 
             if len(errors) > 0:
                 return render_template(
@@ -204,19 +205,24 @@ def setup():
                 default_ctf_banner_location = url_for("views.files", path=f.location)
 
             # Splice in our banner
+            platform_text = _(
+                'A cool CTF platform from <a href="https://ctfd.io">ctfd.io</a>'
+            )
+            follow_text = _("Follow us on social media:")
+            setup_text = _('<a href="admin">Click here</a> to login and setup your CTF')
             index = f"""<div class="row">
     <div class="col-md-6 offset-md-3">
         <img class="w-100 mx-auto d-block" style="max-width: 500px;padding: 50px;padding-top: 14vh;" src="{default_ctf_banner_location}" />
         <h3 class="text-center">
-            <p>A cool CTF platform from <a href="https://ctfd.io">ctfd.io</a></p>
-            <p>Follow us on social media:</p>
+            <p>{platform_text}</p>
+            <p>{follow_text}</p>
             <a href="https://twitter.com/ctfdio"><i class="fab fa-twitter fa-2x" aria-hidden="true"></i></a>&nbsp;
             <a href="https://facebook.com/ctfdio"><i class="fab fa-facebook fa-2x" aria-hidden="true"></i></a>&nbsp;
             <a href="https://github.com/ctfd"><i class="fab fa-github fa-2x" aria-hidden="true"></i></a>
         </h3>
         <br>
         <h4 class="text-center">
-            <a href="admin">Click here</a> to login and setup your CTF
+            {setup_text}
         </h4>
     </div>
 </div>"""
@@ -243,33 +249,37 @@ def setup():
             set_config("mail_useauth", None)
 
             # Set up default emails
-            set_config("verification_email_subject", DEFAULT_VERIFICATION_EMAIL_SUBJECT)
-            set_config("verification_email_body", DEFAULT_VERIFICATION_EMAIL_BODY)
+            set_config(
+                "verification_email_subject", str(DEFAULT_VERIFICATION_EMAIL_SUBJECT)
+            )
+            set_config("verification_email_body", str(DEFAULT_VERIFICATION_EMAIL_BODY))
 
             set_config(
                 "successful_registration_email_subject",
-                DEFAULT_SUCCESSFUL_REGISTRATION_EMAIL_SUBJECT,
+                str(DEFAULT_SUCCESSFUL_REGISTRATION_EMAIL_SUBJECT),
             )
             set_config(
                 "successful_registration_email_body",
-                DEFAULT_SUCCESSFUL_REGISTRATION_EMAIL_BODY,
+                str(DEFAULT_SUCCESSFUL_REGISTRATION_EMAIL_BODY),
             )
 
             set_config(
-                "user_creation_email_subject", DEFAULT_USER_CREATION_EMAIL_SUBJECT
+                "user_creation_email_subject", str(DEFAULT_USER_CREATION_EMAIL_SUBJECT)
             )
-            set_config("user_creation_email_body", DEFAULT_USER_CREATION_EMAIL_BODY)
+            set_config(
+                "user_creation_email_body", str(DEFAULT_USER_CREATION_EMAIL_BODY)
+            )
 
-            set_config("password_reset_subject", DEFAULT_PASSWORD_RESET_SUBJECT)
-            set_config("password_reset_body", DEFAULT_PASSWORD_RESET_BODY)
+            set_config("password_reset_subject", str(DEFAULT_PASSWORD_RESET_SUBJECT))
+            set_config("password_reset_body", str(DEFAULT_PASSWORD_RESET_BODY))
 
             set_config(
                 "password_change_alert_subject",
-                "Password Change Confirmation for {ctf_name}",
+                _("Password Change Confirmation for {ctf_name}"),
             )
             set_config(
                 "password_change_alert_body",
-                (
+                _(
                     "Your password for {ctf_name} has been changed.\n\n"
                     "If you didn't request a password change you can reset your password here: {url}"
                 ),
@@ -351,7 +361,10 @@ def settings():
         team_url = url_for("teams.private")
         infos.append(
             markup(
-                f'In order to participate you must either <a href="{team_url}">join or create a team</a>.'
+                _(
+                    'In order to participate you must either <a href="%(url)s">join or create a team</a>.',
+                    url=team_url,
+                )
             )
         )
 
@@ -363,9 +376,12 @@ def settings():
         confirm_url = markup(url_for("auth.confirm"))
         infos.append(
             markup(
-                "Your email address isn't confirmed!<br>"
-                "Please check your email to confirm your email address.<br><br>"
-                f'To have the confirmation email resent please <a href="{confirm_url}">click here</a>.'
+                _(
+                    "Your email address isn't confirmed!<br>"
+                    "Please check your email to confirm your email address.<br><br>"
+                    'To have the confirmation email resent please <a href="%(url)s">click here</a>.',
+                    url=confirm_url,
+                )
             )
         )
 

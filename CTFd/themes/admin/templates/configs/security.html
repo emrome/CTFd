@@ -3,35 +3,35 @@
 	<form method="POST" autocomplete="off" class="w-100">
 		<div class="form-group">
 			<label for="html_sanitization">
-				Sanitización de HTML
+				{% trans %}HTML Sanitization{% endtrans %}
 				<small class="form-text text-muted">
-					Define si CTFd intenta sanitizar (limpiar) el HTML del contenido.
+					{% trans %}Whether CTFd will attempt to sanitize HTML content from content.{% endtrans %}
 				</small>
 			</label>
 			<select class="form-control custom-select" name="html_sanitization">
 				{% if force_html_sanitization %}
 				<option value="Required (Disable in config.ini)">
-					Obligatoria (se desactiva en config.ini)
+					{% trans %}Required (Disable in config.ini){% endtrans %}
 				</option>
 				{% else %}
 				<option value="true" {% if html_sanitization=='true' %}selected{% endif %}>
-					Activada
+					{% trans %}Enabled{% endtrans %}
 				</option>
 				<option value="false" {% if html_sanitization=='false' %}selected{% endif %}>
-					Desactivada
+					{% trans %}Disabled{% endtrans %}
 				</option>
 				{% endif %}
 			</select>
 		</div>
 		<div class="form-group">
 			<label for="ctf_name">
-				Código de registro
-				<small class="form-text text-muted">Código de registro obligatorio para crear una cuenta (no aplica al inicio de sesión único/SSO)</small>
+				{% trans %}Registration Code{% endtrans %}
+				<small class="form-text text-muted">{% trans %}Registration Code required for account registration (SSO excluded){% endtrans %}</small>
 			</label>
-			<input class="form-control" id='registration_code' name='registration_code' type='text' placeholder="Código de registro"
+			<input class="form-control" id='registration_code' name='registration_code' type='text' placeholder="{% trans %}Registration Code{% endtrans %}"
 				   {% if registration_code is defined and registration_code != None %}value="{{ registration_code }}"{% endif %}>
 		</div>
 
-		<button type="submit" class="btn btn-md btn-primary float-right">Actualizar</button>
+		<button type="submit" class="btn btn-md btn-primary float-right">{% trans %}Update{% endtrans %}</button>
 	</form>
 </div>

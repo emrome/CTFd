@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>Panel de administración</title>
+	<title>{% trans %}Admin Panel{% endtrans %}</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="shortcut icon" href="{{ url_for('views.themes', theme='core', path='img/favicon.ico') }}" type="image/x-icon">
@@ -25,6 +25,9 @@
 			'end': {{ Configs.end | tojson }}
 		}
 	</script>
+	<script type="text/javascript">
+		window.CTFdTranslations = {{ get_js_translations() | tojson }};
+	</script>
 	{% block stylesheets %} {% endblock %}
 	{% for stylesheet in get_registered_admin_stylesheets() %}
 		{% if stylesheet.startswith('http') %}
@@ -42,40 +45,40 @@
 		<div class="container">
 			<a href="{{ url_for('views.static_html', route='/') }}" class="navbar-brand">CTFd</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#base-navbars"
-					aria-controls="base-navbars" aria-expanded="false" aria-label="Mostrar u ocultar navegación">
+					aria-controls="base-navbars" aria-expanded="false" aria-label="{% trans %}Toggle navigation{% endtrans %}">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="base-navbars">
 				<ul class="navbar-nav mr-auto">
 					{% if is_admin()%}
-						<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.statistics') }}">Estadísticas</a></li>
-						<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.notifications') }}">Notificaciones</a>
+						<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.statistics') }}">{% trans %}Statistics{% endtrans %}</a></li>
+						<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.notifications') }}">{% trans %}Notifications{% endtrans %}</a>
 						</li>
 						<li class="nav-item dropdown">
-							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Páginas</a>
+							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">{% trans %}Pages{% endtrans %}</a>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" href="{{ url_for('admin.pages_listing') }}">Todas las páginas</a>
-								<a class="dropdown-item" href="{{ url_for('admin.pages_new') }}">Nueva página</a>
+								<a class="dropdown-item" href="{{ url_for('admin.pages_listing') }}">{% trans %}All Pages{% endtrans %}</a>
+								<a class="dropdown-item" href="{{ url_for('admin.pages_new') }}">{% trans %}New Page{% endtrans %}</a>
 							</div>
 						</li>
-						<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.users_listing') }}">Usuarios</a></li>
+						<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.users_listing') }}">{% trans %}Users{% endtrans %}</a></li>
 						{% if get_config('user_mode') == 'teams' %}
-						<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.teams_listing') }}">Equipos</a></li>
+						<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.teams_listing') }}">{% trans %}Teams{% endtrans %}</a></li>
 						{% endif %}
-						<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.scoreboard_listing') }}">Ranking</a></li>
+						<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.scoreboard_listing') }}">{% trans %}Scoreboard{% endtrans %}</a></li>
 					{% endif %}
-					<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.challenges_listing') }}">Desafíos</a></li>
+					<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.challenges_listing') }}">{% trans %}Challenges{% endtrans %}</a></li>
 					{% if is_admin()%}
 						<li class="nav-item dropdown">
 							<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
-								aria-haspopup="true" aria-expanded="true">Envíos</a>
+								aria-haspopup="true" aria-expanded="true">{% trans %}Submissions{% endtrans %}</a>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" href="{{ url_for('admin.submissions_listing') }}">Todos los envíos</a>
-								<a class="dropdown-item" href="{{ url_for('admin.submissions_listing', submission_type='correct') }}">Envíos correctos</a>
-								<a class="dropdown-item" href="{{ url_for('admin.submissions_listing', submission_type='incorrect') }}">Envíos incorrectos</a>
+								<a class="dropdown-item" href="{{ url_for('admin.submissions_listing') }}">{% trans %}All Submissions{% endtrans %}</a>
+								<a class="dropdown-item" href="{{ url_for('admin.submissions_listing', submission_type='correct') }}">{% trans %}Correct Submissions{% endtrans %}</a>
+								<a class="dropdown-item" href="{{ url_for('admin.submissions_listing', submission_type='incorrect') }}">{% trans %}Incorrect Submissions{% endtrans %}</a>
 							</div>
 						</li>
-						<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.config') }}">Configuración</a></li>
+						<li class="nav-item"><a class="nav-link" href="{{ url_for('admin.config') }}">{% trans %}Config{% endtrans %}</a></li>
 					{% endif %}
 
 					{% set plugin_menu = get_admin_plugin_menu_bar() %}
@@ -123,7 +126,7 @@
 			<div class="row">
 				<div class="col-md-12">
 					<a class="btn btn-warning" href="{{ get_config('version_latest') }}">
-						¡Hay una nueva versión de CTFd disponible!
+						{% trans %}A new CTFd version is available!{% endtrans %}
 					</a>
 				</div>
 			</div>
@@ -137,11 +140,11 @@
 		<div class="container text-center">
 			<a href="https://ctfd.io" class="text-secondary">
 				<small class="text-muted">
-					Desarrollado con CTFd
+					{% trans %}Powered by CTFd{% endtrans %}
 				</small>
 			</a>
 			<span>
-				<small class="text-muted"><br> Versión {{ get_config('ctf_version') }}</small>
+				<small class="text-muted"><br> {% trans version=get_config('ctf_version') %}Version {{ version }}{% endtrans %}</small>
 			</span>
 		</div>
 	</footer>

@@ -27,6 +27,9 @@
 			'theme_settings': {{ Configs.theme_settings | tojson }}
 		}
 	</script>
+	<script type="text/javascript">
+		window.CTFdTranslations = {{ get_js_translations() | tojson }};
+	</script>
 	{{ Configs.theme_header }}
 </head>
 <body>

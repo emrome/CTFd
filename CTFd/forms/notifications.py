@@ -1,3 +1,4 @@
+from flask_babel import lazy_gettext as _l
 from wtforms import BooleanField, RadioField, StringField, TextAreaField
 from wtforms.validators import InputRequired
 
@@ -6,25 +7,25 @@ from CTFd.forms.fields import SubmitField
 
 
 class NotificationForm(BaseForm):
-    title = StringField("Título", description="Título de la notificación")
+    title = StringField(_l("Title"), description=_l("Notification title"))
     content = TextAreaField(
-        "Contenido",
-        description="Contenido de la notificación. Puede incluir HTML y/o Markdown.",
+        _l("Content"),
+        description=_l("Notification contents. Can consist of HTML and/or Markdown."),
     )
     type = RadioField(
-        "Tipo de notificación",
+        _l("Notification Type"),
         choices=[
-            ("toast", "Emergente"),
-            ("alert", "Alerta"),
-            ("background", "En segundo plano"),
+            ("toast", _l("Toast")),
+            ("alert", _l("Alert")),
+            ("background", _l("Background")),
         ],
         default="toast",
-        description="Qué tipo de notificación reciben los usuarios",
+        description=_l("What type of notification users receive"),
         validators=[InputRequired()],
     )
     sound = BooleanField(
-        "Reproducir sonido",
+        _l("Play Sound"),
         default=True,
-        description="Reproduce un sonido cuando los usuarios reciben la notificación",
+        description=_l("Play sound for users when they receive the notification"),
     )
-    submit = SubmitField("Enviar")
+    submit = SubmitField(_l("Submit"))

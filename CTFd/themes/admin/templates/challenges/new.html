@@ -6,7 +6,7 @@
 {% block content %}
 <div class="jumbotron">
 	<div class="container">
-		<h1>Crear desafío</h1>
+		<h1>{% trans %}Create Challenge{% endtrans %}</h1>
 	</div>
 </div>
 
@@ -14,7 +14,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Opciones</h5>
+				<h5 class="modal-title">{% trans %}Options{% endtrans %}</h5>
 				<button type="button" class="close" data-dismiss="modal">
 					<span>&times;</span>
 				</button>
@@ -26,7 +26,7 @@
 							<div class="col-md-8">
 								<label>
 									Flag:<br>
-									<small class="form-text text-muted">Flag estática para tu desafío</small>
+									<small class="form-text text-muted">{% trans %}Static flag for your challenge{% endtrans %}</small>
 								</label>
 								<input type="text" class="form-control" name="flag">
 							</div>
@@ -36,8 +36,8 @@
 									<small class="form-text text-muted">&nbsp;</small>
 								</label>
 								<select class="form-control custom-select w-100" name="flag_data">
-									<option value="">Distingue mayúsculas</option>
-									<option value="case_insensitive">No distingue mayúsculas</option>
+									<option value="">{% trans %}Case Sensitive{% endtrans %}</option>
+									<option value="case_insensitive">{% trans %}Case Insensitive{% endtrans %}</option>
 								</select>
 							</div>
 						</div>
@@ -46,26 +46,26 @@
 					<div class="form-group">
 						<div class="form-group">
 							<label>
-								Archivos:
-								<small class="form-text text-muted">Archivos que se entregan junto con tu desafío</small>
+								{% trans %}Files:{% endtrans %}
+								<small class="form-text text-muted">{% trans %}Files distributed along with your challenge{% endtrans %}</small>
 							</label>
 							<input class="form-control-file" type="file" name="file" multiple="multiple">
-							<sub class="text-muted">Adjuntá varios archivos con Control+Clic o Cmd+Clic</sub>
+							<sub class="text-muted">{% trans %}Attach multiple files using Control+Click or Cmd+Click{% endtrans %}</sub>
 						</div>
 					</div>
 					<div class="form-group">
 						<label>
-							Estado<br>
-							<small class="form-text text-muted">Si el desafío se muestra a los usuarios</small>
+							{% trans %}State{% endtrans %}<br>
+							<small class="form-text text-muted">{% trans %}Should the challenge be visible to users{% endtrans %}</small>
 						</label>
 						<select class="form-control custom-select" name="state">
 							<option value="visible">Visible</option>
-							<option value="hidden" selected>Oculto</option>
+							<option value="hidden" selected>{% trans %}Hidden{% endtrans %}</option>
 						</select>
 					</div>
 					<input id="challenge_id" type="hidden" name="challenge_id">
 					<div class="form-group">
-						<button class="btn btn-primary float-right create-challenge-submit" type="submit">Finalizar</button>
+						<button class="btn btn-primary float-right create-challenge-submit" type="submit">{% trans %}Finish{% endtrans %}</button>
 					</div>
 				</form>
 			</div>
@@ -77,7 +77,7 @@
 	<div class="row">
 		<div class="col-md-3 offset-md-1">
 			<h5 class="text-center pb-3">
-				Tipos de desafío
+				{% trans %}Challenge Types{% endtrans %}
 			</h5>
 			<div id="create-chals-select">
 				{% for type in types %}

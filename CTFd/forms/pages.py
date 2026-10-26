@@ -1,3 +1,5 @@
+from flask_babel import lazy_gettext as _l
+from flask_babel import lazy_pgettext
 from wtforms import (
     BooleanField,
     HiddenField,
@@ -13,29 +15,31 @@ from CTFd.forms import BaseForm
 
 class PageEditForm(BaseForm):
     title = StringField(
-        "Título", description="Es el título que se muestra en la barra de navegación"
+        _l("Title"), description=_l("This is the title shown on the navigation bar")
     )
     route = StringField(
-        "Ruta",
-        description="Es la ruta URL donde va a estar tu página (por ej.: /pagina). También podés ingresar un enlace para que apunte a esa página.",
+        _l("Route"),
+        description=_l(
+            "This is the URL route that your page will be at (e.g. /page). You can also enter links to link to that page."
+        ),
     )
-    draft = BooleanField("Borrador")
-    hidden = BooleanField("Oculta")
-    auth_required = BooleanField("Requiere iniciar sesión")
-    content = TextAreaField("Contenido")
+    draft = BooleanField(_l("Draft"))
+    hidden = BooleanField(lazy_pgettext("page", "Hidden"))
+    auth_required = BooleanField(_l("Authentication Required"))
+    content = TextAreaField(_l("Content"))
     format = SelectField(
-        "Formato",
+        _l("Format"),
         choices=[("markdown", "Markdown"), ("html", "HTML")],
         default="markdown",
         validators=[InputRequired()],
-        description="El formato de marcado con el que se muestra la página",
+        description=_l("The markup format used to render the page"),
     )
 
 
 class PageFilesUploadForm(BaseForm):
     file = MultipleFileField(
-        "Subir archivos",
-        description="Elegí varios archivos con Control+Clic o Cmd+Clic.",
+        _l("Upload Files"),
+        description=_l("Attach multiple files using Control+Click or Cmd+Click."),
         validators=[InputRequired()],
     )
-    type = HiddenField("Tipo de página", default="page", validators=[InputRequired()])
+    type = HiddenField(_l("Page Type"), default="page", validators=[InputRequired()])

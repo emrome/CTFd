@@ -1,19 +1,19 @@
 <label>
 	Regex<br>
-	<small>Ingresá la flag como expresión regular</small>
+	<small>{{ _("Enter regex key data") }}</small>
 </label>
 <div class="form-group">
 	<input type="text" class="form-control" name="content" value="{{ content }}">
 </div>
 <div class="form-group">
 	<select class="form-control custom-select col-md-6" name="data">
-		<option value="">Distingue mayúsculas</option>
-		<option value="case_insensitive" {% if data %}selected{% endif %}>No distingue mayúsculas</option>
+		<option value="">{{ _("Case Sensitive") }}</option>
+		<option value="case_insensitive" {% if data %}selected{% endif %}>{{ _("Case Insensitive") }}</option>
 	</select>
 </div>
 <input type="hidden" name="type" value="regex">
 <input type="hidden" name="id" value="{{ id }}">
 <hr>
 <div class="form-group">
-	<button class="btn btn-success float-right">Actualizar</button>
+	<button class="btn btn-success float-right">{{ _("Update") }}</button>
 </div>

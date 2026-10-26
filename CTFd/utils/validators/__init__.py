@@ -2,6 +2,7 @@ import re
 from urllib.parse import urljoin, urlparse
 
 from flask import request
+from flask_babel import gettext as _
 from marshmallow import ValidationError
 
 from CTFd.constants.languages import LANGUAGE_NAMES
@@ -30,20 +31,20 @@ def unique_email(email, model=Users):
     obj = model.query.filter_by(email=email).first()
     if is_admin():
         if obj:
-            raise ValidationError("Email address has already been used")
+            raise ValidationError(_("Email address has already been used"))
     if obj and obj.id != get_current_user().id:
-        raise ValidationError("Email address has already been used")
+        raise ValidationError(_("Email address has already been used"))
 
 
 def validate_country_code(country_code):
     if country_code.strip() == "":
         return
     if lookup_country_code(country_code) is None:
-        raise ValidationError("Invalid Country")
+        raise ValidationError(_("Invalid Country"))
 
 
 def validate_language(language):
     if language.strip() == "":
         return
     if LANGUAGE_NAMES.get(language) is None:
-        raise ValidationError("Invalid Language")
+        raise ValidationError(_("Invalid Language"))

@@ -6,7 +6,7 @@
           <div class="container">
             <div class="row">
               <div class="col-md-12">
-                <h3>Crear flag</h3>
+                <h3>{{ t("Create Flag") }}</h3>
               </div>
             </div>
           </div>
@@ -15,7 +15,7 @@
             type="button"
             class="close"
             data-dismiss="modal"
-            aria-label="Cerrar"
+            :aria-label="t('Close')"
           >
             <span aria-hidden="true">&times;</span>
           </button>
@@ -23,7 +23,7 @@
         <div class="modal-body">
           <div class="create-keys-select-div">
             <label for="create-keys-select" class="control-label">
-              Elegí el tipo de flag
+              {{ t("Choose Flag Type") }}
             </label>
             <select
               class="form-control custom-select"
@@ -46,7 +46,7 @@
               type="submit"
               v-if="createForm"
             >
-              Crear flag
+              {{ t("Create Flag") }}
             </button>
           </form>
         </div>
@@ -59,6 +59,7 @@
 import $ from "jquery";
 import CTFd from "core/CTFd";
 import nunjucks from "nunjucks";
+import { t } from "core/i18n";
 
 export default {
   name: "FlagCreationForm",
@@ -73,6 +74,7 @@ export default {
     };
   },
   methods: {
+    t,
     selectType: function(event) {
       let flagType = event.target.value;
       if (this.types[flagType] === undefined) {
@@ -85,7 +87,8 @@ export default {
       $.get(CTFd.config.urlRoot + createFormURL, template_data => {
         const template = nunjucks.compile(template_data);
         this.selectedType = flagType;
-        this.createForm = template.render();
+        // Flag type templates translate their text with _()
+        this.createForm = template.render({ _: t });
 
         // TODO: See https://github.com/CTFd/CTFd/issues/1779
         if (this.createForm.includes("<script")) {

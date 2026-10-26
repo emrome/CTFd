@@ -3,6 +3,7 @@ import { ezToast, ezQuery } from "core/ezq";
 import { htmlEntities } from "core/utils";
 import CTFd from "core/CTFd";
 import nunjucks from "nunjucks";
+import { t } from "core/i18n";
 
 function renderSubmissionResponse(response, cb) {
   const result = response.data;
@@ -47,7 +48,8 @@ function renderSubmissionResponse(response, cb) {
           .split(" ")[0]
       ) +
         1 +
-        " Resoluciones"
+        " " +
+        t("Solves")
     );
 
     answer_input.val("");
@@ -164,8 +166,9 @@ $(() => {
 
   $(".delete-challenge").click(function(_event) {
     ezQuery({
-      title: "Borrar desafío",
-      body: "¿Seguro que querés borrar {0}?".format(
+      title: t("Delete Challenge"),
+      body: t(
+        "Are you sure you want to delete {0}",
         "<strong>" + htmlEntities(window.CHALLENGE_NAME) + "</strong>"
       ),
       success: function() {
@@ -195,8 +198,8 @@ $(() => {
     }).then(function(data) {
       if (data.success) {
         ezToast({
-          title: "Listo",
-          body: "¡Se actualizó tu desafío!"
+          title: t("Success"),
+          body: t("Your challenge has been updated!")
         });
       }
     });

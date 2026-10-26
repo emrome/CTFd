@@ -5,8 +5,8 @@
 	{% block name %}
 	<div class="form-group">
 		<label>
-			Nombre<br>
-			<small class="form-text text-muted">Nombre del desafío</small>
+			{% trans %}Name{% endtrans %}<br>
+			<small class="form-text text-muted">{% trans %}Challenge Name{% endtrans %}</small>
 		</label>
 		<input type="text" class="form-control chal-name" name="name" value="{{ challenge.name }}">
 	</div>
@@ -15,8 +15,8 @@
 	{% block category %}
 	<div class="form-group">
 		<label>
-			Categoría<br>
-			<small class="form-text text-muted">Categoría del desafío</small>
+			{% trans %}Category{% endtrans %}<br>
+			<small class="form-text text-muted">{% trans %}Challenge Category{% endtrans %}</small>
 		</label>
 		<input type="text" class="form-control chal-category" name="category" value="{{ challenge.category }}">
 	</div>
@@ -25,9 +25,9 @@
 	{% block message %}
 	<div class="form-group">
 		<label>
-			Descripción<br>
+			{{ pgettext("challenge", "Message") }}<br>
 			<small class="form-text text-muted">
-				Usá este campo para dar una breve introducción a tu desafío.
+				{% trans %}Use this to give a brief introduction to your challenge.{% endtrans %}
 			</small>
 		</label>
 		<textarea id="desc-editor" class="form-control chal-desc-editor markdown" name="description" rows="10">{{ challenge.description }}</textarea>
@@ -37,9 +37,9 @@
 	{% block connection_info %}
 	<div class="form-group">
 		<label>
-			Información de conexión<br>
+			{% trans %}Connection Info{% endtrans %}<br>
 			<small class="form-text text-muted">
-				Usá este campo para indicar un enlace, un nombre de host o instrucciones de conexión para tu desafío.
+				{% trans %}Use this to specify a link, hostname, or connection instructions for your challenge.{% endtrans %}
 			</small>
 		</label>
 		<input type="text" class="form-control chal-connection-info" name="connection_info" value="{{ challenge.connection_info | default('', true) }}">
@@ -49,9 +49,9 @@
 	{% block value %}
 	<div class="form-group">
 		<label for="value">
-			Puntaje<br>
+			{% trans %}Value{% endtrans %}<br>
 			<small class="form-text text-muted">
-				Es la cantidad de puntos que reciben los equipos al resolver este desafío.
+				{% trans %}This is how many points teams will receive once they solve this challenge.{% endtrans %}
 			</small>
 		</label>
 		<input type="number" class="form-control chal-value" name="value" value="{{ challenge.value }}" required>
@@ -61,8 +61,8 @@
 	{% block max_attempts %}
 	<div class="form-group">
 		<label>
-			Intentos máximos<br>
-			<small class="form-text text-muted">Cantidad máxima de intentos que tiene cada usuario. Dejalo en 0 para que sean ilimitados.</small>
+			{% trans %}Max Attempts{% endtrans %}<br>
+			<small class="form-text text-muted">{% trans %}Maximum amount of attempts users receive. Leave at 0 for unlimited.{% endtrans %}</small>
 		</label>
 
 		<input type="number" class="form-control chal-attempts" name="max_attempts" value="{{ challenge.max_attempts }}">
@@ -72,13 +72,13 @@
 	{% block state %}
 	<div class="form-group">
 		<label>
-			Estado<br>
-			<small class="form-text text-muted">Cambia el estado del desafío (por ej. visible, oculto)</small>
+			{% trans %}State{% endtrans %}<br>
+			<small class="form-text text-muted">{% trans %}Changes the state of the challenge (e.g. visible, hidden){% endtrans %}</small>
 		</label>
 
 		<select class="form-control custom-select" name="state">
 			<option value="visible" {% if challenge.state == "visible" %}selected{% endif %}>Visible</option>
-			<option value="hidden" {% if challenge.state == "hidden" %}selected{% endif %}>Oculto</option>
+			<option value="hidden" {% if challenge.state == "hidden" %}selected{% endif %}>{% trans %}Hidden{% endtrans %}</option>
 		</select>
 	</div>
 	{% endblock %}
@@ -86,7 +86,7 @@
 	{% block submit %}
 	<div>
 		<button class="btn btn-success btn-outlined float-right" type="submit">
-			Actualizar
+			{% trans %}Update{% endtrans %}
 		</button>
 	</div>
 	{% endblock %}

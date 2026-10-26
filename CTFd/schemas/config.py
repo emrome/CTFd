@@ -1,3 +1,4 @@
+from flask_babel import gettext as _
 from marshmallow import fields
 from marshmallow.exceptions import ValidationError
 from marshmallow_sqlalchemy import field_for
@@ -17,7 +18,7 @@ class ConfigValueField(fields.Field):
             # You may be able to exceed this in other databases
             # but MySQL is our database of record
             if len(value) > 65535:
-                raise ValidationError(f'{data["key"]} config is too long')
+                raise ValidationError(_("%(key)s config is too long", key=data["key"]))
             return value
         else:
             return value

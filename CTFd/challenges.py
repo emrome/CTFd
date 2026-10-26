@@ -1,4 +1,5 @@
 from flask import Blueprint, redirect, render_template, request, url_for
+from flask_babel import gettext as _
 
 from CTFd.constants.config import ChallengeVisibilityTypes, Configs
 from CTFd.utils.config import is_teams_mode
@@ -34,15 +35,15 @@ def listing():
     errors = get_errors()
 
     if Configs.challenge_visibility == ChallengeVisibilityTypes.ADMINS:
-        infos.append("Challenge Visibility is set to Admins Only")
+        infos.append(_("Challenge Visibility is set to Admins Only"))
 
     if ctf_started() is False:
-        errors.append(f"{Configs.ctf_name} has not started yet")
+        errors.append(_("%(ctf_name)s has not started yet", ctf_name=Configs.ctf_name))
 
     if ctf_paused() is True:
-        infos.append(f"{Configs.ctf_name} is paused")
+        infos.append(_("%(ctf_name)s is paused", ctf_name=Configs.ctf_name))
 
     if ctf_ended() is True:
-        infos.append(f"{Configs.ctf_name} has ended")
+        infos.append(_("%(ctf_name)s has ended", ctf_name=Configs.ctf_name))
 
     return render_template("challenges.html", infos=infos, errors=errors)

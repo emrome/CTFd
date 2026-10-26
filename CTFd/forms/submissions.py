@@ -1,3 +1,4 @@
+from flask_babel import lazy_gettext as _l
 from wtforms import SelectField, StringField
 from wtforms.validators import InputRequired
 
@@ -7,16 +8,16 @@ from CTFd.forms.fields import SubmitField
 
 class SubmissionSearchForm(BaseForm):
     field = SelectField(
-        "Buscar por",
+        _l("Search Field"),
         choices=[
-            ("provided", "Respuesta enviada"),
+            ("provided", _l("Provided")),
             ("id", "ID"),
-            ("account_id", "ID de cuenta"),
-            ("challenge_id", "ID de desafío"),
-            ("challenge_name", "Nombre del desafío"),
+            ("account_id", _l("Account ID")),
+            ("challenge_id", _l("Challenge ID")),
+            ("challenge_name", _l("Challenge Name")),
         ],
         default="provided",
         validators=[InputRequired()],
     )
-    q = StringField("Término de búsqueda", validators=[InputRequired()])
-    submit = SubmitField("Buscar")
+    q = StringField(_l("Parameter"), validators=[InputRequired()])
+    submit = SubmitField(_l("Search"))

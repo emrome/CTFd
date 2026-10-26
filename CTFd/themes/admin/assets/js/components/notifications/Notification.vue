@@ -6,7 +6,7 @@
       class="delete-notification close position-absolute p-3"
       style="right:0;"
       data-dismiss="alert"
-      aria-label="Cerrar"
+      :aria-label="t('Close')"
       @click="deleteNotification()"
     >
       <span aria-hidden="true">&times;</span>
@@ -27,6 +27,7 @@
 import CTFd from "core/CTFd";
 import dayjs from "dayjs";
 import hljs from "highlight.js";
+import { t } from "core/i18n";
 export default {
   props: {
     id: Number,
@@ -36,11 +37,12 @@ export default {
     date: String
   },
   methods: {
+    t,
     localDate: function() {
       return dayjs(this.date).format("MMMM Do, h:mm:ss A");
     },
     deleteNotification: function() {
-      if (confirm("¿Seguro que querés borrar esta notificación?")) {
+      if (confirm(t("Are you sure you want to delete this notification?"))) {
         CTFd.api
           .delete_notification({ notificationId: this.id })
           .then(response => {
