@@ -86,9 +86,9 @@
                       class="alert alert-success alert-dismissible submit-row" role="alert"
                       x-cloak="success" x-show="success"
                   >
-                    <strong>Success!</strong>
+                    <strong>{% trans %}Success!{% endtrans %}</strong>
                     {% trans %}Your profile has been updated{% endtrans %}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="{% trans %}Close{% endtrans %}">
                     </button>
                   </div>
 
@@ -99,7 +99,7 @@
                       <span x-text="msg"></span>
                       <button
                           type="button" class="btn-close" data-bs-dismiss="alert"
-                          aria-label="Close"
+                          aria-label="{% trans %}Close{% endtrans %}"
                       >
                       </button>
                     </div>
@@ -124,7 +124,7 @@
                         <h5 class="modal-title">{% trans %}API Key Generated{% endtrans %}</h5>
                         <button
                             type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"
+                            aria-label="{% trans %}Close{% endtrans %}"
                         ></button>
                       </div>
 
@@ -147,7 +147,7 @@
 
                       <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                          Got it!
+                          {% trans %}Got it!{% endtrans %}
                         </button>
                       </div>
                     </div>
@@ -190,7 +190,7 @@
                         <h5 class="modal-title">{% trans %}Delete Token{% endtrans %}</h5>
                         <button
                             type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"
+                            aria-label="{% trans %}Close{% endtrans %}"
                         >
                         </button>
                       </div>
@@ -201,12 +201,12 @@
 
                       <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                          No
+                          {% trans %}No{% endtrans %}
                         </button>
                         <button
                             type="button" class="btn btn-primary" data-bs-dismiss="modal"
                             @click="deleteSelectedToken()"
-                        >Yes
+                        >{% trans %}Yes{% endtrans %}
                         </button>
                       </div>
                     </div>
