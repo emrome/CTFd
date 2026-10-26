@@ -157,7 +157,10 @@ class UserBaseForm(BaseForm):
     website = StringField("Sitio web")
     affiliation = StringField("Institución")
     country = SelectField("País", choices=SELECT_COUNTRIES_LIST)
-    type = SelectField("Tipo", choices=[("user", "Usuario"), ("admin", "Administrador"), ("author", "Autor")])
+    type = SelectField(
+        "Tipo",
+        choices=[("user", "Usuario"), ("admin", "Administrador"), ("author", "Autor")],
+    )
     verified = BooleanField("Verificado")
     hidden = BooleanField("Oculto")
     banned = BooleanField("Suspendido")
@@ -193,7 +196,9 @@ def UserEditForm(*args, **kwargs):
 
 def UserCreateForm(*args, **kwargs):
     class _UserCreateForm(UserBaseForm):
-        notify = BooleanField("Enviar los datos de acceso al correo del usuario", default=True)
+        notify = BooleanField(
+            "Enviar los datos de acceso al correo del usuario", default=True
+        )
 
         @property
         def extra(self):
