@@ -3,16 +3,20 @@ import os
 from flask import current_app, url_for
 
 from CTFd.utils import get_asset_json
-from CTFd.utils.config import ctf_theme
+from CTFd.utils.config import ctf_theme_candidates
 from CTFd.utils.helpers import markup
 
 
 class _AssetsWrapper:
     def manifest(self):
-        theme = ctf_theme()
-        manifest = os.path.join(
-            current_app.root_path, "themes", theme, "static", "manifest.json"
-        )
+        # Use the manifest of the first candidate theme that has one, so that
+        # THEME_FALLBACK also works for templates rendered from the default theme
+        for theme in ctf_theme_candidates():
+            manifest = os.path.join(
+                current_app.root_path, "themes", theme, "static", "manifest.json"
+            )
+            if os.path.isfile(manifest):
+                break
         return get_asset_json(path=manifest)
 
     def js(self, asset_key):
