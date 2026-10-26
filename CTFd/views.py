@@ -402,6 +402,23 @@ def static_html(route):
         return render_template("page.html", content=page.html, title=page.title)
 
 
+@views.route("/acerca")
+def acerca():
+    """
+    About page with credits and license. A Page with the "acerca" route takes
+    precedence; otherwise the theme's acerca.html template is used if it has one.
+    """
+    page = get_page("acerca")
+    if page is not None:
+        if page.auth_required and authed() is False:
+            return redirect(url_for("auth.login", next=request.full_path))
+        return render_template("page.html", content=page.html, title=page.title)
+    try:
+        return render_template("acerca.html")
+    except TemplateNotFound:
+        abort(404)
+
+
 @views.route("/tos")
 def tos():
     tos_url = get_config("tos_url")
