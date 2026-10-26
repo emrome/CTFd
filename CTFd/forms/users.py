@@ -114,20 +114,20 @@ def attach_registration_code_field(form_cls):
 
 class UserSearchForm(BaseForm):
     field = SelectField(
-        "Buscar por",
+        _l("Search Field"),
         choices=[
-            ("name", "Nombre"),
+            ("name", _l("Name")),
             ("id", "ID"),
-            ("email", "Correo"),
-            ("affiliation", "Institución"),
-            ("website", "Sitio web"),
-            ("ip", "Dirección IP"),
+            ("email", _l("Email")),
+            ("affiliation", _l("Affiliation")),
+            ("website", _l("Website")),
+            ("ip", _l("IP Address")),
         ],
         default="name",
         validators=[InputRequired()],
     )
-    q = StringField("Término de búsqueda", validators=[InputRequired()])
-    submit = SubmitField("Buscar")
+    q = StringField(_l("Parameter"), validators=[InputRequired()])
+    submit = SubmitField(_l("Search"))
 
 
 class PublicUserSearchForm(BaseForm):
@@ -150,21 +150,25 @@ class PublicUserSearchForm(BaseForm):
 
 
 class UserBaseForm(BaseForm):
-    name = StringField("Nombre de usuario", validators=[InputRequired()])
-    email = EmailField("Correo", validators=[InputRequired()])
+    name = StringField(_l("User Name"), validators=[InputRequired()])
+    email = EmailField(_l("Email"), validators=[InputRequired()])
     language = SelectField(_l("Language"), choices=SELECT_LANGUAGE_LIST)
-    password = PasswordField("Contraseña")
-    website = StringField("Sitio web")
-    affiliation = StringField("Institución")
-    country = SelectField("País", choices=SELECT_COUNTRIES_LIST)
+    password = PasswordField(_l("Password"))
+    website = StringField(_l("Website"))
+    affiliation = StringField(_l("Affiliation"))
+    country = SelectField(_l("Country"), choices=SELECT_COUNTRIES_LIST)
     type = SelectField(
-        "Tipo",
-        choices=[("user", "Usuario"), ("admin", "Administrador"), ("author", "Autor")],
+        _l("Type"),
+        choices=[
+            ("user", _l("User")),
+            ("admin", _l("Admin")),
+            ("author", _l("Author")),
+        ],
     )
-    verified = BooleanField("Verificado")
-    hidden = BooleanField("Oculto")
-    banned = BooleanField("Suspendido")
-    submit = SubmitField("Enviar")
+    verified = BooleanField(_l("Verified"))
+    hidden = BooleanField(_l("Hidden"))
+    banned = BooleanField(_l("Banned"))
+    submit = SubmitField(_l("Submit"))
 
 
 def UserEditForm(*args, **kwargs):
@@ -196,9 +200,7 @@ def UserEditForm(*args, **kwargs):
 
 def UserCreateForm(*args, **kwargs):
     class _UserCreateForm(UserBaseForm):
-        notify = BooleanField(
-            "Enviar los datos de acceso al correo del usuario", default=True
-        )
+        notify = BooleanField(_l("Email account credentials to user"), default=True)
 
         @property
         def extra(self):

@@ -1,3 +1,4 @@
+from flask_babel import lazy_gettext as _l
 from wtforms import BooleanField, FileField, SelectField, StringField, TextAreaField
 from wtforms.fields.html5 import IntegerField, URLField
 from wtforms.widgets.html5 import NumberInput
@@ -15,158 +16,178 @@ from CTFd.utils.csv import get_dumpable_tables
 
 class ResetInstanceForm(BaseForm):
     accounts = BooleanField(
-        "Cuentas",
-        description="Borra todas las cuentas de usuarios y equipos, y su información asociada",
+        _l("Accounts"),
+        description=_l(
+            "Deletes all user and team accounts and their associated information"
+        ),
     )
     submissions = BooleanField(
-        "Envíos",
-        description="Borra todos los registros de puntos obtenidos o acciones realizadas por las cuentas",
+        _l("Submissions"),
+        description=_l(
+            "Deletes all records that accounts gained points or took an action"
+        ),
     )
     challenges = BooleanField(
-        "Desafíos", description="Borra todos los desafíos y sus datos asociados"
+        _l("Challenges"), description=_l("Deletes all challenges and associated data")
     )
     pages = BooleanField(
-        "Páginas", description="Borra todas las páginas y sus archivos asociados"
+        _l("Pages"), description=_l("Deletes all pages and their associated files")
     )
     notifications = BooleanField(
-        "Notificaciones", description="Borra todas las notificaciones"
+        _l("Notifications"), description=_l("Deletes all notifications")
     )
-    submit = SubmitField("Reiniciar CTF")
+    submit = SubmitField(_l("Reset CTF"))
 
 
 class AccountSettingsForm(BaseForm):
     domain_whitelist = StringField(
-        "Dominios de correo permitidos",
-        description="Dominios de correo, separados por comas, con los que se pueden registrar los usuarios (por ej.: ctfd.io, example.com, *.example.com)",
+        _l("Account Email Whitelist"),
+        description=_l(
+            "Comma-seperated email domains which users can register under (e.g. ctfd.io, example.com, *.example.com)"
+        ),
     )
     team_creation = SelectField(
-        "Creación de equipos",
-        description="Define si los usuarios pueden crear sus propios equipos (solo en modo por equipos)",
-        choices=[("true", "Habilitado"), ("false", "Deshabilitado")],
+        _l("Team Creation"),
+        description=_l(
+            "Control whether users can create their own teams (Teams mode only)"
+        ),
+        choices=[("true", _l("Enabled")), ("false", _l("Disabled"))],
         default="true",
     )
     team_size = IntegerField(
-        "Tamaño de los equipos",
+        _l("Team Size"),
         widget=NumberInput(min=0),
-        description="Cantidad de usuarios por equipo (solo en modo por equipos)",
+        description=_l("Amount of users per team (Teams mode only)"),
     )
     num_teams = IntegerField(
-        "Cantidad máxima de equipos",
+        _l("Total Number of Teams"),
         widget=NumberInput(min=0),
-        description="Cantidad máxima de equipos (solo en modo por equipos)",
+        description=_l("Max number of teams (Teams mode only)"),
     )
     num_users = IntegerField(
-        "Cantidad máxima de usuarios",
+        _l("Total Number of Users"),
         widget=NumberInput(min=0),
-        description="Cantidad máxima de usuarios",
+        description=_l("Max number of users"),
     )
     verify_emails = SelectField(
-        "Verificar correos",
-        description="Define si los usuarios tienen que confirmar su correo antes de jugar",
-        choices=[("true", "Habilitado"), ("false", "Deshabilitado")],
+        _l("Verify Emails"),
+        description=_l(
+            "Control whether users must confirm their email addresses before playing"
+        ),
+        choices=[("true", _l("Enabled")), ("false", _l("Disabled"))],
         default="false",
     )
     team_disbanding = SelectField(
-        "Disolución de equipos",
-        description="Define si los capitanes pueden disolver sus propios equipos",
+        _l("Team Disbanding"),
+        description=_l(
+            "Control whether team captains are allowed to disband their own teams"
+        ),
         choices=[
-            ("inactive_only", "Habilitado para equipos inactivos"),
-            ("disabled", "Deshabilitado"),
+            ("inactive_only", _l("Enabled for Inactive Teams")),
+            ("disabled", _l("Disabled")),
         ],
         default="inactive_only",
     )
     name_changes = SelectField(
-        "Cambios de nombre",
-        description="Define si los usuarios y equipos pueden cambiar su nombre",
-        choices=[("true", "Habilitado"), ("false", "Deshabilitado")],
+        _l("Name Changes"),
+        description=_l("Control whether users and teams can change their names"),
+        choices=[("true", _l("Enabled")), ("false", _l("Disabled"))],
         default="true",
     )
     incorrect_submissions_per_min = IntegerField(
-        "Envíos incorrectos por minuto",
+        _l("Incorrect Submissions per Minute"),
         widget=NumberInput(min=1),
-        description="Cantidad de envíos permitidos por minuto, para proteger contra ataques de fuerza bruta a las flags (predeterminado: 10)",
+        description=_l(
+            "Amount of submissions allowed per minute for flag bruteforce protection (default: 10)"
+        ),
     )
 
-    submit = SubmitField("Actualizar")
+    submit = SubmitField(_l("Update"))
 
 
 class ExportCSVForm(BaseForm):
-    table = SelectField("Tabla de la base de datos", choices=get_dumpable_tables())
-    submit = SubmitField("Descargar CSV")
+    table = SelectField(_l("Database Table"), choices=get_dumpable_tables())
+    submit = SubmitField(_l("Download CSV"))
 
 
 class ImportCSVForm(BaseForm):
     csv_type = SelectField(
-        "Tipo de CSV",
+        _l("CSV Type"),
         choices=[
-            ("users", "Usuarios"),
-            ("teams", "Equipos"),
-            ("challenges", "Desafíos"),
+            ("users", _l("Users")),
+            ("teams", _l("Teams")),
+            ("challenges", _l("Challenges")),
         ],
-        description="Tipo de datos del CSV",
+        description=_l("Type of CSV data"),
     )
-    csv_file = FileField("Archivo CSV", description="Contenido del archivo CSV")
+    csv_file = FileField(_l("CSV File"), description=_l("CSV file contents"))
 
 
 class LegalSettingsForm(BaseForm):
     tos_url = URLField(
-        "URL de los Términos de servicio",
-        description="URL externa de un documento de Términos de servicio alojado en otro sitio",
+        _l("Terms of Service URL"),
+        description=_l("External URL to a Terms of Service document hosted elsewhere"),
     )
     tos_text = TextAreaField(
-        "Términos de servicio",
-        description="Texto que se muestra en la página de Términos de servicio",
+        _l("Terms of Service"),
+        description=_l("Text shown on the Terms of Service page"),
     )
     privacy_url = URLField(
-        "URL de la Política de privacidad",
-        description="URL externa de un documento de Política de privacidad alojado en otro sitio",
+        _l("Privacy Policy URL"),
+        description=_l("External URL to a Privacy Policy document hosted elsewhere"),
     )
     privacy_text = TextAreaField(
-        "Política de privacidad",
-        description="Texto que se muestra en la página de Política de privacidad",
+        _l("Privacy Policy"),
+        description=_l("Text shown on the Privacy Policy page"),
     )
-    submit = SubmitField("Actualizar")
+    submit = SubmitField(_l("Update"))
 
 
 class VisibilitySettingsForm(BaseForm):
     challenge_visibility = SelectField(
-        "Visibilidad de los desafíos",
-        description="Define si los usuarios tienen que iniciar sesión para ver los desafíos",
+        _l("Challenge Visibility"),
+        description=_l("Control whether users must be logged in to see challenges"),
         choices=[
-            (ChallengeVisibilityTypes.PUBLIC, "Pública"),
-            (ChallengeVisibilityTypes.PRIVATE, "Privada"),
-            (ChallengeVisibilityTypes.ADMINS, "Solo administradores"),
+            (ChallengeVisibilityTypes.PUBLIC, _l("Public")),
+            (ChallengeVisibilityTypes.PRIVATE, _l("Private")),
+            (ChallengeVisibilityTypes.ADMINS, _l("Admins Only")),
         ],
         default=ChallengeVisibilityTypes.PRIVATE,
     )
     account_visibility = SelectField(
-        "Visibilidad de las cuentas",
-        description="Define si las cuentas (usuarios y equipos) se muestran a todos, solo a usuarios con sesión iniciada o solo a administradores",
+        _l("Account Visibility"),
+        description=_l(
+            "Control whether accounts (users & teams) are shown to everyone, only to authenticated users, or only to admins"
+        ),
         choices=[
-            (AccountVisibilityTypes.PUBLIC, "Pública"),
-            (AccountVisibilityTypes.PRIVATE, "Privada"),
-            (AccountVisibilityTypes.ADMINS, "Solo administradores"),
+            (AccountVisibilityTypes.PUBLIC, _l("Public")),
+            (AccountVisibilityTypes.PRIVATE, _l("Private")),
+            (AccountVisibilityTypes.ADMINS, _l("Admins Only")),
         ],
         default=AccountVisibilityTypes.PUBLIC,
     )
     score_visibility = SelectField(
-        "Visibilidad del puntaje",
-        description="Define si las resoluciones y el puntaje se muestran al público, a usuarios con sesión iniciada, se ocultan a todos los que no son administradores o solo se muestran a administradores",
+        _l("Score Visibility"),
+        description=_l(
+            "Control whether solves/score are shown to the public, to logged in users, hidden to all non-admins, or only shown to admins"
+        ),
         choices=[
-            (ScoreVisibilityTypes.PUBLIC, "Pública"),
-            (ScoreVisibilityTypes.PRIVATE, "Privada"),
-            (ScoreVisibilityTypes.HIDDEN, "Oculta"),
-            (ScoreVisibilityTypes.ADMINS, "Solo administradores"),
+            (ScoreVisibilityTypes.PUBLIC, _l("Public")),
+            (ScoreVisibilityTypes.PRIVATE, _l("Private")),
+            (ScoreVisibilityTypes.HIDDEN, _l("Hidden")),
+            (ScoreVisibilityTypes.ADMINS, _l("Admins Only")),
         ],
         default=ScoreVisibilityTypes.PUBLIC,
     )
     registration_visibility = SelectField(
-        "Visibilidad del registro",
-        description="Define si el registro está habilitado para todos o deshabilitado",
+        _l("Registration Visibility"),
+        description=_l(
+            "Control whether registration is enabled for everyone or disabled"
+        ),
         choices=[
-            (RegistrationVisibilityTypes.PUBLIC, "Pública"),
-            (RegistrationVisibilityTypes.PRIVATE, "Privada"),
-            (RegistrationVisibilityTypes.MLC, "Solo MajorLeagueCyber"),
+            (RegistrationVisibilityTypes.PUBLIC, _l("Public")),
+            (RegistrationVisibilityTypes.PRIVATE, _l("Private")),
+            (RegistrationVisibilityTypes.MLC, _l("MajorLeagueCyber Only")),
         ],
         default=RegistrationVisibilityTypes.PUBLIC,
     )
