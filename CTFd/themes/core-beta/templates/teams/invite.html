@@ -17,10 +17,6 @@
 
         <p class="text-center">
           {% trans %}Click the button below to join the team!{% endtrans %}
-          <br>
-          <small class="text-muted">
-            Or <a href="{{ url_for('teams.new') }}">click here</a> if you'd prefer to create your own team.
-          </small>
         </p>
 
         {% with form = Forms.teams.TeamInviteJoinForm() %}

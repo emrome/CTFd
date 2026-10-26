@@ -362,7 +362,7 @@ def settings():
         infos.append(
             markup(
                 _(
-                    'In order to participate you must either <a href="%(url)s">join or create a team</a>.',
+                    'In order to participate you must <a href="%(url)s">join a team</a>.',
                     url=team_url,
                 )
             )
