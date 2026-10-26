@@ -6,11 +6,11 @@ from flask import current_app as app
 from flask import has_request_context, redirect, request, session, url_for
 
 from CTFd.cache import cache, clear_user_session
-from CTFd.constants.languages import Languages
 from CTFd.constants.teams import TeamAttrs
 from CTFd.constants.users import UserAttrs
 from CTFd.models import Fails, Teams, Tracking, Users, db
 from CTFd.utils import get_config
+from CTFd.utils.i18n import FALLBACK_LOCALE, normalize_locale
 from CTFd.utils.security.auth import logout_user
 from CTFd.utils.security.signing import hmac
 
@@ -188,8 +188,7 @@ def get_default_locale():
     """
     Locale used when a user hasn't picked a language. Configured with DEFAULT_LOCALE (defaults to Spanish).
     """
-    locale = app.config.get("DEFAULT_LOCALE") or Languages.SPANISH.value
-    return str(locale)
+    return normalize_locale(app.config.get("DEFAULT_LOCALE")) or FALLBACK_LOCALE
 
 
 def get_locale():
