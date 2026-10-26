@@ -7,24 +7,24 @@ from CTFd.forms.fields import SubmitField
 
 class ChallengeSearchForm(BaseForm):
     field = SelectField(
-        "Search Field",
+        "Buscar por",
         choices=[
-            ("name", "Name"),
+            ("name", "Nombre"),
             ("id", "ID"),
-            ("category", "Category"),
-            ("type", "Type"),
+            ("category", "Categoría"),
+            ("type", "Tipo"),
         ],
         default="name",
         validators=[InputRequired()],
     )
-    q = StringField("Parameter", validators=[InputRequired()])
-    submit = SubmitField("Search")
+    q = StringField("Término de búsqueda", validators=[InputRequired()])
+    submit = SubmitField("Buscar")
 
 
 class ChallengeFilesUploadForm(BaseForm):
     file = MultipleFileField(
-        "Upload Files",
-        description="Attach multiple files using Control+Click or Cmd+Click.",
+        "Subir archivos",
+        description="Elegí varios archivos con Control+Clic o Cmd+Clic.",
         validators=[InputRequired()],
     )
-    submit = SubmitField("Upload")
+    submit = SubmitField("Subir")

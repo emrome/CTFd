@@ -6,7 +6,7 @@
           <div class="container">
             <div class="row">
               <div class="col-md-12">
-                <h3 class="text-center">Media Library</h3>
+                <h3 class="text-center">Biblioteca de medios</h3>
               </div>
             </div>
           </div>
@@ -14,7 +14,7 @@
             type="button"
             class="close"
             data-dismiss="modal"
-            aria-label="Close"
+            aria-label="Cerrar"
           >
             <span aria-hidden="true">&times;</span>
           </button>
@@ -47,7 +47,7 @@
                   </div>
                 </div>
                 <div class="col-md-6" id="media-library-details">
-                  <h4 class="text-center">Media Details</h4>
+                  <h4 class="text-center">Detalles del archivo</h4>
                   <div id="media-item">
                     <div class="text-center" id="media-icon">
                       <div v-if="this.selectedFile">
@@ -88,7 +88,7 @@
 
                     <div class="form-group">
                       <div v-if="this.selectedFile">
-                        Link:
+                        Enlace:
                         <input
                           class="form-control"
                           type="text"
@@ -98,7 +98,7 @@
                         />
                       </div>
                       <div v-else>
-                        Link:
+                        Enlace:
                         <input
                           class="form-control"
                           type="text"
@@ -117,9 +117,9 @@
                             id="media-insert"
                             data-toggle="tooltip"
                             data-placement="top"
-                            title="Insert link into editor"
+                            title="Insertar el enlace en el editor"
                           >
-                            Insert
+                            Insertar
                           </button>
                         </div>
                         <div class="col-md-3">
@@ -129,7 +129,7 @@
                             id="media-download"
                             data-toggle="tooltip"
                             data-placement="top"
-                            title="Download file"
+                            title="Descargar archivo"
                           >
                             <i class="fas fa-download"></i>
                           </button>
@@ -141,7 +141,7 @@
                             id="media-delete"
                             data-toggle="tooltip"
                             data-placement="top"
-                            title="Delete file"
+                            title="Borrar archivo"
                           >
                             <i class="far fa-trash-alt"></i>
                           </button>
@@ -157,7 +157,7 @@
           <form id="media-library-upload" enctype="multipart/form-data">
             <div class="form-group">
               <label for="media-files">
-                Upload Files
+                Subir archivos
               </label>
               <input
                 type="file"
@@ -167,7 +167,7 @@
                 multiple
               />
               <sub class="help-block">
-                Attach multiple files using Control+Click or Cmd+Click.
+                Para adjuntar varios archivos, usá Control+Clic o Cmd+Clic.
               </sub>
             </div>
             <input type="hidden" value="page" name="type" />
@@ -180,7 +180,7 @@
               type="submit"
               class="btn btn-primary media-upload-button"
             >
-              Upload
+              Subir
             </button>
           </div>
         </div>
@@ -237,7 +237,7 @@ export default {
     deleteSelectedFile: function() {
       var file_id = this.selectedFile.id;
 
-      if (confirm("Are you sure you want to delete this file?")) {
+      if (confirm("¿Seguro que querés borrar este archivo?")) {
         CTFd.fetch("/api/v1/files/" + file_id, {
           method: "DELETE"
         }).then(response => {

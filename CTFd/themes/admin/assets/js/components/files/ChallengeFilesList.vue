@@ -3,8 +3,8 @@
     <table id="filesboard" class="table table-striped">
       <thead>
         <tr>
-          <td class="text-center"><b>File</b></td>
-          <td class="text-center"><b>Settings</b></td>
+          <td class="text-center"><b>Archivo</b></td>
+          <td class="text-center"><b>Ajustes</b></td>
         </tr>
       </thead>
       <tbody>
@@ -38,7 +38,7 @@
             type="file"
           />
           <sub class="text-muted">
-            Attach multiple files using Control+Click or Cmd+Click.
+            Para adjuntar varios archivos, usá Control+Clic o Cmd+Clic.
           </sub>
         </div>
         <div class="form-group">
@@ -47,7 +47,7 @@
             id="_submit"
             name="_submit"
             type="submit"
-            value="Upload"
+            value="Subir"
           />
         </div>
       </form>
@@ -98,8 +98,8 @@ export default {
     },
     deleteFile: function(fileId) {
       ezQuery({
-        title: "Delete Files",
-        body: "Are you sure you want to delete this file?",
+        title: "Borrar archivos",
+        body: "¿Seguro que querés borrar este archivo?",
         success: () => {
           CTFd.fetch(`/api/v1/files/${fileId}`, {
             method: "DELETE"

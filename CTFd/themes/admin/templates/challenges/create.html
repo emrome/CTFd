@@ -5,24 +5,24 @@
 	{% block name %}
 	<div class="form-group">
 		<label>
-			Name:<br>
+			Nombre:<br>
 			<small class="form-text text-muted">
-				The name of your challenge
+				El nombre de tu desafío
 			</small>
 		</label>
-		<input type="text" class="form-control" name="name" placeholder="Enter challenge name">
+		<input type="text" class="form-control" name="name" placeholder="Ingresá el nombre del desafío">
 	</div>
 	{% endblock %}
 
 	{% block category %}
 	<div class="form-group">
 		<label>
-			Category:<br>
+			Categoría:<br>
 			<small class="form-text text-muted">
-				The category of your challenge
+				La categoría de tu desafío
 			</small>
 		</label>
-		<input type="text" class="form-control" name="category" placeholder="Enter challenge category">
+		<input type="text" class="form-control" name="category" placeholder="Ingresá la categoría del desafío">
 	</div>
 	{% endblock %}
 
@@ -30,9 +30,9 @@
 	{% block message %}
 	<div class="form-group">
 		<label>
-			Message:<br>
+			Descripción:<br>
 			<small class="form-text text-muted">
-				Use this to give a brief introduction to your challenge.
+				Usá este campo para dar una breve introducción a tu desafío.
 			</small>
 		</label>
 		<textarea id="new-desc-editor" class="form-control markdown" name="description" rows="10"></textarea>
@@ -42,12 +42,12 @@
 	{% block value %}
 	<div class="form-group">
 		<label>
-			Value:<br>
+			Puntaje:<br>
 			<small class="form-text text-muted">
-				This is how many points are rewarded for solving this challenge.
+				Es la cantidad de puntos que se otorgan por resolver este desafío.
 			</small>
 		</label>
-		<input type="number" class="form-control" name="value" placeholder="Enter value" required>
+		<input type="number" class="form-control" name="value" placeholder="Ingresá el puntaje" required>
 	</div>
 	{% endblock %}
 
@@ -61,7 +61,7 @@
 
 	{% block submit %}
 	<div class="form-group">
-		<button class="btn btn-primary float-right create-challenge-submit" type="submit">Create</button>
+		<button class="btn btn-primary float-right create-challenge-submit" type="submit">Crear</button>
 	</div>
 	{% endblock %}
 </form>

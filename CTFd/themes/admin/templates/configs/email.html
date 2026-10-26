@@ -1,20 +1,20 @@
 <div role="tabpanel" class="tab-pane config-section" id="email">
 	<form method="POST" autocomplete="off" class="w-100">
-		<h5>Email Content</h5>
+		<h5>Contenido de los correos</h5>
 		<small class="form-text text-muted">
-			Customize CTFd emails with <a href="https://docs.ctfd.io/docs/settings/emails/#email-content" target="_blank">predefined variables</a> and custom content
+			Personalizá los correos de CTFd con <a href="https://docs.ctfd.io/docs/settings/emails/#email-content" target="_blank">variables predefinidas</a> y contenido propio
 		</small>
 		<ul class="nav nav-tabs mt-3" role="tablist">
 			<li class="nav-item active">
 				<a class="nav-link active" href="#confirmation-email-tab" role="tab" data-toggle="tab">
-					Confirmation
+					Confirmación
 				</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#account-details-email-tab" role="tab" data-toggle="tab">Account Details</a>
+				<a class="nav-link" href="#account-details-email-tab" role="tab" data-toggle="tab">Datos de la cuenta</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="#password-reset-email-tab" role="tab" data-toggle="tab">Password Reset</a>
+				<a class="nav-link" href="#password-reset-email-tab" role="tab" data-toggle="tab">Restablecer contraseña</a>
 			</li>
 		</ul>
 
@@ -22,19 +22,19 @@
 			<div role="tabpanel" class="tab-pane active" id="confirmation-email-tab">
 				<div class="form-group">
 					<label class="pt-3">
-						Account Registration<br>
+						Registro de cuenta<br>
 						<small class="form-text text-muted">
-							Email sent to users after they've registered their account entirely
+							Correo que se envía a los usuarios cuando terminan de registrar su cuenta
 						</small>
 					</label>
 					<div>
 						<label>
-							Subject
+							Asunto
 						</label>
 						<input class="form-control" id='successful_registration_email_subject' name='successful_registration_email_subject' type='text'
 							value="{{ successful_registration_email_subject or ''}}">
 						<label>
-							Body
+							Cuerpo
 						</label>
 						<textarea class="form-control" type="text" id="successful_registration_email_body" name="successful_registration_email_body"
 							rows="5">{{ successful_registration_email_body or '' }}</textarea>
@@ -43,18 +43,18 @@
 
 				<div class="form-group">
 					<label class="pt-3">
-						Account Confirmation<br>
+						Confirmación de cuenta<br>
 						<small class="form-text text-muted">
-							Email sent to users to confirm their account
+							Correo que se envía a los usuarios para que confirmen su cuenta
 						</small>
 					</label>
 					<div>
 						<label>
-							Subject
+							Asunto
 						</label>
 						<input class="form-control" id='verification_email_subject' name='verification_email_subject' type='text' value="{{ verification_email_subject or ''}}">
 						<label>
-							Body
+							Cuerpo
 						</label>
 						<textarea class="form-control" type="text" id="verification_email_body" name="verification_email_body"
 							rows="5">{{ verification_email_body or '' }}</textarea>
@@ -64,19 +64,19 @@
 			<div role="tabpanel" class="tab-pane" id="account-details-email-tab">
 				<div class="form-group">
 					<label class="pt-3">
-						New Account Details<br>
+						Datos de la cuenta nueva<br>
 						<small class="form-text text-muted">
-							Email sent to new users (created by an admin) with their initial account details
+							Correo que se envía a los usuarios nuevos (creados por un administrador) con los datos iniciales de su cuenta
 						</small>
 					</label>
 					<div>
 						<label>
-							Subject
+							Asunto
 						</label>
 						<input class="form-control" id='user_creation_email_subject' name='user_creation_email_subject' type='text'
 							value="{{ user_creation_email_subject or ''}}">
 						<label>
-							Body
+							Cuerpo
 						</label>
 						<textarea class="form-control" type="text" id="user_creation_email_body" name="user_creation_email_body"
 							rows="5">{{ user_creation_email_body or '' }}</textarea>
@@ -86,19 +86,19 @@
 			<div role="tabpanel" class="tab-pane" id="password-reset-email-tab">
 				<div class="form-group">
 					<label class="pt-3">
-						Password Reset Request<br>
+						Pedido para restablecer la contraseña<br>
 						<small class="form-text text-muted">
-							Email sent whent a user requests a password reset
+							Correo que se envía cuando un usuario pide restablecer su contraseña
 						</small>
 					</label>
 					<div>
 						<label>
-							Subject
+							Asunto
 						</label>
 						<input class="form-control" id='password_reset_subject' name='password_reset_subject' type='text'
 							value="{{ password_reset_subject or ''}}">
 						<label>
-							Body
+							Cuerpo
 						</label>
 						<textarea class="form-control" type="text" id="password_reset_body" name="password_reset_body"
 							rows="5">{{ password_reset_body or '' }}</textarea>
@@ -107,19 +107,19 @@
 
 				<div class="form-group">
 					<label class="pt-3">
-						Password Reset Confirmation<br>
+						Confirmación de contraseña restablecida<br>
 						<small class="form-text text-muted">
-							Email sent whent a user successfully resets their password
+							Correo que se envía cuando un usuario restablece su contraseña
 						</small>
 					</label>
 					<div>
 						<label>
-							Subject
+							Asunto
 						</label>
 						<input class="form-control" id='password_change_alert_subject' name='password_change_alert_subject' type='text'
 							value="{{ password_change_alert_subject or ''}}">
 						<label>
-							Body
+							Cuerpo
 						</label>
 						<textarea class="form-control" type="text" id="password_change_alert_body" name="password_change_alert_body"
 							rows="5">{{ password_change_alert_body or '' }}</textarea>
@@ -130,17 +130,17 @@
 
 		<hr class="my-5">
 
-		<h5>Email Server</h5>
+		<h5>Servidor de correo</h5>
 		<small class="form-text text-muted">
-			Change the email server used by CTFd to send email
+			Cambiá el servidor de correo que usa CTFd para enviar correos
 			<a class="float-right" href="https://docs.ctfd.io/docs/settings/emails#email-server" target="_blank">
 				<i class="far fa-question-circle pr-2"></i>
 			</a>
 		</small>
 		<ul class="nav nav-tabs my-3" role="tablist">
 			<li class="nav-item active">
-				<a class="nav-link active" href="#mailserver" role="tab" data-toggle="tab">Mail
-					Server</a>
+				<a class="nav-link active" href="#mailserver" role="tab" data-toggle="tab">Servidor
+					de correo</a>
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="#mailgun" role="tab" data-toggle="tab">Mailgun</a>
@@ -149,9 +149,9 @@
 
 		<div class="form-group">
 			<label>
-				Mail From Address<br>
+				Dirección del remitente<br>
 				<small class="form-text text-muted">
-					Email address used to send email
+					Dirección de correo desde la que se envían los correos
 				</small>
 			</label>
 			<input class="form-control" id='mailfrom_addr' name='mailfrom_addr' type='text' {% if mailfrom_addr is defined and mailfrom_addr != None %}value="{{ mailfrom_addr }}"{% endif %}>
@@ -162,9 +162,9 @@
 
 				<div class="form-group">
 					<label>
-						Mail Server Address<br>
+						Dirección del servidor de correo<br>
 						<small class="form-text text-muted">
-							Mail Server Address
+							Dirección del servidor de correo
 						</small>
 					</label>
 					<input class="form-control" id='mail_server' name='mail_server' type='text'
@@ -173,9 +173,9 @@
 
 				<div class="form-group">
 					<label>
-						Mail Server Port<br>
+						Puerto del servidor de correo<br>
 						<small class="form-text text-muted">
-							Mail Server Port
+							Puerto del servidor de correo
 						</small>
 					</label>
 					<input class="form-control" id='mail_port' name='mail_port' type='text'
@@ -185,39 +185,39 @@
 					<label>
 						<input id="mail_useauth" name="mail_useauth" type="checkbox"
 							   {% if mail_useauth %}checked{% endif %}>
-						Use Mail Server Username and Password
+						Usar nombre de usuario y contraseña del servidor de correo
 					</label>
 				</div>
 				<div id="mail_username_password">
 					<div class="form-group">
 						<label>
-							Username<br>
+							Nombre de usuario<br>
 							<small class="form-text text-muted">
-								Mail Server Account Username
+								Nombre de usuario de la cuenta del servidor de correo
 							</small>
 						</label>
 						{% if mail_username is defined and mail_username != None %}
 							<label>
-								<sup class="form-text text-muted">A mail server username is currently set</sup>
+								<sup class="form-text text-muted">Ya hay un nombre de usuario configurado para el servidor de correo</sup>
 							</label>
 						{% endif %}
 						<input class="form-control" id='mail_username' name='mail_username' autocomplete='off' type='text'>
 					</div>
 					<div class="form-group">
 						<label for="mail_password">
-							Password<br>
+							Contraseña<br>
 							<small class="form-text text-muted">
-								Mail Server Account Password
+								Contraseña de la cuenta del servidor de correo
 							</small>
 						</label>
 						{% if mail_password is defined and mail_password != None %}
 							<label>
-								<sup class="form-text text-muted">An mail server password is currently set</sup>
+								<sup class="form-text text-muted">Ya hay una contraseña configurada para el servidor de correo</sup>
 							</label>
 						{% endif %}
 						<input class="form-control" id='mail_password' name='mail_password' autocomplete='off' type='password'>
 					</div>
-					<sup>Uncheck setting and update to remove username and password</sup>
+					<sup>Destildá esta opción y actualizá para quitar el nombre de usuario y la contraseña</sup>
 					<br>
 					<br>
 				</div>
@@ -236,13 +236,13 @@
 			</div>
 			<div role="tabpanel" class="tab-pane" id="mailgun">
 				<div class="alert alert-warning" role="alert">
-					Mailgun integration is deprecated! Please see your Mailgun account for SMTP credentials.
+					¡La integración con Mailgun está obsoleta! Buscá las credenciales SMTP en tu cuenta de Mailgun.
 				</div>
 				<div class="form-group">
 					<label>
-						Mailgun API Base URL<br>
+						URL base de la API de Mailgun<br>
 						<small class="form-text text-muted">
-							Mailgun API Base URL
+							URL base de la API de Mailgun
 						</small>
 					</label>
 					<input class="form-control" id='mailgun_base_url' name='mailgun_base_url' type='text'
@@ -250,9 +250,9 @@
 				</div>
 				<div class="form-group">
 					<label>
-						Mailgun API Key<br>
+						Clave de la API de Mailgun<br>
 						<small class="form-text text-muted">
-							Mailgun API Key
+							Clave de la API de Mailgun
 						</small>
 					</label>
 					<input class="form-control" id='mailgun_api_key' name='mailgun_api_key' type='text'
@@ -260,6 +260,6 @@
 				</div>
 			</div>
 		</div>
-		<button type="submit" class="btn btn-md btn-primary float-right">Update</button>
+		<button type="submit" class="btn btn-md btn-primary float-right">Actualizar</button>
 	</form>
 </div>

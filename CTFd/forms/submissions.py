@@ -7,16 +7,16 @@ from CTFd.forms.fields import SubmitField
 
 class SubmissionSearchForm(BaseForm):
     field = SelectField(
-        "Search Field",
+        "Buscar por",
         choices=[
-            ("provided", "Provided"),
+            ("provided", "Respuesta enviada"),
             ("id", "ID"),
-            ("account_id", "Account ID"),
-            ("challenge_id", "Challenge ID"),
-            ("challenge_name", "Challenge Name"),
+            ("account_id", "ID de cuenta"),
+            ("challenge_id", "ID de desafío"),
+            ("challenge_name", "Nombre del desafío"),
         ],
         default="provided",
         validators=[InputRequired()],
     )
-    q = StringField("Parameter", validators=[InputRequired()])
-    submit = SubmitField("Search")
+    q = StringField("Término de búsqueda", validators=[InputRequired()])
+    submit = SubmitField("Buscar")

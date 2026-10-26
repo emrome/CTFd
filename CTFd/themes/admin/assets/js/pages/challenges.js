@@ -7,11 +7,11 @@ function deleteSelectedChallenges(_event) {
   let challengeIDs = $("input[data-challenge-id]:checked").map(function() {
     return $(this).data("challenge-id");
   });
-  let target = challengeIDs.length === 1 ? "challenge" : "challenges";
+  let target = challengeIDs.length === 1 ? "desafío" : "desafíos";
 
   ezQuery({
-    title: "Delete Challenges",
-    body: `Are you sure you want to delete ${challengeIDs.length} ${target}?`,
+    title: "Borrar desafíos",
+    body: `¿Seguro que querés borrar ${challengeIDs.length} ${target}?`,
     success: function() {
       const reqs = [];
       for (var chalID of challengeIDs) {
@@ -34,28 +34,28 @@ function bulkEditChallenges(_event) {
   });
 
   ezAlert({
-    title: "Edit Challenges",
+    title: "Editar desafíos",
     body: $(`
     <form id="challenges-bulk-edit">
       <div class="form-group">
-        <label>Category</label>
+        <label>Categoría</label>
         <input type="text" name="category" data-initial="" value="">
       </div>
       <div class="form-group">
-        <label>Value</label>
+        <label>Puntaje</label>
         <input type="number" name="value" data-initial="" value="">
       </div>
       <div class="form-group">
-        <label>State</label>
+        <label>Estado</label>
         <select name="state" data-initial="">
           <option value="">--</option>
           <option value="visible">Visible</option>
-          <option value="hidden">Hidden</option>
+          <option value="hidden">Oculto</option>
         </select>
       </div>
     </form>
     `),
-    button: "Submit",
+    button: "Enviar",
     success: function() {
       let data = $("#challenges-bulk-edit").serializeJSON(true);
       const reqs = [];

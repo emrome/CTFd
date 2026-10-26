@@ -17,7 +17,7 @@
           type="button"
           @click="addField()"
         >
-          Add New Field
+          Agregar campo nuevo
         </button>
       </div>
     </div>

@@ -6,25 +6,25 @@ from CTFd.forms.fields import SubmitField
 
 
 class AwardCreationForm(BaseForm):
-    name = StringField("Name")
-    value = IntegerField("Value")
-    category = StringField("Category")
-    description = TextAreaField("Description")
-    submit = SubmitField("Create")
+    name = StringField("Nombre")
+    value = IntegerField("Puntaje")
+    category = StringField("Categoría")
+    description = TextAreaField("Descripción")
+    submit = SubmitField("Crear")
     icon = RadioField(
-        "Icon",
+        "Ícono",
         choices=[
-            ("", "None"),
-            ("shield", "Shield"),
-            ("bug", "Bug"),
-            ("crown", "Crown"),
-            ("crosshairs", "Crosshairs"),
-            ("ban", "Ban"),
-            ("lightning", "Lightning"),
-            ("skull", "Skull"),
-            ("brain", "Brain"),
-            ("code", "Code"),
-            ("cowboy", "Cowboy"),
-            ("angry", "Angry"),
+            ("", "Ninguno"),
+            ("shield", "Escudo"),
+            ("bug", "Bicho"),
+            ("crown", "Corona"),
+            ("crosshairs", "Mira"),
+            ("ban", "Prohibido"),
+            ("lightning", "Rayo"),
+            ("skull", "Calavera"),
+            ("brain", "Cerebro"),
+            ("code", "Código"),
+            ("cowboy", "Vaquero"),
+            ("angry", "Enojado"),
         ],
     )

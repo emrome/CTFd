@@ -5,8 +5,8 @@
 	{% block name %}
 	<div class="form-group">
 		<label>
-			Name<br>
-			<small class="form-text text-muted">Challenge Name</small>
+			Nombre<br>
+			<small class="form-text text-muted">Nombre del desafío</small>
 		</label>
 		<input type="text" class="form-control chal-name" name="name" value="{{ challenge.name }}">
 	</div>
@@ -15,8 +15,8 @@
 	{% block category %}
 	<div class="form-group">
 		<label>
-			Category<br>
-			<small class="form-text text-muted">Challenge Category</small>
+			Categoría<br>
+			<small class="form-text text-muted">Categoría del desafío</small>
 		</label>
 		<input type="text" class="form-control chal-category" name="category" value="{{ challenge.category }}">
 	</div>
@@ -25,9 +25,9 @@
 	{% block message %}
 	<div class="form-group">
 		<label>
-			Message<br>
+			Descripción<br>
 			<small class="form-text text-muted">
-				Use this to give a brief introduction to your challenge.
+				Usá este campo para dar una breve introducción a tu desafío.
 			</small>
 		</label>
 		<textarea id="desc-editor" class="form-control chal-desc-editor markdown" name="description" rows="10">{{ challenge.description }}</textarea>
@@ -37,9 +37,9 @@
 	{% block connection_info %}
 	<div class="form-group">
 		<label>
-			Connection Info<br>
+			Información de conexión<br>
 			<small class="form-text text-muted">
-				Use this to specify a link, hostname, or connection instructions for your challenge.
+				Usá este campo para indicar un enlace, un nombre de host o instrucciones de conexión para tu desafío.
 			</small>
 		</label>
 		<input type="text" class="form-control chal-connection-info" name="connection_info" value="{{ challenge.connection_info | default('', true) }}">
@@ -49,9 +49,9 @@
 	{% block value %}
 	<div class="form-group">
 		<label for="value">
-			Value<br>
+			Puntaje<br>
 			<small class="form-text text-muted">
-				This is how many points teams will receive once they solve this challenge.
+				Es la cantidad de puntos que reciben los equipos al resolver este desafío.
 			</small>
 		</label>
 		<input type="number" class="form-control chal-value" name="value" value="{{ challenge.value }}" required>
@@ -61,8 +61,8 @@
 	{% block max_attempts %}
 	<div class="form-group">
 		<label>
-			Max Attempts<br>
-			<small class="form-text text-muted">Maximum amount of attempts users receive. Leave at 0 for unlimited.</small>
+			Intentos máximos<br>
+			<small class="form-text text-muted">Cantidad máxima de intentos que tiene cada usuario. Dejalo en 0 para que sean ilimitados.</small>
 		</label>
 
 		<input type="number" class="form-control chal-attempts" name="max_attempts" value="{{ challenge.max_attempts }}">
@@ -72,13 +72,13 @@
 	{% block state %}
 	<div class="form-group">
 		<label>
-			State<br>
-			<small class="form-text text-muted">Changes the state of the challenge (e.g. visible, hidden)</small>
+			Estado<br>
+			<small class="form-text text-muted">Cambia el estado del desafío (por ej. visible, oculto)</small>
 		</label>
 
 		<select class="form-control custom-select" name="state">
 			<option value="visible" {% if challenge.state == "visible" %}selected{% endif %}>Visible</option>
-			<option value="hidden" {% if challenge.state == "hidden" %}selected{% endif %}>Hidden</option>
+			<option value="hidden" {% if challenge.state == "hidden" %}selected{% endif %}>Oculto</option>
 		</select>
 	</div>
 	{% endblock %}
@@ -86,7 +86,7 @@
 	{% block submit %}
 	<div>
 		<button class="btn btn-success btn-outlined float-right" type="submit">
-			Update
+			Actualizar
 		</button>
 	</div>
 	{% endblock %}

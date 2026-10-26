@@ -6,7 +6,7 @@
           <div class="container">
             <div class="row">
               <div class="col-md-12">
-                <h3>Create Flag</h3>
+                <h3>Crear flag</h3>
               </div>
             </div>
           </div>
@@ -15,7 +15,7 @@
             type="button"
             class="close"
             data-dismiss="modal"
-            aria-label="Close"
+            aria-label="Cerrar"
           >
             <span aria-hidden="true">&times;</span>
           </button>
@@ -23,7 +23,7 @@
         <div class="modal-body">
           <div class="create-keys-select-div">
             <label for="create-keys-select" class="control-label">
-              Choose Flag Type
+              Elegí el tipo de flag
             </label>
             <select
               class="form-control custom-select"
@@ -46,7 +46,7 @@
               type="submit"
               v-if="createForm"
             >
-              Create Flag
+              Crear flag
             </button>
           </form>
         </div>

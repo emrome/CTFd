@@ -2,46 +2,46 @@
 
 {% block value %}
 <div class="form-group">
-	<label for="value">Current Value<br>
+	<label for="value">Puntaje actual<br>
 		<small class="form-text text-muted">
-			This is how many points the challenge is worth right now.
+			Es la cantidad de puntos que vale el desafío en este momento.
 		</small>
 	</label>
 	<input type="number" class="form-control chal-value" name="value" value="{{ challenge.value }}" disabled>
 </div>
 
 <div class="form-group">
-	<label for="value">Initial Value<br>
+	<label for="value">Puntaje inicial<br>
 		<small class="form-text text-muted">
-			This is how many points the challenge was worth initially.
+			Es la cantidad de puntos que valía el desafío al principio.
 		</small>
 	</label>
 	<input type="number" class="form-control chal-initial" name="initial" value="{{ challenge.initial }}" required>
 </div>
 
 <div class="form-group">
-	<label for="value">Decay Function<br>
+	<label for="value">Función de decaimiento<br>
 		<small class="form-text text-muted">
-			<span>How the dynamic value will be calculated based on the Decay value</span>
+			<span>Cómo se calcula el puntaje dinámico a partir del valor de decaimiento</span>
 			<ul>
-				<li>Linear: Calculated as <code>Initial - (Decay * SolveCount)</code></li>
-				<li>Logarithmic: Calculated as <code>(((Minimum - Initial) / (Decay^2)) * (SolveCount^2)) + Initial</code></li>
+				<li>Lineal: se calcula como <code>Initial - (Decay * SolveCount)</code></li>
+				<li>Logarítmica: se calcula como <code>(((Minimum - Initial) / (Decay^2)) * (SolveCount^2)) + Initial</code></li>
 			</ul>
 		</small>
 	</label>
 	<select name="function" class="custom-select">
-		<option value="linear" {% if challenge.function == "linear" %}selected{% endif %}>Linear</option>
-		<option value="logarithmic" {% if challenge.function == "logarithmic" %}selected{% endif %}>Logarithmic</option>
+		<option value="linear" {% if challenge.function == "linear" %}selected{% endif %}>Lineal</option>
+		<option value="logarithmic" {% if challenge.function == "logarithmic" %}selected{% endif %}>Logarítmica</option>
 	</select>
 </div>
 
 <div class="form-group">
-	<label for="value">Decay<br>
+	<label for="value">Decaimiento<br>
 		<small class="form-text text-muted">
-			<span>The decay value is used differently depending on the above Decay Function</span>
+			<span>El valor de decaimiento se usa de forma distinta según la función de decaimiento elegida arriba</span>
 			<ul>
-				<li>Linear: The amount of points deducted per solve. Equal deduction per solve.</li>
-				<li>Logarithmic: The amount of solves before the challenge reaches its minimum value. Earlier solves will lose less points. Later solves will lose more points</li>
+				<li>Lineal: la cantidad de puntos que se descuentan por cada resolución. Se descuenta lo mismo en cada resolución.</li>
+				<li>Logarítmica: la cantidad de resoluciones hasta que el desafío llega a su puntaje mínimo. Las primeras resoluciones pierden menos puntos. Las últimas resoluciones pierden más puntos.</li>
 			</ul>
 		</small>
 	</label>
@@ -49,9 +49,9 @@
 </div>
 
 <div class="form-group">
-	<label for="value">Minimum Value<br>
+	<label for="value">Puntaje mínimo<br>
 		<small class="form-text text-muted">
-			This is the lowest that the challenge can be worth
+			Es el puntaje más bajo que puede llegar a valer el desafío
 		</small>
 	</label>
 	<input type="number" class="form-control chal-minimum" name="minimum" value="{{ challenge.minimum }}" required>

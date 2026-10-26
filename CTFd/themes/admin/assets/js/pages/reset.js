@@ -5,8 +5,8 @@ import { ezQuery } from "core/ezq";
 function reset(event) {
   event.preventDefault();
   ezQuery({
-    title: "Reset CTF?",
-    body: "Are you sure you want to reset your CTFd instance?",
+    title: "¿Reiniciar el CTF?",
+    body: "¿Seguro que querés reiniciar tu instancia de CTFd?",
     success: function() {
       $("#reset-ctf-form")
         .off("submit")

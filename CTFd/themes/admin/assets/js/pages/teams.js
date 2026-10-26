@@ -7,11 +7,11 @@ function deleteSelectedTeams(_event) {
   let teamIDs = $("input[data-team-id]:checked").map(function() {
     return $(this).data("team-id");
   });
-  let target = teamIDs.length === 1 ? "team" : "teams";
+  let target = teamIDs.length === 1 ? "equipo" : "equipos";
 
   ezQuery({
-    title: "Delete Teams",
-    body: `Are you sure you want to delete ${teamIDs.length} ${target}?`,
+    title: "Borrar equipos",
+    body: `¿Seguro que querés borrar ${teamIDs.length} ${target}?`,
     success: function() {
       const reqs = [];
       for (var teamID of teamIDs) {
@@ -34,28 +34,28 @@ function bulkEditTeams(_event) {
   });
 
   ezAlert({
-    title: "Edit Teams",
+    title: "Editar equipos",
     body: $(`
     <form id="teams-bulk-edit">
       <div class="form-group">
-        <label>Banned</label>
+        <label>Suspendido</label>
         <select name="banned" data-initial="">
           <option value="">--</option>
-          <option value="true">True</option>
-          <option value="false">False</option>
+          <option value="true">Sí</option>
+          <option value="false">No</option>
         </select>
       </div>
       <div class="form-group">
-        <label>Hidden</label>
+        <label>Oculto</label>
         <select name="hidden" data-initial="">
           <option value="">--</option>
-          <option value="true">True</option>
-          <option value="false">False</option>
+          <option value="true">Sí</option>
+          <option value="false">No</option>
         </select>
       </div>
     </form>
     `),
-    button: "Submit",
+    button: "Enviar",
     success: function() {
       let data = $("#teams-bulk-edit").serializeJSON(true);
       const reqs = [];

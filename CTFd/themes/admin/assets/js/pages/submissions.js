@@ -23,8 +23,8 @@ function deleteCorrectSubmission(_event) {
     .parent();
 
   ezQuery({
-    title: "Delete Submission",
-    body: "Are you sure you want to delete correct submission from {0} for challenge {1}".format(
+    title: "Borrar envío",
+    body: "¿Seguro que querés borrar el envío correcto de {0} para el desafío {1}?".format(
       "<strong>" + htmlEntities(team_name) + "</strong>",
       "<strong>" + htmlEntities(chal_name) + "</strong>"
     ),
@@ -44,11 +44,11 @@ function deleteSelectedSubmissions(_event) {
   let submissionIDs = $("input[data-submission-id]:checked").map(function() {
     return $(this).data("submission-id");
   });
-  let target = submissionIDs.length === 1 ? "submission" : "submissions";
+  let target = submissionIDs.length === 1 ? "envío" : "envíos";
 
   ezQuery({
-    title: "Delete Submissions",
-    body: `Are you sure you want to delete ${submissionIDs.length} ${target}?`,
+    title: "Borrar envíos",
+    body: `¿Seguro que querés borrar ${submissionIDs.length} ${target}?`,
     success: function() {
       const reqs = [];
       for (var subId of submissionIDs) {
@@ -65,13 +65,13 @@ function correctSubmissions(_event) {
   let submissionIDs = $("input[data-submission-id]:checked").map(function() {
     return $(this).data("submission-id");
   });
-  let target = submissionIDs.length === 1 ? "submission" : "submissions";
+  let target = submissionIDs.length === 1 ? "envío" : "envíos";
 
   ezQuery({
-    title: "Correct Submissions",
-    body: `Are you sure you want to mark ${
+    title: "Marcar envíos como correctos",
+    body: `¿Seguro que querés marcar ${
       submissionIDs.length
-    } ${target} correct?`,
+    } ${target} como correctos?`,
     success: function() {
       const reqs = [];
       for (var subId of submissionIDs) {
@@ -127,7 +127,7 @@ function copyFlag(event) {
   navigator.clipboard.writeText(text);
 
   $(event.currentTarget).tooltip({
-    title: "Copied!",
+    title: "¡Copiado!",
     trigger: "manual"
   });
   $(event.currentTarget).tooltip("show");

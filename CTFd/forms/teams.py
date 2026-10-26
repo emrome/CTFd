@@ -169,18 +169,18 @@ class TeamCaptainForm(BaseForm):
 
 class TeamSearchForm(BaseForm):
     field = SelectField(
-        "Search Field",
+        "Buscar por",
         choices=[
-            ("name", "Name"),
+            ("name", "Nombre"),
             ("id", "ID"),
-            ("affiliation", "Affiliation"),
-            ("website", "Website"),
+            ("affiliation", "Institución"),
+            ("website", "Sitio web"),
         ],
         default="name",
         validators=[InputRequired()],
     )
-    q = StringField("Parameter", validators=[InputRequired()])
-    submit = SubmitField("Search")
+    q = StringField("Término de búsqueda", validators=[InputRequired()])
+    submit = SubmitField("Buscar")
 
 
 class PublicTeamSearchForm(BaseForm):
