@@ -3,7 +3,7 @@
 {% block content %}
   <div class="error-pagina">
     <span class="etiqueta">{% trans %}Team{% endtrans %}</span>
-    <h1>{% trans ctf_name=Configs.ctf_name %}Welcome to {{ ctf_name }}{% endtrans %}</h1>
+    <h1>{% trans name=Configs.ctf_name %}Welcome to {{ name }}!{% endtrans %}</h1>
     <p>{{ _("To take part you need to be on a team. Ask your teacher for your team name and password and join it.") }}</p>
 
     {% if integrations.mlc() %}
