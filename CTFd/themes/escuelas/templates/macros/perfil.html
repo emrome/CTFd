@@ -1,0 +1,5 @@
+{# CTFd devuelve el puesto como ordinal en inglés («1st», «2nd»); se muestra traducido («1.º» en español). #}
+{% macro puesto(valor) -%}
+  {%- set numero = (valor | string) | select("in", "0123456789") | join -%}
+  {%- if numero -%}{{ _("#%(num)s", num=numero) }}{%- else -%}{{ valor }}{%- endif -%}
+{%- endmacro %}

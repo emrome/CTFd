@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="error-pagina">
+    <span class="etiqueta">{% trans %}Team{% endtrans %}</span>
+    <h1>{% trans name=Configs.ctf_name %}Welcome to {{ name }}!{% endtrans %}</h1>
+    <p>{{ _("To take part you need to be on a team. Ask your teacher for your team name and password and join it.") }}</p>
+
+    {% if integrations.mlc() %}
+      <div class="acciones">
+        <a class="btn btn-primary btn-grande" href="{{ url_for('auth.oauth_login') }}">{{ _("Play with the official team") }}</a>
+        <a class="btn btn-sec btn-grande" href="{{ url_for('teams.join') }}">{{ _("Join another team") }}</a>
+      </div>
+    {% else %}
+      <div class="acciones">
+        <a class="btn btn-primary btn-grande" href="{{ url_for('teams.join') }}">{% trans %}Join Team{% endtrans %}</a>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+

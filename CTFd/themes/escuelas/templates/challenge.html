@@ -1,0 +1,222 @@
+{% from "macros/categorias.html" import color, nivel %}
+{% set es_equipo = Configs.user_mode == "teams" %}
+{% set nivel_txt = nivel(tags) %}
+<div :class="getStyles()" role="document" x-data="Challenge" x-init="id = {{ challenge.id }}; maxAttempts = {{ max_attempts or 0 }}; attempts = {{ attempts or 0 }}; solvedByMe = {{ 'true' if solved_by_me else 'false' }}; countsSubmissions = {{ 'false' if counts_submissions is defined and not counts_submissions else 'true' }}">
+  <div class="modal-content">
+    <div class="desafio">
+      <button type="button" class="btn-link-plano desafio-volver" data-bs-dismiss="modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+        {{ _("Back to challenges") }}
+      </button>
+
+      <div class="desafio-cuerpo">
+        <article class="desafio-articulo" aria-labelledby="desafio-nombre">
+          <div class="desafio-chips">
+            <span class="pastilla" style="background: {{ color(challenge.category) }}">{{ challenge.category }}</span>
+            {% if nivel_txt %}
+              <span class="pastilla">{{ nivel_txt }}</span>
+            {% endif %}
+          </div>
+
+          <div class="desafio-titulo">
+            <h1 id="desafio-nombre" class="challenge-name">{{ challenge.name }}</h1>
+            <span class="desafio-pts challenge-value">{{ _("%(num)s pts", num=challenge.value) }}</span>
+          </div>
+
+          <div class="desafio-desc challenge-desc">{% block description %}{{ challenge.html }}{% endblock %}</div>
+
+          {% if challenge.connection_info %}
+            <div class="desafio-seccion">
+              <h2>{{ _("Connection") }}</h2>
+              <span class="challenge-connection-info">
+                {% block connection_info %}
+                  {% set conn = challenge.connection_info %}
+                  {% if not conn %}
+                  {% elif conn.startswith("http") %}
+                    {{ conn | urlize(target="_blank") }}
+                  {% else %}
+                    <code>{{ conn }}</code>
+                  {% endif %}
+                {% endblock %}
+              </span>
+            </div>
+          {% endif %}
+
+          {% if files %}
+            <div class="desafio-seccion">
+              <h2>{{ _("Files") }}</h2>
+              <div class="archivos challenge-files">
+                {% for file in files %}
+                  {% set segments = file.split('/') %}
+                  {% set token = file.split('?') | last %}
+                  {% if token %}
+                    {% set filename = segments | last | replace("?" + token, "") %}
+                  {% else %}
+                    {% set filename = segments | last %}
+                  {% endif %}
+                  <a class="archivo" href="{{ file }}" download>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>
+                    {{ filename }}<span class="solo-lector"> ({{ _("download") }})</span>
+                  </a>
+                {% endfor %}
+              </div>
+            </div>
+          {% endif %}
+
+          {% if solved_by_me %}
+            <div class="resultado" x-show="!response">
+              <div class="resultado-linea resultado-bien">
+                <span aria-hidden="true">✓</span> {% if es_equipo %}{{ _("Your team already solved this challenge.") }}{% else %}{{ _("You already solved this challenge.") }}{% endif %}
+              </div>
+            </div>
+          {% endif %}
+
+          <form class="respuesta" @submit.prevent="submitChallenge()">
+            <label for="challenge-input">{{ _("Your answer") }}</label>
+            <span id="flag-formato" class="campo-ayuda">{{ _("Type it just as you found it, for example %(example)s.", example="<code>flag{...}</code>"|safe) }}</span>
+            <div class="respuesta-fila submit-row">
+              {% block input %}
+                <input id="challenge-id" class="challenge-id" type="hidden" value="{{ challenge.id }}">
+                <input
+                    id="challenge-input" class="challenge-input form-control"
+                    type="text" name="submission" placeholder="flag{...}"
+                    autocomplete="off" spellcheck="false" autocapitalize="none"
+                    aria-describedby="flag-formato flag-resultado"
+                    :aria-invalid="response && response.data.status == 'incorrect' ? 'true' : 'false'"
+                    x-model="submission"
+                    :disabled="noAttemptsLeft()"
+                >
+              {% endblock %}
+              {% block submit %}
+                <button id="challenge-submit" class="challenge-submit btn btn-primary" type="submit" :disabled="submitting || noAttemptsLeft()">
+                  <span x-show="!submitting">{% trans %}Submit{% endtrans %}</span>
+                  <span x-show="submitting" x-cloak>{{ _("Sending…") }}</span>
+                </button>
+              {% endblock %}
+            </div>
+
+            <template x-if="maxAttempts > 0 && !solvedByMe">
+              <span class="campo-ayuda" x-text="t('Attempts used: {0} of {1}', attempts, maxAttempts)"></span>
+            </template>
+            <template x-if="noAttemptsLeft() && !response">
+              <div class="resultado">
+                <div class="resultado-linea resultado-mal" role="status">
+                  <span>{{ _("You have no attempts left for this challenge.") }}</span>
+                </div>
+              </div>
+            </template>
+
+            <div id="flag-resultado" class="notification-row" aria-live="polite">
+              <template x-if="response">
+                <div class="resultado">
+                  <template x-if="response.data.status == 'correct'">
+                    <div class="resultado-linea resultado-bien" role="status">
+                      <span aria-hidden="true">✓</span>
+                      <span x-show="countsSubmissions">{{ _("Well done! You captured the flag: +%(num)s pts.", num=challenge.value) }}</span>
+                      <span x-show="!countsSubmissions" x-cloak>{{ _("That is the flag! The competition is over, so it does not add points.") }}</span>
+                    </div>
+                  </template>
+                  <template x-if="response.data.status == 'already_solved'">
+                    <div class="resultado-linea resultado-info" role="status">
+                      <span aria-hidden="true">✓</span>
+                      <span>{% if es_equipo %}{{ _("Your team already solved this challenge. It does not add points again.") }}{% else %}{{ _("You already solved this challenge. It does not add points again.") }}{% endif %}</span>
+                    </div>
+                  </template>
+                  <template x-if="response.data.status == 'incorrect'">
+                    <div class="resultado-linea resultado-mal" role="alert">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18"></path><path d="M6 6l12 12"></path></svg>
+                      <span x-text="incorrectMessage()"></span>
+                    </div>
+                  </template>
+                  <template x-if="['correct', 'already_solved', 'incorrect'].indexOf(response.data.status) == -1">
+                    <div class="resultado-linea resultado-mal" role="alert">
+                      <span x-text="otherMessage()"></span>
+                    </div>
+                  </template>
+
+                  <template x-if="response.data.status == 'correct' || response.data.status == 'already_solved'">
+                    <div class="compartir">
+                      <button type="button" x-show="getNextId()" @click="nextChallenge()" class="btn btn-primary">
+                        {{ _("Next challenge") }} <span aria-hidden="true">→</span>
+                      </button>
+                      {% if Configs.social_shares != false %}
+                        <button type="button" x-show="!share_url" @click="getShareUrl()" class="btn btn-sec">{% trans %}Share{% endtrans %}</button>
+                        <template x-if="share_url">
+                          <div class="compartir">
+                            <button type="button" class="btn btn-sec" @click="copyShareUrl()" data-bs-toggle="tooltip" data-bs-title="{{ _('Copied!') }}">
+                              <i class="fa-solid fa-copy" aria-hidden="true"></i> {{ _("Copy link") }}
+                            </button>
+                            <a :href="'https://twitter.com/intent/tweet?url=' + encodeURIComponent(share_url)" class="btn btn-sec" target="_blank" rel="noopener" aria-label="{{ _('Share on X (Twitter)') }}">
+                              <i class="fa-brands fa-twitter" aria-hidden="true"></i>
+                            </a>
+                            <a :href="'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(share_url)" class="btn btn-sec" target="_blank" rel="noopener" aria-label="{{ _('Share on Facebook') }}">
+                              <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+                            </a>
+                          </div>
+                        </template>
+                      {% endif %}
+                    </div>
+                  </template>
+                </div>
+              </template>
+            </div>
+          </form>
+        </article>
+
+        <aside class="desafio-aside" aria-label="{{ _('Help for this challenge') }}">
+          <section class="challenge-hints" aria-labelledby="pistas-titulo">
+            <h2 id="pistas-titulo">{% trans %}Hints{% endtrans %}</h2>
+            {% if hints %}
+              <p>{% if es_equipo %}{{ _("Viewing a hint takes points away from your team.") }}{% else %}{{ _("Viewing a hint takes points away from your score.") }}{% endif %}</p>
+              {% for hint in hints | sort(attribute="cost") %}
+                <div x-data="Hint" x-init="id = {{ hint.id }}; cost = {{ hint.cost or 0 }}">
+                  {% if hint.content %}
+                    <div class="pista-texto">{{ hint.html | safe }}</div>
+                  {% else %}
+                    <template x-if="html">
+                      <div class="pista-texto" x-html="html" tabindex="-1" x-ref="texto"></div>
+                    </template>
+                    <button type="button" class="pista-ver" x-show="!html" @click="showHint()" :disabled="loading">
+                      <span>{{ _("View hint %(num)s", num=loop.index) }}<span class="solo-lector"> ({% if hint.cost %}{{ ngettext("costs %(num)d point", "costs %(num)d points", hint.cost) }}{% else %}{{ _("free") }}{% endif %})</span></span>
+                      <span aria-hidden="true" class="pista-costo">{% if hint.cost %}−{{ _("%(num)s pts", num=hint.cost) }}{% else %}{{ _("free") }}{% endif %}</span>
+                    </button>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            {% else %}
+              <p>{{ _("This challenge has no hints. Trust your team!") }}</p>
+            {% endif %}
+          </section>
+
+          {% block solves %}
+            {% if solves != None %}
+              <section aria-labelledby="resolvieron-titulo">
+                <h2 id="resolvieron-titulo">{{ _("Who solved it") }}</h2>
+                <p class="challenge-solves">
+                  {% if solves == 0 %}
+                    {% if es_equipo %}{{ _("Nobody yet. You can be the first team!") }}{% else %}{{ _("Nobody yet. You can be the first to solve it!") }}{% endif %}
+                  {% elif es_equipo %}
+                    {{ ngettext("Solved by %(num)d team.", "Solved by %(num)d teams.", solves) }}
+                  {% else %}
+                    {{ ngettext("Solved by %(num)d participant.", "Solved by %(num)d participants.", solves) }}
+                  {% endif %}
+                </p>
+                {% if solves %}
+                  <button type="button" class="btn-link-plano" x-show="!solvesLoaded" @click="showSolves()">{{ _("See the list") }}</button>
+                  <ul class="resolvieron" id="challenge-solves-names" x-show="solvesLoaded" x-cloak>
+                    <template x-for="solve in solves" :key="solve.account_id">
+                      <li>
+                        <a :href="solve.account_url" x-text="solve.name"></a>
+                        <span class="fecha" x-text="solve.date"></span>
+                      </li>
+                    </template>
+                  </ul>
+                {% endif %}
+              </section>
+            {% endif %}
+          {% endblock %}
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>

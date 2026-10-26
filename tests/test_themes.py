@@ -11,6 +11,7 @@ from jinja2.sandbox import SecurityError
 from werkzeug.test import Client
 
 from CTFd.config import TestingConfig
+from CTFd.constants.themes import DEFAULT_THEME
 from CTFd.utils import get_config, set_config
 from tests.helpers import create_ctfd, destroy_ctfd, gen_user, login_as_user
 
@@ -186,7 +187,8 @@ def test_theme_fallback_config():
         with app.test_client() as client:
             r = client.get("/")
             assert r.status_code == 200
-            r = client.get("/themes/foo_fallback/static/js/pages/main.dev.js")
+            # Static files are served from the default theme
+            r = client.get("/themes/foo_fallback/static/manifest.json")
             assert r.status_code == 200
     destroy_ctfd(app)
 
@@ -198,7 +200,9 @@ def test_theme_template_loading_by_prefix():
     """Test that we can load theme files by their folder prefix"""
     app = create_ctfd()
     with app.test_request_context():
-        tpl1 = render_template_string("{% extends 'core/page.html' %}", content="test")
+        tpl1 = render_template_string(
+            "{% extends '" + DEFAULT_THEME + "/page.html' %}", content="test"
+        )
         tpl2 = render_template("page.html", content="test")
         assert tpl1 == tpl2
 

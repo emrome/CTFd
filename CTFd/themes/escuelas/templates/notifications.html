@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container">
+    <div class="encabezado">
+      <h1>{% trans %}Notifications{% endtrans %}</h1>
+      <p class="encabezado-sub">{{ _("What the CTF organizers have announced during the competition.") }}</p>
+    </div>
+
+    {% if not notifications %}
+      <div class="vacio">
+        <h2>{{ _("No notifications yet") }}</h2>
+        <p>{{ _("When the organizers send one, it will show up here and on screen.") }}</p>
+      </div>
+    {% endif %}
+
+    {% for notification in notifications %}
+      <article class="notificacion">
+        <h2>{{ notification.title }}</h2>
+        <div class="notificacion-cuerpo">{{ notification.html }}</div>
+        <span class="notificacion-fecha"><span data-time="{{ notification.date | isoformat }}"></span></span>
+      </article>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ Assets.js("assets/js/notifications.js") }}
+{% endblock %}

@@ -1,0 +1,129 @@
+{% if authed() %}
+  {% set destino_jugar = url_for('challenges.listing') %}
+  {% set texto_jugar = _("Go to the challenges") %}
+{% else %}
+  {% set destino_jugar = url_for('auth.login') %}
+  {% set texto_jugar = _("Start playing") %}
+{% endif %}
+
+{# The counts are filled in by assets/js/page.js from the challenges the visitor can
+   see; they stay hidden when the challenges are not visible. #}
+{% macro categoria(color, sigla, nombre, grupo) -%}
+  <li style="background: {{ color }}"><span aria-hidden="true" class="cat-sigla">{{ sigla }}</span><span class="cat-nombre">{{ nombre }}</span><span class="cat-cantidad" x-data x-cloak x-show="$store.inicio.loaded" x-text="$store.inicio.challengesText('{{ grupo }}')"></span></li>
+{%- endmacro %}
+
+<section class="inicio-hero" aria-labelledby="inicio-titulo">
+  <div class="inicio-hero-texto">
+    <span class="etiqueta">Capture The Flag · {{ _("high school") }}</span>
+    <h1 id="inicio-titulo">{{ _("Dare to find the") }} <span class="resaltado">{{ _("flag") }}</span>?</h1>
+    <p class="inicio-bajada">{{ _("Cybersecurity challenges to solve with your class: decrypt messages, spot scams and follow clues on the internet. Every hint brings you a little closer.") }}</p>
+    <div class="acciones">
+      <a href="{{ destino_jugar }}" class="btn btn-primary btn-grande">{{ texto_jugar }}</a>
+      <a href="#docentes" class="btn btn-sec btn-grande">{{ _("I'm a teacher") }}</a>
+    </div>
+  </div>
+  <ul aria-label="{{ _('Categories') }}" class="inicio-categorias">
+    {{ categoria("#E4E7EE", ">_", _("Introduction"), "intro") }}
+    {{ categoria("#D6E0FF", "#", _("Cryptography"), "cripto") }}
+    {{ categoria("#FFD6CC", "**", _("Passwords"), "contrasen") }}
+    {{ categoria("#FFE08A", "@", _("Phishing"), "phishing") }}
+    {{ categoria("#C5EBDB", "?", _("OSINT"), "osint") }}
+    {{ categoria("#EBD9F5", "!", _("Social engineering"), "ingenieria") }}
+  </ul>
+</section>
+
+<section aria-label="{{ _('The platform in numbers') }}" class="inicio-numeros" data-inicio-numeros>
+  <dl x-data>
+    <div x-cloak x-show="$store.inicio.loaded"><dt>{{ _("challenges in this competition") }}</dt><dd x-text="$store.inicio.total"></dd></div>
+    <div x-cloak x-show="$store.inicio.loaded"><dt>{{ _("categories") }}</dt><dd x-text="$store.inicio.categories"></dd></div>
+    <div x-cloak x-show="$store.inicio.loaded && $store.inicio.levels > 0"><dt>{{ _("difficulty levels") }}</dt><dd x-text="$store.inicio.levels"></dd></div>
+    {# TODO: el diseño muestra «escuelas que ya jugaron [N]»; falta el número total de
+       escuelas. Mientras tanto se usa un dato verificado: «se puso en práctica en 7 eventos
+       realizados en forma consecutiva desde 2019» (Freccero Starnari et al., «La herramienta
+       CTFd adaptada a la enseñanza de ciberseguridad en la escuela», CLEI 2024). #}
+    <div><dt>{{ _("competitions since 2019") }}</dt><dd>7</dd></div>
+  </dl>
+</section>
+
+{% if propio %}
+  <section class="inicio-seccion" aria-label="{{ _('About this competition') }}">
+    <div class="tarjeta inicio-extra">
+      {{ content | safe }}
+    </div>
+  </section>
+{% endif %}
+
+<section aria-labelledby="como" class="inicio-seccion inicio-como">
+  <div>
+    <h2 id="como">{{ _("How to play") }}</h2>
+    <ol class="pasos">
+      <li>
+        <span aria-hidden="true" class="paso-num" style="background: #D6E0FF">1</span>
+        {% if Configs.user_mode == "teams" %}
+          <span class="paso-texto"><span class="paso-titulo">{{ _("Form your team") }}</span><span class="paso-desc">{{ _("The teacher creates the competition and each group joins its team with the password they are given.") }}</span></span>
+        {% else %}
+          <span class="paso-texto"><span class="paso-titulo">{{ _("Log in") }}</span><span class="paso-desc">{{ _("The teacher creates the competition and each student plays with their own account.") }}</span></span>
+        {% endif %}
+      </li>
+      <li>
+        <span aria-hidden="true" class="paso-num" style="background: #FFE08A">2</span>
+        <span class="paso-texto"><span class="paso-titulo">{{ _("Follow the clues") }}</span><span class="paso-desc">{{ _("A strange email, a photo, an encrypted message. Somewhere there is a hidden text shaped like") }} <code>flag{...}</code>.</span></span>
+      </li>
+      <li>
+        <span aria-hidden="true" class="paso-num" style="background: #C5EBDB">3</span>
+        <span class="paso-texto"><span class="paso-titulo">{{ _("Capture the flag") }}</span><span class="paso-desc">{{ _("Every correct answer adds points and unlocks the next challenge in the category.") }}</span></span>
+      </li>
+    </ol>
+  </div>
+  <figure class="terminal">
+    <div class="terminal-caja">
+      <div class="terminal-cab"><span>Mensaje en la botella</span><span class="mono">20 pts</span></div>
+      <pre><span class="prompt">$ cat botella.txt</span>
+od edqghud hvwd hvfrqglgd
+<span class="prompt">$ ./cesar -3 botella.txt</span>
+la bandera esta escondida
+<span class="ok">✓ {{ _("flag captured") }} · +20 pts</span></pre>
+    </div>
+    <figcaption>{{ _("Example of a solved cryptography challenge.") }}</figcaption>
+  </figure>
+</section>
+
+<section id="docentes" aria-labelledby="docentes-titulo" class="inicio-seccion">
+  <div class="docentes-caja">
+    <div>
+      <h2 id="docentes-titulo">{{ _("Are you a teacher? Set up your class's CTF") }}</h2>
+      <ul>
+        <li>{{ _("Pick challenges from the bank by category and level.") }}</li>
+        <li>{{ _("They come with hints, files and the order in which they unlock.") }}</li>
+        <li>{{ _("Follow each team's progress live.") }}</li>
+      </ul>
+    </div>
+    {% if is_admin() or is_author() %}
+      <a href="{{ url_for('admin.view') }}" class="btn btn-primary">{{ _("Go to the teacher panel") }}</a>
+    {% else %}
+      <a href="{{ url_for('auth.login') }}" class="btn btn-primary">{{ _("I want to organize a CTF") }}</a>
+    {% endif %}
+  </div>
+</section>
+
+<section aria-labelledby="creditos" class="inicio-seccion creditos">
+  <h2 id="creditos">{{ _("Who made it") }}</h2>
+  <div class="creditos-grilla">
+    <div class="credito">
+      <span class="credito-rol">{{ _("The tool") }}</span>
+      <span class="credito-nombre">Benjamín Freccero Starnari</span>
+      <span class="credito-desc">{{ _("Thesis") }} «Una plataforma libre y personalizable para “CTF en escuelas secundarias”». {{ _("He adapted the platform and took it to the schools.") }}</span>
+    </div>
+    <div class="credito">
+      <span class="credito-rol">{{ _("The challenges") }}</span>
+      <span class="credito-nombre">Emilia Romero</span>
+      <span class="credito-desc">{{ _("Thesis") }} «Diseño e integración de contenidos en la herramienta “CTF en escuelas secundarias 2.0”. Aportes a la formación en Informática para jóvenes». {{ _("The bank of 32 challenges.") }}</span>
+    </div>
+    <div class="credito">
+      <span class="credito-rol">{{ _("The base") }}</span>
+      <span class="credito-nombre">CTFd</span>
+      <span class="credito-desc">{{ _("Free software by CTFd LLC, Apache 2.0 license. This tool is a modified version of CTFd.") }}</span>
+    </div>
+  </div>
+  <a href="{{ url_for('views.acerca') }}" class="fw-semibold align-self-start">{{ _("See the full story and the license") }}</a>
+</section>

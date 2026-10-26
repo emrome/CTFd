@@ -1,0 +1,440 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div id="team-edit-modal" class="modal fade">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-action text-center w-100">{% trans %}Edit Team{% endtrans %}</h2>
+          <button type="button" class="cursor-pointer btn-close" data-bs-dismiss="modal" aria-label="{% trans %}Close{% endtrans %}">
+          </button>
+        </div>
+
+        <div class="modal-body clearfix" x-data="TeamEditModal">
+          {% with form = Forms.teams.TeamSettingsForm(obj=team) %}
+            {% from "macros/forms.html" import render_extra_fields %}
+            <form id="team-info-form" method="POST" @submit.prevent="updateProfile()">
+
+              <div class="mb-2">
+                <b>{{ form.name.label(class="form-label") }}</b>
+                {{ form.name(class="form-control") }}
+                <small class="form-text text-muted">
+                  {{ form.name.description }}
+                </small>
+              </div>
+
+              <div class="mb-2">
+                <b>{{ form.password.label(text=_("New team password"), class="form-label") }}</b>
+                {{ form.password(class="form-control") }}
+                <small class="form-text text-muted">
+                  {{ form.password.description }}
+                </small>
+              </div>
+
+              <div class="mb-2">
+                <b>{{ form.confirm.label(class="form-label") }}</b>
+                {{ form.confirm(class="form-control") }}
+                <small class="form-text text-muted">
+                  {{ form.confirm.description }}
+                </small>
+              </div>
+
+              <div class="mb-2">
+                <b>{{ form.website.label(class="form-label") }}</b>
+                {{ form.website(class="form-control") }}
+                <small class="form-text text-muted">
+                  {{ form.website.description }}
+                </small>
+              </div>
+
+              <div class="mb-2">
+                <b>{{ form.affiliation.label(text=_("School or institution"), class="form-label") }}</b>
+                {{ form.affiliation(class="form-control") }}
+                <small class="form-text text-muted">
+                  {{ form.affiliation.description }}
+                </small>
+              </div>
+
+              <div class="mb-2">
+                <b>{{ form.country.label(class="form-label") }}</b>
+                {{ form.country(class="form-control form-select") }}
+                <small class="form-text text-muted">
+                  {{ form.country.description }}
+                </small>
+              </div>
+
+              <hr>
+
+              {{ render_extra_fields(form.extra) }}
+
+              <div id="results">
+                <div
+                    class="alert alert-success alert-dismissible submit-row"
+                    role="alert" x-cloak="success" x-show="success"
+                >
+                  <strong>{% trans %}Success!{% endtrans %}</strong>
+                  {% trans %}Your team's profile has been updated{% endtrans %}
+                  <button type="button" class="cursor-pointer btn-close" data-bs-dismiss="alert" aria-label="{% trans %}Close{% endtrans %}">
+                  </button>
+                </div>
+
+                <template x-for="(msg, idx) in errors" :key="idx">
+                  <div class="alert alert-danger alert-dismissible" role="alert">
+                    <span class="sr-only">{% trans %}Error:{% endtrans %}</span>
+                    <span x-text="msg"></span>
+
+                    <button type="button" class="cursor-pointer btn-close" data-bs-dismiss="alert" aria-label="{% trans %}Close{% endtrans %}">
+                    </button>
+                  </div>
+                </template>
+              </div>
+
+              {{ form.submit(class="btn btn-primary float-end px-4 modal-action", value=_("Save")) }}
+            </form>
+          {% endwith %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="team-captain-modal" x-data="TeamCaptainModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-action text-center w-100">{% trans %}Choose Captain{% endtrans %}</h2>
+          <button type="button" class="cursor-pointer btn-close" data-bs-dismiss="modal" aria-label="{% trans %}Close{% endtrans %}">
+          </button>
+        </div>
+        <div class="modal-body clearfix">
+          {% with form = Forms.teams.TeamCaptainForm(captain_id=team.captain_id) %}
+            <form id="team-captain-form" method="POST" @submit.prevent="updateCaptain()">
+              <div class="mb-3">
+                {{ form.captain_id.label(text=_("Captain"), class="form-label") }}
+                {% for member in team.members %}
+                  {# Append members to the select choices #}
+                  {% set _ = form.captain_id.choices.append((member.id, member.name)) %}
+                {% endfor %}
+                {{ form.captain_id(class="form-control form-select mb-2") }}
+              </div>
+              <div id="results">
+                <div
+                    class="alert alert-success alert-dismissible submit-row"
+                    role="alert"
+                    x-cloak="success"
+                    x-show="success"
+                >
+                  <strong>{% trans %}Success!{% endtrans %}</strong>
+                  {% trans %}Your captain rights have been transferred{% endtrans %}
+                  <button type="button" class="cursor-pointer btn-close" data-bs-dismiss="alert" aria-label="{% trans %}Close{% endtrans %}">
+                  </button>
+                </div>
+                <template x-for="(msg, idx) in errors" :key="idx">
+                  <div class="alert alert-danger alert-dismissible" role="alert">
+                    <span class="sr-only">{% trans %}Error:{% endtrans %}</span>
+                    <span x-text="msg"></span>
+                    <button type="button" class="cursor-pointer btn-close" data-bs-dismiss="alert" aria-label="{% trans %}Close{% endtrans %}">
+                    </button>
+                  </div>
+                </template>
+              </div>
+              {{ form.submit(class="btn btn-primary float-end px-4 modal-action", value=_("Save")) }}
+            </form>
+          {% endwith %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="team-invite-modal" x-data="TeamInviteModal" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-action text-center w-100">{% trans %}Invite Users{% endtrans %}</h2>
+          <button type="button" class="cursor-pointer btn-close" data-bs-dismiss="modal" aria-label="{% trans %}Close{% endtrans %}">
+          </button>
+        </div>
+        <div class="modal-body clearfix">
+          {% with form = Forms.teams.TeamInviteForm() %}
+            <form method="POST">
+              <div class="mb-3">
+                <b>{{ form.link.label(class="form-label") }}</b>
+
+                <div class="input-group mb-3">
+                  {{ form.link(id="team-invite-link", class="form-control", **{"x-ref": "link", "x-bind:value": "$store.inviteToken"}) }}
+
+                  <button class="btn btn-outline-secondary px-3" type="button" @click="copy()">
+                    <i class="fas fa-clipboard"></i>
+                  </button>
+                </div>
+
+                <small class="form-text text-muted">
+                  {% trans %}Share this link with your team members for them to join your team{% endtrans %}
+                </small>
+                <small class="form-text text-muted">
+                  {% trans %}Invite links can be re-used and expire after 1 day{% endtrans %}
+                </small>
+              </div>
+            </form>
+          {% endwith %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="team-disband-modal" x-data="TeamDisbandModal" class="modal fade">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-action text-center w-100">{% trans %}Disband Team{% endtrans %}</h2>
+          <button type="button" class="cursor-pointer btn-close" data-bs-dismiss="modal" aria-label="{% trans %}Close{% endtrans %}">
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-0">{% trans %}Are you sure you want to disband your team?{% endtrans %}</p>
+
+          <div class="mt-3">
+            <template x-for="(msg, idx) in errors" :key="idx">
+              <div class="alert alert-danger" role="alert">
+                <span class="sr-only">{% trans %}Error:{% endtrans %}</span>
+                <span x-text="msg"></span>
+              </div>
+            </template>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">{% trans %}No{% endtrans %}</button>
+          <button type="button" class="btn btn-primary" @click="disbandTeam()" :disabled="errors.length > 0">{% trans %}Yes{% endtrans %}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% from "macros/perfil.html" import puesto %}
+  <div class="container">
+    <div class="encabezado">
+      <span class="encabezado-ante">{{ _("My team") }}</span>
+      <h1 id="team-id" team-id="{{ team.id }}">{{ team.name }}</h1>
+      <div class="perfil-chips">
+        {% if team.oauth_id %}
+          <a class="pastilla" href="https://majorleaguecyber.org/t/{{ team.name }}">{% trans %}Official{% endtrans %}</a>
+        {% endif %}
+        {% if team.affiliation %}
+          <span class="pastilla" style="background: #D6E0FF">{{ team.affiliation }}</span>
+        {% endif %}
+        {% if team.country %}
+          <span class="pastilla" style="background: #C5EBDB"><i class="flag-{{ team.country.lower() }} me-2" aria-hidden="true"></i>{{ lookup_country_code(team.country) }}</span>
+        {% endif %}
+        {% if team.website and (team.website.startswith('http://') or team.website.startswith('https://')) %}
+          <a class="pastilla" style="background: #F4F1EA" href="{{ team.website }}" target="_blank" rel="noopener"><i class="fas fa-external-link-alt me-2" aria-hidden="true"></i>{% trans %}Website{% endtrans %}</a>
+        {% endif %}
+      </div>
+      {% for field in team.fields %}
+        <p class="encabezado-sub m-0"><strong>{{ field.name }}:</strong> {{ field.value }}</p>
+      {% endfor %}
+
+      <div x-data="CaptainMenu" class="perfil-acciones">
+        <button type="button" class="btn btn-sec btn-sm edit-team" @click="editTeam()">
+          <i class="fas fa-cogs" aria-hidden="true"></i> {% trans %}Edit Team{% endtrans %}
+        </button>
+        <button type="button" class="btn btn-sec btn-sm edit-captain" @click="chooseCaptain()">
+          <i class="fas fa-user-tag" aria-hidden="true"></i> {% trans %}Choose Captain{% endtrans %}
+        </button>
+        <button type="button" class="btn btn-sec btn-sm invite-members" @click="inviteMembers()">
+          <i class="fas fa-ticket-alt" aria-hidden="true"></i> {% trans %}Invite Users{% endtrans %}
+        </button>
+        <button type="button" class="btn btn-danger btn-sm disband-team" @click="disbandTeam()">
+          <i class="fas fa-trash-alt" aria-hidden="true"></i> {% trans %}Disband Team{% endtrans %}
+        </button>
+      </div>
+    </div>
+
+    <div class="perfil-datos">
+      {# This intentionally hides the team's place when scores are hidden because this can be their internal profile
+         and we don't want to leak their place in the CTF. #}
+      {% if scores_visible() and place %}
+        <dl class="dato-card" id="team-place"><dt>{{ _("place in the scoreboard") }}</dt><dd>{{ puesto(place) }}</dd></dl>
+      {% endif %}
+      <dl class="dato-card" id="team-score"><dt>{% trans %}points{% endtrans %}</dt><dd>{{ score or 0 }}</dd></dl>
+    </div>
+  </div>
+  <div class="container">
+    {% include "components/errors.html" %}
+
+    <br>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h3>{% trans %}Members{% endtrans %}</h3>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <td><b>{% trans %}User Name{% endtrans %}</b></td>
+            <td><b>{% trans %}Score{% endtrans %}</b></td>
+          </tr>
+          </thead>
+          <tbody>
+
+          {% for member in team.members %}
+            <tr>
+              <td>
+                <a href="{{ url_for('users.public', user_id=member.id) }}">
+                  {{ member.name }}
+                </a>
+                {% if team.captain_id == member.id %}
+                  <span class="badge bg-primary ms-2">{% trans %}Captain{% endtrans %}</span>
+                {% endif %}
+              </td>
+              <td>{{ member.score }}</td>
+            </tr>
+          {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {% if solves or awards %}
+      {% if awards %}
+        <div class="row">
+          <div class="col-md-12">
+            <h3>{% trans %}Awards{% endtrans %}</h3>
+          </div>
+
+          {% for award in awards %}
+            <div class="col-md-3 col-sm-6">
+              <p class="text-center">
+                <i class="award-icon award-{{ award.icon }} fa-2x"></i>
+                <br>
+                <strong>{{ award.name }}</strong>
+              </p>
+              {% if award.category %}<p class="text-center">{{ award.category }}</p>{% endif %}
+              {% if award.description %}<p class="text-center">{{ award.description }}</p>{% endif %}
+              <p class="text-center">{{ award.value }}</p>
+            </div>
+          {% endfor %}
+
+        </div>
+
+        <br>
+      {% endif %}
+
+      <div class="row">
+        <div class="col-md-12">
+          <h3>{% trans %}Solves{% endtrans %}</h3>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <td><b>{% trans %}Challenge{% endtrans %}</b></td>
+              <td class="d-none d-md-block d-lg-block"><b>{% trans %}Category{% endtrans %}</b></td>
+              <td><b>{% trans %}Value{% endtrans %}</b></td>
+              <td><b>{% trans %}Time{% endtrans %}</b></td>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for solve in solves %}
+              <tr>
+                <td>
+                  <a href="{{ url_for('challenges.listing') }}#{{ solve.challenge.name }}-{{ solve.challenge.id }}">
+                    {{ solve.challenge.name }}
+                  </a>
+                </td>
+                <td class="d-none d-md-block d-lg-block">{{ solve.challenge.category }}</td>
+                <td>{{ solve.challenge.value }}</td>
+                <td class="solve-time">
+                  <span data-time="{{ solve.date | isoformat }}">{{ solve.date }}</span>
+                </td>
+              </tr>
+            {% endfor %}
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="row" x-data="TeamGraphs">
+        <div class="col-md-6 d-none d-md-block d-lg-block py-4">
+          <div class="progress">
+            <div 
+              class="progress-bar" 
+              role="progressbar" 
+              :style="{ width: `${getSolvePercentage()}%`, 'background-color': '#157a4a' }" 
+            >
+            </div>
+            <div 
+              class="progress-bar" 
+              role="progressbar" 
+              :style="{ width: `${getFailPercentage()}%`, 'background-color': '#c2410c' }"
+            >
+            </div>
+          </div>
+          <div class="ps-2 float-start">
+            <svg height="16" width="16">
+              <circle cx="8" cy="8" r="5" fill="#157a4a" />
+            </svg>
+            <small x-text='{{ _("Solves") | tojson }} + " (" + getSolvePercentage() + "%)"'></small>
+          </div>
+          <div class="ps-2 float-start">
+            <svg height="16" width="16">
+              <circle cx="8" cy="8" r="5" fill="#c2410c" />
+            </svg>
+            <small x-text='{{ _("Fails") | tojson }} + " (" + getFailPercentage() + "%)"'></small>
+          </div>
+        </div>
+        <div class="col-md-6 d-none d-md-block d-lg-block py-4">
+          <div class="progress">
+            <template x-for="category in getCategoryBreakdown()" :key="category.name">
+              <div 
+                class="progress-bar" 
+                role="progressbar" 
+                :style="{ width: `${category.percent}%`, 'background-color': category.color }"
+              >
+              </div>
+            </template>
+          </div>
+          <template x-for="category in getCategoryBreakdown()" :key="category.name">
+            <div class="ps-2 float-start">
+              <svg height="16" width="16">
+                <circle cx="8" cy="8" r="5" :fill="category.color" />
+              </svg>
+              <small x-text="`${category.name} (${category.percent}%)`"></small>
+            </div>
+          </template>
+        </div>
+
+        <br class="clearfix">
+
+        <div class="col-md-12 d-none d-md-block d-lg-block">
+          <div id="score-graph" x-ref="scoregraph" class="w-100 d-flex align-items-center">
+            <div class="text-center w-100">
+              <i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="row">
+        <h3 class="opacity-50 text-center w-100 justify-content-center align-self-center">
+          {% trans %}No solves yet{% endtrans %}
+        </h3>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+      window.stats_data = {{ {
+        'type': 'team',
+        'id': team.id,
+        'name': team.name,
+        'account_id': 'me',
+      } | tojson }};
+
+      window.team_captain = {{ (user.id == team.captain_id) | tojson }};
+  </script>
+  {{ Assets.js("assets/js/teams/private.js") }}
+{% endblock %}

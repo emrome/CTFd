@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% from "macros/perfil.html" import puesto %}
+  <div class="container">
+    <div class="encabezado">
+      <span class="encabezado-ante">{% trans %}Team{% endtrans %}</span>
+      <h1 id="team-id" data-ctfd-team-id="{{ team.id }}">{{ team.name }}</h1>
+      <div class="perfil-chips">
+        {% if team.oauth_id %}
+          <a class="pastilla" href="https://majorleaguecyber.org/t/{{ team.name }}">{% trans %}Official{% endtrans %}</a>
+        {% endif %}
+        {% if team.affiliation %}
+          <span class="pastilla" style="background: #D6E0FF">{{ team.affiliation }}</span>
+        {% endif %}
+        {% if team.country %}
+          <span class="pastilla" style="background: #C5EBDB"><i class="flag-{{ team.country.lower() }} me-2" aria-hidden="true"></i>{{ lookup_country_code(team.country) }}</span>
+        {% endif %}
+        {% if team.website and (team.website.startswith('http://') or team.website.startswith('https://')) %}
+          <a class="pastilla" style="background: #F4F1EA" href="{{ team.website }}" target="_blank" rel="noopener"><i class="fas fa-external-link-alt me-2" aria-hidden="true"></i>{% trans %}Website{% endtrans %}</a>
+        {% endif %}
+      </div>
+      {% for field in team.fields %}
+        <p class="encabezado-sub m-0"><strong>{{ field.name }}:</strong> {{ field.value }}</p>
+      {% endfor %}
+      {% if not user.team_id %}
+        <div class="perfil-acciones">
+          <a class="btn btn-primary" href="{{ url_for('teams.join', team_name=team.name) }}">{{ _("Join this team") }}</a>
+        </div>
+      {% endif %}
+    </div>
+
+    <div class="perfil-datos">
+      {# Public page hiding is done at the route level #}
+      {% if scores_visible() and place %}
+        <dl class="dato-card" id="team-place"><dt>{{ _("place in the scoreboard") }}</dt><dd>{{ puesto(place) }}</dd></dl>
+      {% endif %}
+      <dl class="dato-card" id="team-score"><dt>{% trans %}points{% endtrans %}</dt><dd>{{ score or 0 }}</dd></dl>
+    </div>
+  </div>
+  <div class="container">
+    {% include "components/errors.html" %}
+
+    <br>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h3>{% trans %}Members{% endtrans %}</h3>
+        <table class="table table-striped">
+          <thead>
+          <tr>
+            <td><b>{% trans %}User Name{% endtrans %}</b></td>
+            <td><b>{% trans %}Score{% endtrans %}</b></td>
+          </tr>
+          </thead>
+          <tbody>
+          {% for member in team.members %}
+            <tr>
+              <td>
+                <a href="{{ url_for('users.public', user_id=member.id) }}">
+                  {{ member.name }}
+                </a>
+              </td>
+              <td>{{ member.score }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    {% if solves or awards %}
+      {% if awards %}
+        <div class="row">
+          <div class="col-md-12">
+            <h3>{% trans %}Awards{% endtrans %}</h3>
+          </div>
+
+          {% for award in awards %}
+            <div class="col-md-3 col-sm-6">
+              <p class="text-center">
+                <i class="award-icon award-{{ award.icon }} fa-2x"></i> <br>
+                <strong>{{ award.name }}</strong>
+              </p>
+
+              {% if award.category %}
+                <p class="text-center">{{ award.category }}</p>
+              {% endif %}
+
+              {% if award.description %}
+                <p class="text-center">{{ award.description }}</p>
+              {% endif %}
+
+              <p class="text-center">{{ award.value }}</p>
+            </div>
+          {% endfor %}
+        </div>
+
+        <br>
+      {% endif %}
+
+      <div class="row">
+        <div class="col-md-12">
+          <h3>{% trans %}Solves{% endtrans %}</h3>
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <td class="text-center"><b>{% trans %}Challenge{% endtrans %}</b></td>
+              <td class="d-none d-md-block d-lg-block"><b>{% trans %}Category{% endtrans %}</b></td>
+              <td><b>{% trans %}Value{% endtrans %}</b></td>
+              <td><b>{% trans %}Time{% endtrans %}</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            {% for solve in solves %}
+              <tr>
+                <td class="text-center">
+                  <a href="{{ url_for('challenges.listing') }}#{{ solve.challenge.name }}-{{ solve.challenge.id }}">
+                    {{ solve.challenge.name }}
+                  </a>
+                </td>
+                <td class="d-none d-md-block d-lg-block">{{ solve.challenge.category }}</td>
+                <td>{{ solve.challenge.value }}</td>
+                <td class="solve-time">
+                  <span data-time="{{ solve.date | isoformat }}"></span>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="clearfix"></div>
+
+      <div class="row" x-data="TeamGraphs">
+        <div class="col-md-6 d-none d-md-block d-lg-block py-4">
+          <div class="progress">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              :style="{ width: `${getSolvePercentage()}%`, 'background-color': '#157a4a' }"
+            >
+            </div>
+            <div
+              class="progress-bar"
+              role="progressbar"
+              :style="{ width: `${getFailPercentage()}%`, 'background-color': '#c2410c' }"
+            >
+            </div>
+          </div>
+          <div class="ps-2 float-start">
+            <svg height="16" width="16">
+              <circle cx="8" cy="8" r="5" fill="#157a4a" />
+            </svg>
+            <small x-text='{{ _("Solves") | tojson }} + " (" + getSolvePercentage() + "%)"'></small>
+          </div>
+          <div class="ps-2 float-start">
+            <svg height="16" width="16">
+              <circle cx="8" cy="8" r="5" fill="#c2410c" />
+            </svg>
+            <small x-text='{{ _("Fails") | tojson }} + " (" + getFailPercentage() + "%)"'></small>
+          </div>
+        </div>
+        <div class="col-md-6 d-none d-md-block d-lg-block py-4">
+          <div class="progress">
+            <template x-for="category in getCategoryBreakdown()" :key="category.name">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                :style="{ width: `${category.percent}%`, 'background-color': category.color }"
+              >
+              </div>
+            </template>
+          </div>
+          <template x-for="category in getCategoryBreakdown()" :key="category.name">
+            <div class="ps-2 float-start">
+              <svg height="16" width="16">
+                <circle cx="8" cy="8" r="5" :fill="category.color" />
+              </svg>
+              <small x-text="`${category.name} (${category.percent}%)`"></small>
+            </div>
+          </template>
+        </div>
+
+        <br class="clearfix">
+
+        <div class="col-md-12 d-none d-md-block d-lg-block">
+          <div id="score-graph" x-ref="scoregraph" class="w-100 d-flex align-items-center">
+            <div class="text-center w-100">
+              <i class="fas fa-circle-notch fa-spin fa-3x fa-fw spinner"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="row min-vh-25">
+        <h3 class="opacity-50 text-center w-100 justify-content-center align-self-center">
+          {% trans %}No solves yet{% endtrans %}
+        </h3>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+      window.TEAM =
+      {{
+        {
+           'type': 'team',
+           'id': team.id,
+           'name': team.name,
+           'account_id': team.id,
+        } | tojson
+      }}
+  </script>
+
+  {{ Assets.js("assets/js/teams/public.js") }}
+{% endblock %}

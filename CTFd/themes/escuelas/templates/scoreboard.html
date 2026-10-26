@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="container ranking">
+    <div class="ranking-cab">
+      <span class="encabezado-ante">{{ Configs.ctf_name }}</span>
+      <h1>{% trans %}Scoreboard{% endtrans %}</h1>
+    </div>
+
+    {% include "components/errors.html" %}
+
+    {% if standings %}
+      {% set maximo = standings[0].score if standings[0].score and standings[0].score > 0 else 1 %}
+      {# Labels used inside the cached rows; the script copies them into each row #}
+      <div
+          hidden id="ranking-textos"
+          data-oficial="{% trans %}Official{% endtrans %}"
+          data-propio="{% if Configs.user_mode == 'teams' %}{{ _('Your team') }}{% else %}{{ _('You') }}{% endif %}"
+      ></div>
+      <div class="tabla-caja" id="scoreboard" x-data="Ranking">
+        <table class="tabla-ranking">
+          <caption class="solo-lector">{% if Configs.user_mode == 'teams' %}{{ _("Teams ranked by points") }}{% else %}{{ _("Participants ranked by points") }}{% endif %}</caption>
+          <thead>
+            <tr>
+              <th scope="col" class="col-puesto">{% trans %}Place{% endtrans %}</th>
+              <th scope="col">{% if Configs.user_mode == 'teams' %}{% trans %}Team{% endtrans %}{% else %}{{ _("Participant") }}{% endif %}</th>
+              <th scope="col" class="col-puntos">{{ _("Points") }}</th>
+              <th scope="col" class="col-resueltos">{{ _("Solves") }}</th>
+            </tr>
+          </thead>
+          {# The rows are cached for everyone and every language, so they hold no text to
+             translate: labels come from #ranking-textos and the own row is marked in JS. #}
+          {% cache 60, CacheKeys.PUBLIC_SCOREBOARD_TABLE %}
+          <tbody>
+            {% for standing in standings %}
+              {% set ancho = ((standing.score / maximo) * 100) | round | int if standing.score > 0 else 0 %}
+              <tr data-cuenta="{{ standing.account_id }}">
+                <td class="col-puesto">{{ loop.index }}</td>
+                <td class="col-nombre">
+                  <a href="{{ generate_account_url(standing.account_id) }}">{{ standing.name | truncate(50) }}</a>
+                  {% if standing.oauth_id %}
+                    <span class="tu-equipo" data-oficial></span>
+                  {% endif %}
+                  <span class="tu-equipo d-none" data-propio></span>
+                </td>
+                <td class="col-puntos">
+                  <div class="barra-puntos">
+                    <div aria-hidden="true" class="barra-puntos-fondo"><div class="barra-puntos-relleno" style="width: {{ ancho }}%"></div></div>
+                    <span class="barra-puntos-num">{{ standing.score }}</span>
+                  </div>
+                </td>
+                <td class="col-resueltos" data-resueltos>—</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+          {% endcache %}
+        </table>
+      </div>
+    {% else %}
+      <div class="vacio">
+        <h2>{{ _("No points yet") }}</h2>
+        <p>{% if Configs.user_mode == 'teams' %}{{ _("When a team solves its first challenge, it will show up here.") }}{% else %}{{ _("When a participant solves their first challenge, they will show up here.") }}{% endif %}</p>
+      </div>
+    {% endif %}
+
+    {% if standings %}
+    <section class="ranking-grafico" aria-labelledby="grafico-titulo">
+      <h2 id="grafico-titulo">{{ _("How the score changed") }}</h2>
+      <div class="tarjeta">
+        <div id="score-graph" x-data="ScoreboardDetail" x-ref="scoregraph">
+          <div class="cargando">
+            <i class="fas fa-circle-notch fa-spin fa-2x fa-fw spinner" aria-hidden="true"></i>
+            <span class="solo-lector">{{ _("Loading the graph…") }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ Assets.js("assets/js/scoreboard.js") }}
+{% endblock %}

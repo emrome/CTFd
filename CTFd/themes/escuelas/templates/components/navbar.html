@@ -1,0 +1,124 @@
+{# Barra superior: una sola para todo el sitio. Mismo logo, mismos cuatro enlaces y
+   un espacio de cuenta de ancho fijo (240 px) para que nada se corra al cambiar de usuario. #}
+{% set endpoint = request.endpoint or "" %}
+{% set ruta = (request.view_args or {}).get("route") %}
+{% set en_inicio = endpoint == "views.static_html" and ruta == "index" %}
+{% set en_desafios = endpoint == "challenges.listing" %}
+{% set en_ranking = endpoint == "scoreboard.listing" %}
+{% set en_acerca = endpoint == "views.acerca" %}
+{% set en_ingreso = endpoint in ("auth.login", "auth.register", "auth.reset_password") %}
+
+<header class="barra">
+  <div class="barra-in">
+    <a href="{{ url_for('views.static_html', route='/') }}" class="marca">
+      {% if Configs.ctf_logo %}
+        <img class="marca-logo" src="{{ url_for('views.files', path=Configs.ctf_logo) }}" alt="">
+      {% else %}
+        <span class="marca-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V4"></path><path d="M5 4h11l-2 4 2 4H5"></path></svg>
+        </span>
+      {% endif %}
+      <span class="marca-texto">
+        <span class="marca-nombre">CTF en Escuelas</span>
+        <span class="marca-sub">{{ _("School of Computer Science") }} · UNLP</span>
+      </span>
+    </a>
+
+    <button
+        type="button" class="btn btn-sec menu-abrir"
+        aria-controls="menu-principal" aria-expanded="false"
+        onclick="var m=document.getElementById('menu-principal');var a=m.classList.toggle('abierto');this.setAttribute('aria-expanded',a);"
+    >
+      <i class="fas fa-bars" aria-hidden="true"></i> {{ _("Menu") }}
+    </button>
+
+    <nav aria-label="{{ _('Main') }}" class="menu" id="menu-principal">
+      <a href="{{ url_for('views.static_html', route='/') }}" class="menu-link"{% if en_inicio %} aria-current="page"{% endif %}>{{ _("Home") }}</a>
+      <a href="{{ url_for('challenges.listing') }}" class="menu-link"{% if en_desafios %} aria-current="page"{% endif %}>{% trans %}Challenges{% endtrans %}</a>
+      <a href="{{ url_for('scoreboard.listing') }}" class="menu-link"{% if en_ranking %} aria-current="page"{% endif %}>{% trans %}Scoreboard{% endtrans %}</a>
+      <a href="{{ url_for('views.acerca') }}" class="menu-link"{% if en_acerca %} aria-current="page"{% endif %}>{{ _("About") }}</a>
+
+      <span class="cuenta">
+        {% if authed() %}
+          {% from "macros/cuenta.html" import chip_dato %}
+
+          <div class="dropdown">
+            <button
+                type="button" class="chip dropdown-toggle" id="menu-cuenta"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                data-cuenta-etiqueta
+            >
+              {# The name is filled in from window.escuelasCuenta (see base.html and
+                 assets/js/index.js) so that it is not part of the page body: CTFd
+                 checks that hidden accounts do not appear in public listings. #}
+              <span class="chip-nombre" data-cuenta-nombre></span>
+              <span class="chip-dato">{{ chip_dato() }}</span>
+              <span
+                  x-data x-cloak x-show="$store.unread_count > 0" x-text="$store.unread_count"
+                  class="chip-aviso" aria-hidden="true"
+              ></span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="menu-cuenta">
+              {% if is_admin() or is_author() %}
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('admin.view') }}">
+                    <i class="fas fa-wrench" aria-hidden="true"></i>
+                    {% if is_admin() %}{% trans %}Admin Panel{% endtrans %}{% else %}{% trans %}Author Panel{% endtrans %}{% endif %}
+                  </a>
+                </li>
+              {% endif %}
+              {% if Configs.user_mode == "teams" %}
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('teams.private') }}"{% if endpoint == "teams.private" %} aria-current="page"{% endif %}>
+                    <i class="fas fa-users" aria-hidden="true"></i> {{ _("My team") }}
+                  </a>
+                </li>
+              {% endif %}
+              <li>
+                <a class="dropdown-item" href="{{ url_for('users.private') }}"{% if endpoint == "users.private" %} aria-current="page"{% endif %}>
+                  <i class="fas fa-user-circle" aria-hidden="true"></i> {{ _("My profile") }}
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('views.notifications') }}"{% if endpoint == "views.notifications" %} aria-current="page"{% endif %}>
+                  <i class="fas fa-bell" aria-hidden="true"></i> {% trans %}Notifications{% endtrans %}
+                  <span x-data x-cloak x-show="$store.unread_count > 0" class="badge bg-danger ms-auto">
+                    <span x-text="$store.unread_count"></span><span class="solo-lector"> {{ _("unread") }}</span>
+                  </span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('views.settings') }}"{% if endpoint == "views.settings" %} aria-current="page"{% endif %}>
+                  <i class="fas fa-cog" aria-hidden="true"></i> {% trans %}Settings{% endtrans %}
+                </a>
+              </li>
+              {% if Configs.account_visibility != 'admins' %}
+                <li><hr class="dropdown-divider"></li>
+                {% if Configs.user_mode == "teams" %}
+                  <li>
+                    <a class="dropdown-item" href="{{ url_for('teams.listing') }}">
+                      <i class="fas fa-list" aria-hidden="true"></i> {{ _("All teams") }}
+                    </a>
+                  </li>
+                {% endif %}
+                <li>
+                  <a class="dropdown-item" href="{{ url_for('users.listing') }}">
+                    <i class="fas fa-list" aria-hidden="true"></i> {{ _("Participants") }}
+                  </a>
+                </li>
+              {% endif %}
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <a class="dropdown-item" href="{{ url_for('auth.logout') }}">
+                  <i class="fas fa-sign-out-alt" aria-hidden="true"></i> {% trans %}Logout{% endtrans %}
+                </a>
+              </li>
+            </ul>
+          </div>
+        {% else %}
+          <a href="{{ url_for('auth.login') }}" class="btn btn-primary"{% if en_ingreso %} aria-current="page"{% endif %}>{% trans %}Login{% endtrans %}</a>
+        {% endif %}
+      </span>
+    </nav>
+  </div>
+</header>

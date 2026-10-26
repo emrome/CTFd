@@ -1,0 +1,43 @@
+{% macro render_extra_fields(fields, show_labels=True, show_optionals=True, show_descriptions=True) -%}
+  {% for field in fields %}
+    {% if field.field_type == "text" %}
+
+      <div class="campo">
+        {% if show_labels %}
+          <label for="{{ field.id }}">
+            {{ field.label.text }}
+            {% if show_optionals and field.flags.required is false %}
+              <span class="texto-suave fw-normal">{{ _("(optional)") }}</span>
+            {% endif %}
+          </label>
+        {% endif %}
+
+        {% if show_descriptions and field.description %}
+          <span class="campo-ayuda" id="{{ field.id }}-ayuda">{{ field.description }}</span>
+          {{ field(class="form-control", **{"aria-describedby": field.id ~ "-ayuda"}) }}
+        {% else %}
+          {{ field(class="form-control") }}
+        {% endif %}
+      </div>
+
+    {% elif field.field_type == "boolean" %}
+
+      <div class="campo">
+        <div class="form-check">
+          {{ field(class="form-check-input") }}
+          <label class="form-check-label" for="{{ field.id }}">
+            {{ field.label.text }}
+            {% if show_optionals and field.flags.required is false %}
+              <span class="texto-suave">{{ _("(optional)") }}</span>
+            {% endif %}
+          </label>
+        </div>
+
+        {% if show_descriptions and field.description %}
+          <span class="campo-ayuda">{{ field.description }}</span>
+        {% endif %}
+      </div>
+
+    {% endif %}
+  {% endfor %}
+{%- endmacro %}

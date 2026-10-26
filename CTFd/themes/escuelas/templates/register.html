@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="ingreso">
+    {% set intro_titulo = _("Create your account") %}
+    {% if Configs.user_mode == "teams" %}
+      {% set intro_texto = _("Choose a username and a password. Then you join your team with the team name and password your teacher gives you.") %}
+    {% else %}
+      {% set intro_texto = _("Choose a username and a password to start playing.") %}
+    {% endif %}
+    {% include "components/ingreso_intro.html" %}
+
+    <div class="ingreso-card">
+      {% include "components/ingreso_selector.html" %}
+      {% include "components/errors.html" %}
+
+      {% if integrations.mlc() %}
+        <a class="btn btn-sec w-100" href="{{ url_for('auth.oauth_login') }}">
+          {{ _("Login with Major League Cyber") }}
+        </a>
+      {% endif %}
+
+      {% with form = Forms.auth.RegistrationForm() %}
+        {% from "macros/forms.html" import render_extra_fields %}
+
+        <form method="post" accept-charset="utf-8" autocomplete="off">
+          <div class="campo">
+            <label for="name">{% trans %}User Name{% endtrans %}</label>
+            <span id="ayuda-usuario" class="campo-ayuda">{{ _("This is the name others will see on the site.") }}</span>
+            {{ form.name(class="form-control", value=name, autocomplete="username", autocapitalize="none", spellcheck="false", **{"aria-describedby": "ayuda-usuario"}) }}
+          </div>
+
+          <div class="campo">
+            <label for="email">{% trans %}Email{% endtrans %}</label>
+            <span id="ayuda-correo" class="campo-ayuda">{{ _("It is never shown anywhere.") }}</span>
+            {{ form.email(class="form-control", value=email, autocomplete="email", **{"aria-describedby": "ayuda-correo"}) }}
+          </div>
+
+          <div class="campo">
+            <label for="password">{% trans %}Password{% endtrans %}</label>
+            <span id="ayuda-clave" class="campo-ayuda">{{ _("Pick one you can remember: a phrase is easier.") }}</span>
+            <div class="campo-clave">
+              {{ form.password(class="form-control", value=password, autocomplete="new-password", **{"aria-describedby": "ayuda-clave"}) }}
+              <button type="button" data-mostrar-clave="password" aria-pressed="false">{{ _("Show") }}</button>
+            </div>
+          </div>
+
+          {{ form.nonce() }}
+
+          {{ render_extra_fields(form.extra) }}
+
+          <button type="submit" class="btn btn-primary btn-grande">{{ _("Create account") }}</button>
+
+          {% if Configs.tos_or_privacy %}
+            <p class="ingreso-legal">
+              {% trans privacy_link=Configs.privacy_link, tos_link=Configs.tos_link %}By registering, you agree to the <a href="{{ privacy_link }}" rel="noopener" target="_blank">privacy policy</a> and <a href="{{ tos_link }}" rel="noopener" target="_blank">terms of service</a>.{% endtrans %}
+            </p>
+          {% endif %}
+        </form>
+      {% endwith %}
+    </div>
+  </div>
+{% endblock %}

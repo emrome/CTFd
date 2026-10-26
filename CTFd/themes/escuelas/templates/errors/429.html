@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="error-pagina">
+    <span class="error-codigo">{% trans code=429 %}Error {{ code }}{% endtrans %}</span>
+    <h1>{{ _("Too many attempts in a row") }}</h1>
+    <p>{{ _("Wait a few seconds and try again.") }}</p>
+    <div class="acciones">
+      <a href="{{ url_for('views.static_html', route='/') }}" class="btn btn-primary">{{ _("Back to home") }}</a>
+      <a href="{{ url_for('challenges.listing') }}" class="btn btn-sec">{{ _("Go to the challenges") }}</a>
+    </div>
+  </div>
+{% endblock %}

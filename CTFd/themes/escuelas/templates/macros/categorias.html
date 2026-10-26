@@ -1,0 +1,32 @@
+{# Color y sigla de cada categoría, según la guía de estilo. Mantener en sincronía con
+   assets/js/theme/categorias.js. #}
+{% macro clave(nombre) -%}
+  {{ (nombre or "") | lower | replace("á", "a") | replace("é", "e") | replace("í", "i") | replace("ó", "o") | replace("ú", "u") | replace("ñ", "n") | replace("-", " ") | trim }}
+{%- endmacro %}
+
+{% macro color(nombre) -%}
+  {%- set k = clave(nombre) -%}
+  {%- if k.startswith("intro") -%}#E4E7EE
+  {%- elif k.startswith("cripto") -%}#D6E0FF
+  {%- elif k.startswith("contrasen") or k.startswith("autentic") or k.startswith("password") -%}#FFD6CC
+  {%- elif k.startswith("phishing") -%}#FFE08A
+  {%- elif k.startswith("osint") -%}#C5EBDB
+  {%- elif k.startswith("ingenieria") -%}#EBD9F5
+  {%- else -%}#E4E7EE
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro nivel(tags) -%}
+  {%- for tag in tags or [] -%}
+    {%- set t = tag | lower | trim -%}
+    {%- if t.startswith("nivel") -%}
+      {%- set v = t[5:] | replace(":", "") | trim -%}
+      {%- if v in ("facil", "fácil", "basico", "básico") -%}{{ _("Basic") }}
+      {%- elif v in ("medio", "intermedio") -%}{{ _("Intermediate") }}
+      {%- elif v == "avanzado" -%}{{ _("Advanced") }}
+      {%- elif v == "introductorio" -%}{{ _("Introductory") }}
+      {%- else -%}{{ v | capitalize }}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endmacro %}

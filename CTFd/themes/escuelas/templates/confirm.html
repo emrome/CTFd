@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="error-pagina">
+    <span class="etiqueta">{{ _("Confirm your email") }}</span>
+    <h1>{{ _("Check your email") }}</h1>
+    {% include "components/errors.html" %}
+    <p>{% trans %}We've sent a confirmation email to your email address.{% endtrans %} {% trans %}Please click the link in that email to confirm your account.{% endtrans %}</p>
+    <p>{{ _("If it does not arrive, check your spam folder or ask the CTF organizers to confirm your account.") }}</p>
+
+    {% with form = Forms.auth.ConfirmForm() %}
+      <form method="POST" action="{{ url_for('auth.confirm') }}" class="acciones">
+        <button type="submit" class="btn btn-primary">{{ _("Resend the email") }}</button>
+        <a href="{{ url_for('views.settings') }}" class="btn btn-sec">{{ _("Change my email") }}</a>
+        {{ form.nonce() }}
+      </form>
+    {% endwith %}
+  </div>
+{% endblock %}

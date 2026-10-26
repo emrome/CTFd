@@ -1,0 +1,26 @@
+{# Data for the account chip in the navbar. #}
+{% macro chip_nombre() -%}
+  {%- if is_author() and not is_admin() -%}{{ _("Prof. %(name)s", name=User.name) }}
+  {%- elif Configs.user_mode == "teams" and Team.id and not is_admin() -%}{{ Team.name }}
+  {%- else -%}{{ User.name }}
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro chip_dato() -%}
+  {%- if is_admin() -%}{{ _("Admin") }}
+  {%- elif is_author() -%}{{ _("Teacher") }}
+  {%- elif Configs.user_mode == "teams" and Team.id -%}{{ _("%(num)s pts", num=Team.score or 0) }}
+  {%- elif Configs.user_mode == "teams" -%}{{ _("No team") }}
+  {%- else -%}{{ _("%(num)s pts", num=User.score or 0) }}
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro chip_label() -%}
+  {%- if is_admin() -%}{% set label = _("Administration: %(name)s", name=User.name) %}
+  {%- elif is_author() -%}{% set label = _("Teacher %(name)s", name=User.name) %}
+  {%- elif Configs.user_mode == "teams" and Team.id -%}{% set label = _("Team %(name)s, %(num)s points", name=Team.name, num=Team.score or 0) %}
+  {%- elif Configs.user_mode == "teams" -%}{% set label = _("%(name)s, no team yet", name=User.name) %}
+  {%- else -%}{% set label = _("%(name)s, %(num)s points", name=User.name, num=User.score or 0) %}
+  {%- endif -%}
+  {{ _("%(label)s. Open account menu", label=label) }}
+{%- endmacro %}

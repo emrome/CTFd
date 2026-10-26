@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="error-pagina">
+    <span class="etiqueta">{{ _("Invitation") }}</span>
+    <h1>{% trans team_name=team.name %}You have been invited to <span class="resaltado">{{ team_name }}</span>{% endtrans %}</h1>
+    {% include "components/errors.html" %}
+    <p>{{ _("Press the button to join this team.") }}</p>
+
+    {% with form = Forms.teams.TeamInviteJoinForm() %}
+      <form method="POST">
+        <button type="submit" class="btn btn-primary btn-grande">{{ _("Join the team") }}</button>
+        {{ form.nonce() }}
+      </form>
+    {% endwith %}
+  </div>
+{% endblock %}

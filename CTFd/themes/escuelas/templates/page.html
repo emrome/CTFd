@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+  {% set ruta = (request.view_args or {}).get("route") %}
+  {% if request.endpoint == "views.static_html" and ruta == "index" %}
+    {# La página de inicio usa el diseño del tema. Si la organización cargó un texto
+       propio en la página «index» (distinto del que CTFd crea por defecto), se muestra
+       debajo de la presentación. #}
+    {% set propio = content and ("twitter.com/ctfdio" not in content) %}
+    {% include "components/inicio.html" %}
+  {% else %}
+    <div class="container">
+      {% if title %}
+        <div class="encabezado">
+          <h1>{{ title }}</h1>
+        </div>
+      {% endif %}
+      <div class="inicio-extra{% if not title %} pt-5{% endif %}">
+        {{ content | safe }}
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block scripts %}
+  {{ Assets.js("assets/js/page.js") }}
+{% endblock %}

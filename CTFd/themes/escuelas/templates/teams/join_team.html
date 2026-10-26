@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="ingreso">
+    <div class="ingreso-intro">
+      <h1>{{ _("Join your team") }}</h1>
+      <p>{{ _("Type the team name and its password, just as your teacher gave them to you. Every member earns points for the same team.") }}</p>
+      <ul class="ventajas">
+        <li><span aria-hidden="true" class="ventaja-tilde" style="background: #C5EBDB">✓</span>{{ _("Your teacher puts the teams together.") }}</li>
+        <li><span aria-hidden="true" class="ventaja-tilde" style="background: #FFE08A">✓</span>{{ _("If you don't know the password, ask for it.") }}</li>
+        <li><span aria-hidden="true" class="ventaja-tilde" style="background: #D6E0FF">✓</span>{{ _("Once you are in, you can start playing.") }}</li>
+      </ul>
+    </div>
+
+    <div class="ingreso-card">
+      <h2 class="h4 m-0">{% trans %}Join Team{% endtrans %}</h2>
+      {% include "components/errors.html" %}
+
+      {% with form = Forms.teams.TeamJoinForm(name=team_name) %}
+        <form method="POST">
+          <div class="campo">
+            <label for="name">{% trans %}Team Name{% endtrans %}</label>
+            {{ form.name(class="form-control", autocomplete="off") }}
+          </div>
+
+          <div class="campo">
+            <label for="password">{% trans %}Team Password{% endtrans %}</label>
+            <span id="ayuda-clave-equipo" class="campo-ayuda">{{ _("Your teacher gives it to you. It is case sensitive.") }}</span>
+            <div class="campo-clave">
+              {{ form.password(class="form-control", value=form.name.data or team_name, autocomplete="off", **{"aria-describedby": "ayuda-clave-equipo"}) }}
+              <button type="button" data-mostrar-clave="password" aria-pressed="false">{{ _("Show") }}</button>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-grande">{{ _("Join the team") }}</button>
+          {{ form.nonce() }}
+        </form>
+      {% endwith %}
+    </div>
+  </div>
+{% endblock %}
