@@ -21,7 +21,7 @@ Esta versión continúa la adaptación anterior como parte de la tesina de grado
 - **Banco de desafíos** (`/admin/banco`): el administrador o el autor ve los desafíos disponibles en formato `challenge.yml` (ctfcli), los filtra por categoría, nivel, dimensión de seguridad (confidencialidad, integridad, disponibilidad) y habilidad, y los importa a la instancia con un clic, con sus flags, pistas, archivos y requisitos. Antes de importar, el banco valida cada desafío y avisa si hay errores. Ver [la documentación del plugin](CTFd/plugins/banco_desafios/README.md).
 - **Desafíos de la tesina:** 32 desafíos de OSINT, ingeniería social, criptografía, phishing y contraseñas, organizados en cuatro niveles (introductorio, fácil, medio y avanzado) y probados en la jornada CTF Interescuelas del 11/11/2025. Están en el repositorio [emrome/ctf-challenges](https://github.com/emrome/ctf-challenges), bajo licencia CC BY-SA 4.0. Cada desafío incluye metadata pedagógica (concepto central, tipo de desafío, dimensión de seguridad y habilidad) que solo ven el administrador y el autor en el banco; los estudiantes no la ven.
 - **Herramienta en español:** toda la interfaz, incluido el panel de administración, está traducida. El idioma por defecto es español (`DEFAULT_LOCALE`) y cada usuario puede elegir inglés.
-- **Nueva interfaz "escuelas":** un tema pensado para estudiantes de secundaria, que es el tema por defecto (`DEFAULT_THEME`).
+- **Nueva interfaz "escuelas":** un tema pensado para estudiantes de secundaria, que es el tema por defecto y se puede cambiar desde Admin → Configuración → Tema.
 
 ## Créditos y licencia
 - [CTFd](https://github.com/CTFd/CTFd), de CTFd LLC, es la plataforma de base (versión 3.6.1).

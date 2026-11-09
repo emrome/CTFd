@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  CTFd\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-09 18:21+0000\n"
+"POT-Creation-Date: 2026-11-09 18:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -1418,7 +1418,7 @@ msgstr "Verificado"
 msgid "Email account credentials to user"
 msgstr "Enviar los datos de acceso al correo del usuario"
 
-#: CTFd/plugins/banco_desafios/__init__.py:72
+#: CTFd/plugins/banco_desafios/__init__.py:74
 #: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:6
 msgid "Challenge Bank"
 msgstr "Banco de desafíos"
@@ -1451,54 +1451,54 @@ msgstr "Sin categoría"
 msgid "No level"
 msgstr "Sin nivel"
 
-#: CTFd/plugins/banco_desafios/banco.py:185
+#: CTFd/plugins/banco_desafios/banco.py:188
 #, python-format
 msgid "cannot read challenge.yml: %(error)s"
 msgstr "no se puede leer challenge.yml: %(error)s"
 
-#: CTFd/plugins/banco_desafios/banco.py:188
+#: CTFd/plugins/banco_desafios/banco.py:191
 msgid "missing name"
 msgstr "falta el nombre"
 
-#: CTFd/plugins/banco_desafios/banco.py:191
+#: CTFd/plugins/banco_desafios/banco.py:194
 #, python-format
 msgid "unsupported type: %(type)s"
 msgstr "tipo no soportado: %(type)s"
 
-#: CTFd/plugins/banco_desafios/banco.py:196
+#: CTFd/plugins/banco_desafios/banco.py:199
 #, python-format
 msgid "value must be a whole number: %(value)s"
 msgstr "value debe ser un número entero: %(value)s"
 
-#: CTFd/plugins/banco_desafios/banco.py:201
+#: CTFd/plugins/banco_desafios/banco.py:204
 #, python-format
 msgid "invalid state \"%(state)s\" (use visible or hidden)"
 msgstr "state inválido \"%(state)s\" (usar visible o hidden)"
 
-#: CTFd/plugins/banco_desafios/banco.py:208
+#: CTFd/plugins/banco_desafios/banco.py:211
 #, python-format
 msgid "missing file %(file)s"
 msgstr "falta el archivo %(file)s"
 
-#: CTFd/plugins/banco_desafios/banco.py:215
+#: CTFd/plugins/banco_desafios/banco.py:218
 msgid "has no flags"
 msgstr "no tiene flags"
 
-#: CTFd/plugins/banco_desafios/banco.py:217
+#: CTFd/plugins/banco_desafios/banco.py:220
 msgid "flags must be a list"
 msgstr "flags debe ser una lista"
 
-#: CTFd/plugins/banco_desafios/banco.py:222
+#: CTFd/plugins/banco_desafios/banco.py:225
 #, python-format
 msgid "flag %(number)s is empty"
 msgstr "la flag %(number)s está vacía"
 
-#: CTFd/plugins/banco_desafios/banco.py:225
+#: CTFd/plugins/banco_desafios/banco.py:228
 #, python-format
 msgid "flag %(number)s is malformed"
 msgstr "la flag %(number)s está mal formada"
 
-#: CTFd/plugins/banco_desafios/banco.py:232
+#: CTFd/plugins/banco_desafios/banco.py:235
 #, python-format
 msgid ""
 "flag %(number)s has an unknown key \"%(key)s\" (missing space after "
@@ -1507,22 +1507,22 @@ msgstr ""
 "la flag %(number)s tiene una clave desconocida \"%(key)s\" (¿falta un "
 "espacio después de \":\"?)"
 
-#: CTFd/plugins/banco_desafios/banco.py:241
+#: CTFd/plugins/banco_desafios/banco.py:244
 #, python-format
 msgid "flag %(number)s has an unknown key \"%(key)s\""
 msgstr "la flag %(number)s tiene una clave desconocida \"%(key)s\""
 
-#: CTFd/plugins/banco_desafios/banco.py:249
+#: CTFd/plugins/banco_desafios/banco.py:252
 #, python-format
 msgid "flag %(number)s has no content"
 msgstr "la flag %(number)s no tiene content"
 
-#: CTFd/plugins/banco_desafios/banco.py:253
+#: CTFd/plugins/banco_desafios/banco.py:256
 #, python-format
 msgid "flag %(number)s has an unknown type \"%(type)s\""
 msgstr "la flag %(number)s tiene un tipo desconocido \"%(type)s\""
 
-#: CTFd/plugins/banco_desafios/banco.py:265
+#: CTFd/plugins/banco_desafios/banco.py:268
 #, python-format
 msgid ""
 "flag %(number)s has an invalid data value \"%(data)s\" (use "
@@ -1531,7 +1531,19 @@ msgstr ""
 "la flag %(number)s tiene un valor de data inválido \"%(data)s\" (usar "
 "case_insensitive o dejarlo vacío)"
 
-#: CTFd/plugins/banco_desafios/banco.py:281
+#: CTFd/plugins/banco_desafios/banco.py:282
+msgid "lists itself as a prerequisite; that entry is ignored"
+msgstr "se pide a sí mismo como requisito; ese requisito se ignora"
+
+#: CTFd/plugins/banco_desafios/banco.py:285
+msgid ""
+"its prerequisites form a cycle, so the challenges in the cycle would stay"
+" locked forever"
+msgstr ""
+"sus requisitos forman un ciclo, así que los desafíos del ciclo quedarían "
+"bloqueados para siempre"
+
+#: CTFd/plugins/banco_desafios/banco.py:294
 #, python-format
 msgid ""
 "requires \"%(requirement)s\", which is neither in the bank nor in this "
@@ -1540,16 +1552,16 @@ msgstr ""
 "requiere \"%(requirement)s\", que no está ni en el banco ni en esta "
 "instancia"
 
-#: CTFd/plugins/banco_desafios/banco.py:290
+#: CTFd/plugins/banco_desafios/banco.py:303
 msgid "the pedagogy block is not a mapping; it is ignored"
 msgstr "el bloque pedagogy no es un diccionario; se ignora"
 
-#: CTFd/plugins/banco_desafios/banco.py:294
+#: CTFd/plugins/banco_desafios/banco.py:307
 #, python-format
 msgid "unknown pedagogy key \"%(key)s\""
 msgstr "clave desconocida en pedagogy: \"%(key)s\""
 
-#: CTFd/plugins/banco_desafios/banco.py:321
+#: CTFd/plugins/banco_desafios/banco.py:358
 msgid "challenge.yml is not a mapping"
 msgstr "challenge.yml no es un diccionario"
 
@@ -1580,6 +1592,17 @@ msgstr ""
 "instancia ni en el banco. \"%(challenge)s\" queda disponible sin ese "
 "requisito: corregí el nombre en su challenge.yml o agregá el requisito a "
 "mano."
+
+#: CTFd/plugins/banco_desafios/importar.py:234
+#, python-format
+msgid ""
+"\"%(challenge)s\" now requires \"%(requirement)s\", which was imported "
+"hidden. Students will not see \"%(challenge)s\" until you make "
+"\"%(requirement)s\" visible."
+msgstr ""
+"\"%(challenge)s\" ahora requiere \"%(requirement)s\", que se importó "
+"oculto. Los estudiantes no van a ver \"%(challenge)s\" hasta que hagas "
+"visible \"%(requirement)s\"."
 
 #: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:7
 msgid "Choose challenges from the repository and add them to this competition."

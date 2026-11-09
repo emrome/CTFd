@@ -127,7 +127,7 @@
 				{% for d in banco %}
 				{% set ya_esta = d.nombre in existentes %}
 				{% set errores = d.errores() %}
-				{% set avisos = d.avisos(conocidos) %}
+				{% set avisos = d.avisos(conocidos, en_ciclo) %}
 				{% set p = d.pedagogia %}
 				<tr class="fila-desafio" data-categoria="{{ d.categoria }}" data-nivel="{{ d.nivel or '' }}"
 					data-cia="{{ d.claves_cia|join('|') }}" data-habilidad="{{ d.claves_habilidad|join('|') }}"

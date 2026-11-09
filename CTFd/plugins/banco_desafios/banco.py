@@ -135,7 +135,10 @@ class Desafio(object):
 
     @property
     def archivos(self):
-        return [os.path.join(self.ruta, f) for f in self.datos.get("files") or []]
+        archivos = self.datos.get("files") or []
+        if isinstance(archivos, str):
+            archivos = [archivos]
+        return [os.path.join(self.ruta, str(f)) for f in archivos]
 
     @property
     def autor(self):
@@ -248,7 +251,7 @@ class Desafio(object):
             if contenido is None or not str(contenido).strip():
                 errores.append(_("flag %(number)s has no content", number=numero))
             tipo = flag.get("type", "static")
-            if tipo not in FLAG_CLASSES:
+            if not isinstance(tipo, str) or tipo not in FLAG_CLASSES:
                 errores.append(
                     _(
                         'flag %(number)s has an unknown type "%(type)s"',
@@ -267,13 +270,23 @@ class Desafio(object):
                 )
         return errores
 
-    def avisos(self, nombres_conocidos=None):
+    def avisos(self, nombres_conocidos=None, en_ciclo=None):
         """
         Problemas que no impiden importar. `nombres_conocidos` son los nombres de
         los desafios del banco y de la instancia; si se pasa, se avisa de los
-        requisitos que no estan en ninguno de los dos.
+        requisitos que no estan en ninguno de los dos. `en_ciclo` son los nombres
+        de los desafios del banco cuyos requisitos forman un ciclo.
         """
         avisos = []
+        if self.nombre and self.nombre in self.requisitos:
+            avisos.append(_("lists itself as a prerequisite; that entry is ignored"))
+        if en_ciclo and self.nombre in en_ciclo:
+            avisos.append(
+                _(
+                    "its prerequisites form a cycle, so the challenges in the cycle "
+                    "would stay locked forever"
+                )
+            )
         if nombres_conocidos is not None:
             for requisito in self.requisitos:
                 if requisito not in nombres_conocidos:
@@ -293,6 +306,30 @@ class Desafio(object):
                     if clave not in CLAVES_PEDAGOGIA:
                         avisos.append(_('unknown pedagogy key "%(key)s"', key=clave))
         return avisos
+
+
+def requisitos_en_ciclo(banco):
+    """
+    Devuelve los nombres de los desafios del banco que forman parte de un ciclo
+    de requisitos (sin contar un desafio que se nombra a si mismo).
+    """
+    grafo = {
+        d.nombre: [r for r in d.requisitos if r != d.nombre] for d in banco if d.nombre
+    }
+    en_ciclo = set()
+    for inicio in grafo:
+        pila = list(grafo[inicio])
+        vistos = set()
+        while pila:
+            actual = pila.pop()
+            if actual == inicio:
+                en_ciclo.add(inicio)
+                break
+            if actual in vistos or actual not in grafo:
+                continue
+            vistos.add(actual)
+            pila.extend(grafo[actual])
+    return en_ciclo
 
 
 def directorio_banco(app):

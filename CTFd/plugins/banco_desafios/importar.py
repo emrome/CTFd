@@ -219,13 +219,27 @@ def importar(seleccionados, banco, incluir_requisitos=True, ocultos=False):
             faltan = [r for r in desafio.requisitos if r in nuevos]
             if not faltan:
                 continue
-            previo = Challenges.query.filter_by(name=desafio.nombre).first()
-            if previo is None:
+            # Si hay mas de un desafio con ese nombre no se sabe cual es el del
+            # banco, asi que no se enlaza ninguno.
+            previos = Challenges.query.filter_by(name=desafio.nombre).limit(2).all()
+            if len(previos) != 1:
                 continue
+            previo = previos[0]
             agregados = agregar_requisitos(previo, [nuevos[r] for r in faltan])
             for requisito in faltan:
                 if nuevos[requisito] in agregados:
                     resultado["enlazados"].append((desafio.nombre, requisito))
+                    if ocultos and previo.state != "hidden":
+                        resultado["avisos"].append(
+                            _(
+                                '"%(challenge)s" now requires "%(requirement)s", '
+                                "which was imported hidden. Students will not see "
+                                '"%(challenge)s" until you make "%(requirement)s" '
+                                "visible.",
+                                challenge=desafio.nombre,
+                                requirement=requisito,
+                            )
+                        )
     db.session.commit()
 
     return resultado

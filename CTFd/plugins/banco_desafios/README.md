@@ -36,6 +36,13 @@ requisito, el desafío queda disponible sin él. Si el requisito está en el ban
 se enlaza solo cuando se lo importe; si no está ni en el banco ni en la instancia,
 hay que corregir el nombre en el `challenge.yml` o agregar el requisito a mano.
 
+Los desafíos se reconocen por su nombre. Si en la instancia hay más de un desafío
+con el mismo nombre, el banco no le agrega requisitos a ninguno, porque no puede
+saber cuál vino del banco. Si un requisito se importa oculto, los desafíos que
+dependen de él tampoco se ven hasta que se lo haga visible, y el banco lo avisa.
+El listado también avisa cuando los requisitos forman un ciclo (A pide B y B pide
+A), porque esos desafíos quedarían bloqueados para siempre.
+
 Si hay requisitos que comparten todos los demás desafíos del banco (por ejemplo,
 un desafío de bienvenida), el listado los nombra una vez arriba de la tabla en
 lugar de repetirlos en cada fila.

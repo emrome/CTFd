@@ -7,6 +7,7 @@ from CTFd.plugins.banco_desafios.banco import (
     cargar_banco,
     nivel_desde_tags,
     opciones_filtro,
+    requisitos_en_ciclo,
     requisitos_universales,
     separar,
 )
@@ -460,4 +461,88 @@ def test_requisitos_universales_se_muestran_una_vez(tmpdir):
         assert "Every other challenge requires Bienvenida" in html
         celdas = re.findall(r"<td><small>(.*?)</small></td>", html)
         assert sorted(celdas) == ["", "", "A", "A"]
+    destroy_ctfd(app)
+
+
+def desafio_simple(nombre, requisitos=(), flag_type="static"):
+    yml = (
+        "name: {}\ncategory: Prueba\nvalue: 10\n"
+        "flags:\n- type: {}\n  content: flag{{x}}\n"
+    ).format(nombre, flag_type)
+    if requisitos:
+        yml += "requirements:\n" + "".join("- {}\n".format(r) for r in requisitos)
+    return yml
+
+
+def escribir(tmpdir, carpeta, yml):
+    d = tmpdir.mkdir(carpeta)
+    d.join("challenge.yml").write_text(yml, encoding="utf-8")
+
+
+def test_requisito_oculto_avisa_que_bloquea(tmpdir):
+    """Si el requisito llega oculto, se avisa que el desafio deja de verse."""
+    app = create_ctfd(enable_plugins=True)
+    app.config["BANCO_DESAFIOS_DIR"] = crear_banco(tmpdir)
+    with app.app_context():
+        client = cliente_admin(app)
+        importar_http(client, ["osint/segundo"], requisitos=False)
+        with client.session_transaction() as sess:
+            nonce = sess.get("nonce")
+        r = client.post(
+            "/admin/banco",
+            data={"desafio": ["osint/primero"], "nonce": nonce, "ocultos": "y"},
+        )
+        html = r.get_data(as_text=True)
+        assert '"Segundo" now requires "Primero"' in html
+        assert "which was imported hidden" in html
+    destroy_ctfd(app)
+
+
+def test_nombre_duplicado_no_se_enlaza(tmpdir):
+    """Con dos desafios del mismo nombre no se elige uno al azar."""
+    app = create_ctfd(enable_plugins=True)
+    app.config["BANCO_DESAFIOS_DIR"] = crear_banco(tmpdir)
+    with app.app_context():
+        client = cliente_admin(app)
+        importar_http(client, ["osint/segundo"], requisitos=False)
+        db.session.add(Challenges(name="Segundo", category="x", value=1))
+        db.session.commit()
+        importar_http(client, ["osint/primero"])
+        for c in Challenges.query.filter_by(name="Segundo").all():
+            assert not (c.requirements or {}).get("prerequisites")
+    destroy_ctfd(app)
+
+
+def test_ciclo_y_autorrequisito_avisan(tmpdir):
+    escribir(tmpdir, "a", desafio_simple("A", ["B"]))
+    escribir(tmpdir, "b", desafio_simple("B", ["A"]))
+    escribir(tmpdir, "c", desafio_simple("C", ["C"]))
+    assert requisitos_en_ciclo(cargar_banco(str(tmpdir))) == {"A", "B"}
+    app = create_ctfd(enable_plugins=True)
+    app.config["BANCO_DESAFIOS_DIR"] = str(tmpdir)
+    with app.app_context():
+        client = cliente_admin(app)
+        html = client.get("/admin/banco").get_data(as_text=True)
+        assert "form a cycle" in html
+        assert "lists itself as a prerequisite" in html
+    destroy_ctfd(app)
+
+
+def test_yml_raro_no_rompe_el_listado(tmpdir):
+    escribir(tmpdir, "lista", desafio_simple("Lista", flag_type="[static]"))
+    d = tmpdir.join("lista")
+    d.join("challenge.yml").write_text(
+        desafio_simple("Lista", flag_type="[static]") + "files: datos.txt\n",
+        encoding="utf-8",
+    )
+    d.join("datos.txt").write("x")
+    banco = cargar_banco(str(tmpdir))
+    assert banco[0].archivos == [str(d.join("datos.txt"))]
+    app = create_ctfd(enable_plugins=True)
+    app.config["BANCO_DESAFIOS_DIR"] = str(tmpdir)
+    with app.app_context():
+        client = cliente_admin(app)
+        r = client.get("/admin/banco")
+        assert r.status_code == 200
+        assert "unknown type" in r.get_data(as_text=True)
     destroy_ctfd(app)
