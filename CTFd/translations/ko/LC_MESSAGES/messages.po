@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  CTFd\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-26 04:20+0000\n"
+"POT-Creation-Date: 2026-11-09 18:21+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ko\n"
@@ -455,7 +455,7 @@ msgid "Name"
 msgstr "이름"
 
 #: CTFd/forms/awards.py:11
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:79
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:122
 #: CTFd/themes/admin/templates/challenges/challenges.html:81
 #: CTFd/themes/admin/templates/challenges/update.html:52
 #: CTFd/themes/admin/templates/teams/team.html:342
@@ -477,7 +477,8 @@ msgid "Value"
 msgstr "값"
 
 #: CTFd/forms/awards.py:12 CTFd/forms/challenges.py:15
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:77
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:69
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:120
 #: CTFd/themes/admin/templates/challenges/challenges.html:80
 #: CTFd/themes/admin/templates/challenges/update.html:18
 #: CTFd/themes/admin/templates/teams/team.html:341
@@ -1361,62 +1362,154 @@ msgstr ""
 msgid "Email account credentials to user"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/__init__.py:66
+#: CTFd/plugins/banco_desafios/__init__.py:72
 #: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:6
 msgid "Challenge Bank"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/banco.py:30
+#: CTFd/plugins/banco_desafios/banco.py:45
 #: CTFd/themes/escuelas/templates/macros/categorias.html:27
 #: CTFd/utils/i18n/__init__.py:327
 msgid "Introductory"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/banco.py:31
+#: CTFd/plugins/banco_desafios/banco.py:46
 msgid "Easy"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/banco.py:32
+#: CTFd/plugins/banco_desafios/banco.py:47
 msgid "Medium"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/banco.py:33
+#: CTFd/plugins/banco_desafios/banco.py:48
 #: CTFd/themes/escuelas/templates/macros/categorias.html:26
 #: CTFd/utils/i18n/__init__.py:326
 msgid "Advanced"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/banco.py:88
+#: CTFd/plugins/banco_desafios/banco.py:104
+msgid "Uncategorized"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:125
 msgid "No level"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/banco.py:108
+#: CTFd/plugins/banco_desafios/banco.py:185
+#, python-format
+msgid "cannot read challenge.yml: %(error)s"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:188
 msgid "missing name"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/banco.py:110
-msgid "has no flags"
-msgstr ""
-
-#: CTFd/plugins/banco_desafios/banco.py:113
+#: CTFd/plugins/banco_desafios/banco.py:191
 #, python-format
 msgid "unsupported type: %(type)s"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/banco.py:117
+#: CTFd/plugins/banco_desafios/banco.py:196
+#, python-format
+msgid "value must be a whole number: %(value)s"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:201
+#, python-format
+msgid "invalid state \"%(state)s\" (use visible or hidden)"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:208
 #, python-format
 msgid "missing file %(file)s"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/importar.py:131
+#: CTFd/plugins/banco_desafios/banco.py:215
+msgid "has no flags"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:217
+msgid "flags must be a list"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:222
+#, python-format
+msgid "flag %(number)s is empty"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:225
+#, python-format
+msgid "flag %(number)s is malformed"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:232
+#, python-format
+msgid ""
+"flag %(number)s has an unknown key \"%(key)s\" (missing space after "
+"\":\"?)"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:241
+#, python-format
+msgid "flag %(number)s has an unknown key \"%(key)s\""
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:249
+#, python-format
+msgid "flag %(number)s has no content"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:253
+#, python-format
+msgid "flag %(number)s has an unknown type \"%(type)s\""
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:265
+#, python-format
+msgid ""
+"flag %(number)s has an invalid data value \"%(data)s\" (use "
+"case_insensitive or leave it empty)"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:281
+#, python-format
+msgid ""
+"requires \"%(requirement)s\", which is neither in the bank nor in this "
+"instance"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:290
+msgid "the pedagogy block is not a mapping; it is ignored"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:294
+#, python-format
+msgid "unknown pedagogy key \"%(key)s\""
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/banco.py:321
+msgid "challenge.yml is not a mapping"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/importar.py:171
 msgid "already exists in this instance"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/importar.py:148
+#: CTFd/plugins/banco_desafios/importar.py:189
 #, python-format
 msgid ""
-"\"%(challenge)s\" requires \"%(requirement)s\", which is not in this "
-"instance; it was imported without that prerequisite"
+"\"%(challenge)s\" requires \"%(requirement)s\", which was not imported. "
+"Until you import it, \"%(challenge)s\" is open without that prerequisite;"
+" it will be linked automatically when you import it from the bank."
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/importar.py:200
+#, python-format
+msgid ""
+"\"%(challenge)s\" requires \"%(requirement)s\", which is neither in this "
+"instance nor in the bank. \"%(challenge)s\" is open without that "
+"prerequisite: fix the name in its challenge.yml or add the prerequisite "
+"by hand."
 msgstr ""
 
 #: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:7
@@ -1438,11 +1531,24 @@ msgstr ""
 msgid "Not imported:"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:36
-msgid "No challenges were selected."
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:34
+msgid "Prerequisites linked in challenges imported earlier:"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:37
+#, python-format
+msgid "\"%(challenge)s\" now requires \"%(requirement)s\""
 msgstr ""
 
 #: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:44
+msgid "Prerequisites missing:"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:53
+msgid "No challenges were selected."
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:61
 #, python-format
 msgid ""
 "No challenges were found in <code>%(path)s</code>. Copy or mount the "
@@ -1450,23 +1556,56 @@ msgid ""
 "<code>BANCO_DESAFIOS_DIR</code> environment variable."
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:53
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:70
 msgid "All categories"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:61
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:77
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:121
+msgid "Level"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:78
 msgid "All levels"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:68
-msgid "Search by name or tag"
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:86
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:147
+msgid "CIA dimension"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:75
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:87
+msgid "All CIA dimensions"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:96
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:148
+msgid "Skill"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:97
+msgid "All skills"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:105
+msgid "Search by name, tag or concept"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:111
+#, python-format
+msgid ""
+"Every other challenge requires %(names)s; it is not repeated in the "
+"Requires column."
+msgid_plural ""
+"Every other challenge requires %(names)s; they are not repeated in the "
+"Requires column."
+msgstr[0] ""
+
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:118
 msgid "Select all visible"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:76
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:119
 #: CTFd/themes/admin/templates/submissions.html:88
 #: CTFd/themes/admin/templates/teams/team.html:338
 #: CTFd/themes/admin/templates/teams/team.html:407
@@ -1486,31 +1625,39 @@ msgstr ""
 msgid "Challenge"
 msgstr "챌린지"
 
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:78
-msgid "Level"
-msgstr ""
-
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:80
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:123
 msgid "Requires"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:94
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:140
 msgid "already imported"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:95
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:141
 msgid "has errors"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:109
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:142
+msgid "has warnings"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:146
+msgid "Concept"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:149
+msgid "Challenge type"
+msgstr ""
+
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:170
 msgid "Also add the challenges required by the selected ones"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:113
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:174
 msgid "Import them as hidden, to review them before publishing"
 msgstr ""
 
-#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:115
+#: CTFd/plugins/banco_desafios/templates/banco_desafios/listado.html:176
 msgid "Import selected"
 msgstr ""
 
