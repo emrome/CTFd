@@ -33,9 +33,9 @@ def con_requisitos(seleccionados, por_nombre):
 def crear_desafio(desafio, ocultos=False):
     datos = desafio.datos
     tipo = datos.get("type", "standard")
+    # Un state invalido es un error de validacion (Desafio.errores), asi que
+    # aca solo llegan "visible" o "hidden".
     estado = "hidden" if ocultos else datos.get("state", "visible")
-    if estado not in ("visible", "hidden"):
-        estado = "visible"
 
     campos = {
         "name": desafio.nombre,
@@ -60,20 +60,31 @@ def crear_desafio(desafio, ocultos=False):
     db.session.add(challenge)
     db.session.commit()
 
+    # Las flags se insertan directo en la tabla: el modelo Flags usa "type" como
+    # discriminador polimorfico sin subclases, y crearlas con el ORM produce el
+    # aviso "Flushing object ... with incompatible polymorphic identity".
+    flags = []
     for flag in datos.get("flags") or []:
         if isinstance(flag, dict):
-            db.session.add(
-                Flags(
-                    challenge_id=challenge.id,
-                    type=flag.get("type", "static"),
-                    content=flag.get("content", ""),
-                    data=flag.get("data", ""),
-                )
+            flags.append(
+                {
+                    "challenge_id": challenge.id,
+                    "type": flag.get("type", "static"),
+                    "content": str(flag.get("content", "")),
+                    "data": flag.get("data") or "",
+                }
             )
         else:
-            db.session.add(
-                Flags(challenge_id=challenge.id, type="static", content=str(flag))
+            flags.append(
+                {
+                    "challenge_id": challenge.id,
+                    "type": "static",
+                    "content": str(flag),
+                    "data": "",
+                }
             )
+    if flags:
+        db.session.execute(Flags.__table__.insert(), flags)
 
     for valor in desafio.tags:
         db.session.add(Tags(challenge_id=challenge.id, value=valor[:80]))
@@ -102,12 +113,35 @@ def crear_desafio(desafio, ocultos=False):
     return challenge
 
 
+def agregar_requisitos(challenge, ids):
+    """
+    Agrega ids a los prerequisitos del desafio sin quitar los que ya tiene.
+    Devuelve los ids que agrego.
+    """
+    requisitos = dict(challenge.requirements or {})
+    actuales = list(requisitos.get("prerequisites") or [])
+    nuevos = []
+    for i in ids:
+        if i not in actuales and i not in nuevos and i != challenge.id:
+            nuevos.append(i)
+    if nuevos:
+        requisitos["prerequisites"] = actuales + nuevos
+        # Se asigna un diccionario nuevo para que SQLAlchemy detecte el cambio
+        challenge.requirements = requisitos
+    return nuevos
+
+
 def importar(seleccionados, banco, incluir_requisitos=True, ocultos=False):
     """
     Importa los desafios seleccionados.
 
-    Devuelve un diccionario con los nombres creados, los omitidos (con motivo)
-    y avisos sobre requisitos que no se pudieron resolver.
+    Devuelve un diccionario con los nombres creados, los omitidos (con motivo),
+    avisos sobre requisitos que no se pudieron resolver y los requisitos que se
+    enlazaron en desafios importados antes.
+
+    Los requisitos se buscan por nombre entre todos los desafios de la instancia,
+    no solo entre los creados en esta importacion. Ademas, si un desafio importado
+    antes nombra como requisito a uno que se crea ahora, se enlaza en ese momento.
     """
     por_nombre = {d.nombre: d for d in banco}
     if incluir_requisitos:
@@ -115,7 +149,13 @@ def importar(seleccionados, banco, incluir_requisitos=True, ocultos=False):
     else:
         a_importar = list(seleccionados)
 
-    resultado = {"creados": [], "omitidos": [], "avisos": [], "agregados": []}
+    resultado = {
+        "creados": [],
+        "omitidos": [],
+        "avisos": [],
+        "agregados": [],
+        "enlazados": [],
+    }
     nombres_pedidos = {d.nombre for d in seleccionados}
     creados = []
 
@@ -137,23 +177,55 @@ def importar(seleccionados, banco, incluir_requisitos=True, ocultos=False):
             resultado["agregados"].append(desafio.nombre)
 
     # Los requisitos se resuelven al final, cuando ya existen todos los desafios
+    # de esta importacion, contra todos los desafios de la instancia.
     for desafio, challenge in creados:
         ids = []
         for requisito in desafio.requisitos:
             previo = Challenges.query.filter_by(name=requisito).first()
             if previo:
                 ids.append(previo.id)
-            else:
+            elif requisito in por_nombre:
                 resultado["avisos"].append(
                     _(
-                        '"%(challenge)s" requires "%(requirement)s", which is not in '
-                        "this instance; it was imported without that prerequisite",
+                        '"%(challenge)s" requires "%(requirement)s", which was not '
+                        'imported. Until you import it, "%(challenge)s" is open '
+                        "without that prerequisite; it will be linked automatically "
+                        "when you import it from the bank.",
                         challenge=desafio.nombre,
                         requirement=requisito,
                     )
                 )
-        if ids:
-            challenge.requirements = {"prerequisites": ids}
+            else:
+                resultado["avisos"].append(
+                    _(
+                        '"%(challenge)s" requires "%(requirement)s", which is neither '
+                        'in this instance nor in the bank. "%(challenge)s" is open '
+                        "without that prerequisite: fix the name in its challenge.yml "
+                        "or add the prerequisite by hand.",
+                        challenge=desafio.nombre,
+                        requirement=requisito,
+                    )
+                )
+        agregar_requisitos(challenge, ids)
+
+    # Caso inverso: desafios del banco importados antes que nombran como
+    # requisito a alguno de los recien creados. Solo se agregan enlaces hacia los
+    # nuevos, para no deshacer cambios hechos a mano en los requisitos.
+    nuevos = {desafio.nombre: challenge.id for desafio, challenge in creados}
+    if nuevos:
+        for desafio in banco:
+            if desafio.nombre in nuevos:
+                continue
+            faltan = [r for r in desafio.requisitos if r in nuevos]
+            if not faltan:
+                continue
+            previo = Challenges.query.filter_by(name=desafio.nombre).first()
+            if previo is None:
+                continue
+            agregados = agregar_requisitos(previo, [nuevos[r] for r in faltan])
+            for requisito in faltan:
+                if nuevos[requisito] in agregados:
+                    resultado["enlazados"].append((desafio.nombre, requisito))
     db.session.commit()
 
     return resultado
