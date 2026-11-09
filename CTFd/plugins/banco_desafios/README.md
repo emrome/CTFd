@@ -7,7 +7,8 @@ usar la línea de comandos.
 ## Uso
 
 1. Entrar al panel de administración y abrir **Banco de desafíos** en la barra superior.
-2. Filtrar por categoría, nivel o texto y marcar los desafíos.
+2. Filtrar por categoría, nivel, dimensión CIA, habilidad o texto (busca en el
+   nombre, las etiquetas y la metadata pedagógica) y marcar los desafíos.
 3. Pulsar **Importar seleccionados**.
 
 Opciones:
@@ -20,6 +21,39 @@ Opciones:
 
 Los desafíos que ya existen en la instancia (mismo nombre) aparecen como
 "ya importado" y no se duplican.
+
+### Requisitos
+
+Los nombres de `requirements` se buscan entre **todos** los desafíos de la
+instancia, no solo entre los que se importan en ese momento. Además, cuando se
+importa un desafío que otro desafío del banco ya importado nombra como requisito,
+el enlace se agrega en ese momento (sin quitar requisitos que se hayan cambiado a
+mano en CTFd).
+
+Si al importar un desafío alguno de sus requisitos no existe en la instancia, el
+desafío se importa igual y se muestra un aviso destacado: hasta que se importe el
+requisito, el desafío queda disponible sin él. Si el requisito está en el banco,
+se enlaza solo cuando se lo importe; si no está ni en el banco ni en la instancia,
+hay que corregir el nombre en el `challenge.yml` o agregar el requisito a mano.
+
+Si hay requisitos que comparten todos los demás desafíos del banco (por ejemplo,
+un desafío de bienvenida), el listado los nombra una vez arriba de la tabla en
+lugar de repetirlos en cada fila.
+
+### Validación
+
+El listado marca cada desafío con:
+
+- **Errores** (no se puede importar hasta corregirlos): falta `name`, no hay
+  `flags`, `type` distinto de `standard` o `dynamic`, `value` que no es un número
+  entero, `state` distinto de `visible` o `hidden` (por ejemplo, `"visible "` con un
+  espacio), archivos de `files` que no existen, `challenge.yml` que no se puede
+  leer, y flags mal escritas: claves distintas de `type`, `content` y `data` (por
+  ejemplo `data:"case_insensitive"` sin espacio después de los dos puntos, que YAML
+  lee como una clave), `type` distinto de `static` o `regex`, `data` distinto de
+  `case_insensitive` o vacío, o flags sin `content`.
+- **Avisos** (se puede importar): requisitos que no están ni en el banco ni en la
+  instancia, y un bloque `pedagogy` mal formado o con claves desconocidas.
 
 ## Formato del banco
 
@@ -42,8 +76,38 @@ Campos que se importan: `name`, `category`, `description`, `value`, `type`
 `connection_info`, `flags`, `tags`, `hints`, `files`, `requirements` (por nombre)
 y `state`.
 
-El nivel se toma de las etiquetas. Se reconocen `nivel: fácil|medio|avanzado`
-y también `Basico|Intermedio|Avanzado`, que es la convención de `ctfcli.py`.
+El nivel se toma de las etiquetas. Se reconocen
+`nivel: introductorio|fácil|medio|avanzado` y también
+`Introductorio|Basico|Intermedio|Avanzado`, que es la convención de `ctfcli.py`
+(`introduccion` y `dificil` también se aceptan, como `introductorio` y `avanzado`).
+Los acentos y las mayúsculas no importan.
+
+### Metadata pedagógica
+
+Cada `challenge.yml` puede tener un bloque opcional `pedagogy` con la información
+para docentes. Todas las claves son opcionales:
+
+```yaml
+pedagogy:
+  concept: "Exposición de información en redes sociales"
+  challenge_type: "Análisis de perfil público"
+  cia_dimension: "Confidencialidad / Integridad"
+  skill: "Observación y búsqueda"
+```
+
+- `concept`: concepto central que trabaja el desafío.
+- `challenge_type`: tipo de desafío (qué hace quien juega).
+- `cia_dimension`: dimensión de la tríada CIA (Confidencialidad, Integridad,
+  Disponibilidad). Se pueden combinar separándolas con `/`, `,`, `;` o `y`; el
+  filtro ofrece cada dimensión por separado.
+- `skill`: tipo de habilidad que pone en juego. También se puede combinar
+  (`"Observación, búsqueda y análisis básico"`); el filtro ofrece cada habilidad
+  por separado.
+
+Un valor vacío o `—` se toma como "no aplica". El banco muestra estos datos debajo
+del nombre de cada desafío y permite filtrar por dimensión CIA y por habilidad;
+la búsqueda por texto también encuentra el concepto. CTFd no guarda este bloque
+al importar: solo se ve en el banco.
 
 ## Dónde poner el banco
 
