@@ -1,0 +1,440 @@
+{% extends "admin/base.html" %}
+
+{% block stylesheets %}
+<style>
+.evento { font-size: .8rem; }
+.resumen h5 { margin-bottom: .35rem; }
+.chart-title { font-family: Lato, LatoOffline, sans-serif; font-weight: 700; font-size: 1.05rem; text-align: center; margin-bottom: .25rem; }
+svg.chart { width: 100%; height: auto; display: block; }
+svg.chart text { font-size: 11px; fill: #6c757d; font-family: Lato, LatoOffline, sans-serif; }
+svg.chart .grid { stroke: #e9ecef; }
+svg.chart .axis { stroke: #adb5bd; }
+svg.chart .eq { fill: none; stroke: #ced4da; stroke-width: 1.5; }
+svg.chart .eq:hover { stroke: #6c757d; stroke-width: 2.5; }
+svg.chart .foco { fill: none; stroke: #007bff; stroke-width: 2.5; }
+svg.chart text.foco-lbl { fill: #212529; font-weight: 700; }
+.nav-tabs .nav-link { cursor: pointer; }
+.table th { border-top: 0; vertical-align: bottom !important; }
+.table td.nom { min-width: 9.5rem; }
+.table th.n { white-space: normal; width: 1%; min-width: 4.6rem; }
+.table th, .table td { padding: .75rem .5rem; }
+.navbar .nav-link { white-space: nowrap; }
+.table th.orden-col { cursor: pointer; }
+.table th.orden-col:hover { text-decoration: underline; }
+.table td.n, .table th.n { text-align: right; }
+.table td small { display: block; }
+.herramientas .btn { margin-left: .25rem; }
+.indicadores td:first-child { white-space: nowrap; font-weight: 700; }
+.matriz td, .matriz th { text-align: center; min-width: 5.5rem; }
+.matriz td.fuera { font-weight: 700; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+  <div class="container">
+    <h1>Métricas de aprendizaje</h1>
+    <p class="text-muted mb-0">Cómo les fue a los equipos con cada desafío de esta competencia.</p>
+  </div>
+</div>
+
+<div class="container">
+  <p class="text-muted evento" id="evento"></p>
+  {% if guardado %}<div class="alert alert-success">Se guardaron los umbrales.</div>{% endif %}
+  {% if error %}<div class="alert alert-danger">{{ error }}</div>{% endif %}
+  <div id="sin-datos" class="alert alert-secondary d-none">Todavía no hay envíos de estudiantes en esta competencia. Las métricas aparecen cuando los equipos empiezan a jugar.</div>
+  <div id="contenido">
+
+  <div class="form-row">
+    <div class="col-6 col-md mb-3"><label class="small text-muted mb-1" for="f-origen">Desafíos</label>
+      <select class="form-control custom-select" id="f-origen">
+        <option value="banco">Solo del banco</option>
+        <option value="">Todos</option>
+      </select>
+    </div>
+    <div class="col-6 col-md mb-3"><label class="small text-muted mb-1" for="f-cat">Categoría</label><select class="form-control custom-select" id="f-cat"></select></div>
+    <div class="col-6 col-md mb-3"><label class="small text-muted mb-1" for="f-nivel">Nivel</label><select class="form-control custom-select" id="f-nivel"></select></div>
+    <div class="col-6 col-md mb-3"><label class="small text-muted mb-1" for="f-cia">Dimensión CIA</label><select class="form-control custom-select" id="f-cia"></select></div>
+    <div class="col-6 col-md mb-3"><label class="small text-muted mb-1" for="f-hab">Habilidad</label><select class="form-control custom-select" id="f-hab"></select></div>
+    <div class="col-6 col-md mb-3"><label class="small text-muted mb-1" for="f-eq">Equipo</label><select class="form-control custom-select" id="f-eq"></select></div>
+  </div>
+
+  <div class="row d-flex align-items-center resumen">
+    <div class="col-md-4 text-md-right" id="resumen"></div>
+    <div class="col-md-8 d-none d-md-block" id="grafico"></div>
+  </div>
+
+  <hr>
+  <div id="revisar"></div>
+
+  <ul class="nav nav-tabs mt-4" role="tablist" id="tabs">
+    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" id="tab-desafio" aria-controls="panel" data-tab="desafio">Por desafío</a></li>
+    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" id="tab-nivel" aria-controls="panel" data-tab="nivel">Por nivel</a></li>
+    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" id="tab-categoria" aria-controls="panel" data-tab="categoria">Por categoría</a></li>
+    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" id="tab-cia" aria-controls="panel" data-tab="cia">Por dimensión CIA</a></li>
+    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" id="tab-habilidad" aria-controls="panel" data-tab="habilidad">Por habilidad</a></li>
+    <li class="nav-item" role="presentation"><a class="nav-link" role="tab" id="tab-equipo" aria-controls="panel" data-tab="equipo">Por equipo</a></li>
+  </ul>
+
+  <div class="d-flex align-items-center justify-content-between flex-wrap my-3">
+    <small class="text-muted" id="tab-desc"></small>
+    <div class="herramientas">
+      <button type="button" class="btn btn-outline-secondary btn-sm" id="b-umbrales" aria-expanded="false" aria-controls="umbrales">Umbrales</button>
+      <button type="button" class="btn btn-outline-primary btn-sm" id="b-csv">Descargar CSV</button>
+    </div>
+  </div>
+
+  <form class="border p-3 mb-3{% if not error %} d-none{% endif %}" id="umbrales" method="POST" action="{{ url_for('metricas.guardar_umbrales') }}">
+    <input type="hidden" name="nonce" value="{{ Session.nonce }}">
+    <div class="form-row align-items-end">
+      <div class="col-sm-6 col-lg mb-2"><label class="small mb-1" for="u-tasa">Revisar si la tasa con acceso es menor que (%)</label><input class="form-control form-control-sm" type="number" id="u-tasa" name="uTasa" min="0" max="100" value="{{ valores.uTasa }}"></div>
+      <div class="col-sm-6 col-lg mb-2"><label class="small mb-1" for="u-inc">O si los incorrectos por equipo superan</label><input class="form-control form-control-sm" type="number" id="u-inc" name="uInc" min="0" max="999" value="{{ valores.uInc }}"></div>
+      <div class="col-sm-4 col-lg mb-2"><label class="small mb-1" for="u-facil">Fácil si la tasa con acceso llega a (%)</label><input class="form-control form-control-sm" type="number" id="u-facil" name="uFacil" min="1" max="100" value="{{ valores.uFacil }}"></div>
+      <div class="col-sm-4 col-lg mb-2"><label class="small mb-1" for="u-medio">Medio si llega a (%)</label><input class="form-control form-control-sm" type="number" id="u-medio" name="uMedio" min="0" max="99" value="{{ valores.uMedio }}"></div>
+      <div class="col-sm-4 col-lg mb-2"><label class="small mb-1" for="u-min">Mínimo de equipos con acceso</label><input class="form-control form-control-sm" type="number" id="u-min" name="uMin" min="1" max="99" value="{{ valores.uMin }}"></div>
+    </div>
+    <small class="text-danger d-none" id="u-error">El umbral de Fácil tiene que ser mayor que el de Medio.</small>
+    <div class="d-flex align-items-center justify-content-between flex-wrap mt-2">
+      <small class="text-muted">La página se actualiza mientras cambiás los valores. Guardalos para que queden para todos.</small>
+      <button type="submit" class="btn btn-primary btn-sm" id="u-guardar">Guardar umbrales</button>
+    </div>
+  </form>
+
+
+  <div id="panel" role="tabpanel" aria-labelledby="tab-desafio"></div>
+  </div>
+
+  <hr class="mt-5">
+  <h4 class="mt-4 mb-3">Cómo se calcula</h4>
+  <table class="table table-sm indicadores small">
+    <tbody>
+      <tr><td>Equipos que jugaron</td><td>Equipos con al menos un envío de una cuenta de estudiante durante la competencia. No cuentan administradores, autores ni equipos ocultos o bloqueados.</td></tr>
+      <tr><td>Con acceso</td><td>Equipos que resolvieron todos los requisitos previos del desafío antes del cierre, o que lo intentaron. Un desafío al que casi nadie llegó no se evalúa como difícil.</td></tr>
+      <tr><td>Tasa de resolución</td><td>Resolvieron ÷ equipos con acceso. La tasa sobre todos es resolvieron ÷ equipos que jugaron.</td></tr>
+      <tr><td>Incorrectos y pistas</td><td>Por desafío: envíos incorrectos y pistas desbloqueadas ÷ equipos que lo intentaron. En las vistas agrupadas, los totales.</td></tr>
+      <tr><td>1.ª resolución (min)</td><td>Minutos desde el inicio de la jornada hasta la primera resolución.</td></tr>
+      <tr><td>Dificultad observada</td><td id="def-obs"></td></tr>
+      <tr><td>Avance por nivel</td><td>Desafíos del nivel que resolvió el equipo ÷ desafíos del nivel.</td></tr>
+      <tr><td>CIA y habilidad</td><td>Los mismos indicadores agrupados con los metadatos del banco. Un desafío con dos valores cuenta en los dos.</td></tr>
+    </tbody>
+  </table>
+  <p class="text-muted small mb-5">Ninguno mide aprendizaje por sí solo: se leen junto con la encuesta y lo observado en el aula.</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script id="metricas-datos" type="application/json">{{ datos|tojson }}</script>
+<script id="metricas-umbrales" type="application/json">{{ umbrales|tojson }}</script>
+<script>
+{% raw %}
+const DATA = JSON.parse(document.getElementById("metricas-datos").textContent);
+const NIVELES = ["Introductorio", "Fácil", "Medio", "Avanzado"];
+const ORD = { "Introductorio": 0, "Fácil": 1, "Medio": 2, "Avanzado": 3 };
+const st = { origen: "banco", cat: "", nivel: "", cia: "", hab: "", eq: "", tab: "desafio",
+  sort: { key: null, dir: 1 } };
+
+const pct = x => (x == null || isNaN(x)) ? "—" : Math.round(x * 100) + "\u00a0%";
+const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
+const negrita = t => t.replace(/^(\S+)/, "<b>$1</b>");
+// Resoluciones agrupadas por desafío, para no recorrerlas todas en cada cálculo
+const RES_POR_DESAFIO = new Map();
+for (const r of DATA.resoluciones) { if (!RES_POR_DESAFIO.has(r.challenge)) RES_POR_DESAFIO.set(r.challenge, []); RES_POR_DESAFIO.get(r.challenge).push(r); }
+const f1 = x => (x == null || isNaN(x)) ? "—" : (Math.round(x * 10) / 10).toLocaleString("es-AR");
+const esc = s => String(s).replace(/[&<>"]/g, ch => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+const observado = t => t * 100 >= st.uFacil ? "Fácil" : t * 100 >= st.uMedio ? "Medio" : "Avanzado";
+const equipos = () => st.eq ? [st.eq] : DATA.evento.equipos;
+const minuto = seg => Math.round(seg / 60);
+
+function desafiosFiltrados() {
+  return DATA.desafios.filter(c =>
+    (!st.origen || c.origen === st.origen) && (!st.cat || c.categoria === st.cat) &&
+    (!st.nivel || c.nivel === st.nivel) && (!st.cia || c.cia.includes(st.cia)) && (!st.hab || c.habilidad.includes(st.hab)));
+}
+
+function metricas(c, T) {
+  let intentaron = 0, resolvieron = 0, intentos = 0, incorrectos = 0, pistas = 0;
+  const TS = new Set(T);
+  for (const e of T) {
+    const p = c.por_equipo[e]; if (!p) continue;
+    if (p.intentos > 0) intentaron++;
+    intentos += p.intentos; incorrectos += p.incorrectos; pistas += p.pistas; if (p.resuelto) resolvieron++;
+  }
+  const acceso = c.acceso.filter(e => TS.has(e)).length;
+  const segs = (RES_POR_DESAFIO.get(c.id) || []).filter(r => TS.has(r.equipo)).map(r => r.seg);
+  const tasaAcc = acceso ? resolvieron / acceso : null;
+  const evaluable = !st.eq && acceso >= st.uMin;
+  const estado = acceso === 0 ? "Sin acceso" : intentaron === 0 ? "Sin intentos" : resolvieron === 0 ? "Sin éxito" : "Resuelto";
+  return { acceso, intentaron, resolvieron, intentos, incorrectos, pistas, estado, evaluable,
+    primera: segs.length ? minuto(Math.min(...segs)) : null, tasa: resolvieron / T.length, tasaAcc,
+    incPorEq: intentaron ? incorrectos / intentaron : null, pistasPorEq: intentaron ? pistas / intentaron : null,
+    obs: evaluable ? observado(tasaAcc) : null };
+}
+
+function revisar(c, m) {
+  const r = [];
+  if (st.eq) {
+    if (m.intentaron && !m.resolvieron) r.push("lo intentó y no lo resolvió");
+    if (m.incorrectos > st.uInc) r.push(`${m.incorrectos} intentos incorrectos`);
+    return r;
+  }
+  if (!m.evaluable) return r;
+  if (m.tasaAcc * 100 < st.uTasa) r.push(`lo resolvieron ${m.resolvieron} de ${m.acceso} equipos con acceso (${pct(m.tasaAcc)})`);
+  if (m.incPorEq > st.uInc) r.push(`${f1(m.incPorEq)} intentos incorrectos por equipo`);
+  if (c.nivel && c.nivel !== "Introductorio" && ORD[m.obs] > ORD[c.nivel]) r.push(`se comportó como ${m.obs}`);
+  return r;
+}
+
+const COLS = {};
+const PCT = new Set(["tasa", "tasaAcc", "avF", "avM", "avA"]);
+
+function filasDesafio() {
+  const T = equipos();
+  return desafiosFiltrados().map(c => { const m = metricas(c, T);
+    return Object.assign({ c, nombre: c.nombre, categoria: c.categoria, nivel: c.nivel || "—" }, m, { rev: revisar(c, m) }); });
+}
+
+function filasGrupo(clave) {
+  const T = equipos(), grupos = new Map();
+  for (const c of desafiosFiltrados()) {
+    const ks = clave === "cia" ? c.cia : clave === "habilidad" ? c.habilidad : clave === "nivel" ? [c.nivel || "Sin nivel"] : [c.categoria];
+    for (const k of ks) { if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(c); }
+  }
+  const out = [];
+  for (const [g, cs] of grupos) {
+    // La tasa con acceso del grupo solo promedia desafíos con muestra suficiente, igual que la dificultad observada
+    const ms = cs.map(c => metricas(c, T)), conMuestra = ms.filter(m => m.acceso > 0 && (st.eq || m.acceso >= st.uMin));
+    out.push({ grupo: g, n: cs.length, tasa: ms.reduce((a, m) => a + m.tasa, 0) / ms.length,
+      tasaAcc: conMuestra.length ? conMuestra.reduce((a, m) => a + m.tasaAcc, 0) / conMuestra.length : null,
+      inc: ms.reduce((a, m) => a + m.incorrectos, 0),
+      pistas: ms.reduce((a, m) => a + m.pistas, 0), sinAcc: ms.filter(m => m.estado === "Sin acceso").length, sinInt: ms.filter(m => m.estado === "Sin intentos").length,
+      sinExito: ms.filter(m => m.estado === "Sin éxito").length });
+  }
+  if (clave === "nivel") out.sort((a, b) => (ORD[a.grupo] ?? 9) - (ORD[b.grupo] ?? 9));
+  else out.sort((a, b) => b.n - a.n || a.grupo.localeCompare(b.grupo));
+  return out;
+}
+
+function filasEquipo() {
+  const cs = desafiosFiltrados(), ids = new Set(cs.map(c => c.id));
+  const av = (e, n) => { const del = cs.filter(c => c.nivel === n); return del.length ? del.filter(c => c.por_equipo[e] && c.por_equipo[e].resuelto).length / del.length : null; };
+  return equipos().map(e => {
+    let resueltos = 0, intentos = 0, inc = 0, pistas = 0;
+    for (const c of cs) { const p = c.por_equipo[e]; if (!p) continue; intentos += p.intentos; inc += p.incorrectos; pistas += p.pistas; if (p.resuelto) resueltos++; }
+    const ss = cs.flatMap(c => (RES_POR_DESAFIO.get(c.id) || []).filter(r => r.equipo === e).map(r => r.seg));
+    return { equipo: e, resueltos, intentos, inc, pistas, avF: av(e, "Fácil"), avM: av(e, "Medio"), avA: av(e, "Avanzado"),
+      pri: ss.length ? minuto(Math.min(...ss)) : null, ult: ss.length ? minuto(Math.max(...ss)) : null };
+  }).sort((a, b) => b.resueltos - a.resueltos || a.inc - b.inc);
+}
+
+function ordenar(rows) {
+  const { key, dir } = st.sort; if (!key) return rows;
+  const porNivel = key === "nivel" || key === "obs" || (key === "grupo" && st.tab === "nivel");
+  const val = v => porNivel ? (Object.prototype.hasOwnProperty.call(ORD, v) ? ORD[v] : 9) : v;
+  return [...rows].sort((a, b) => { const x = val(a[key]), y = val(b[key]);
+    if (x == null || y == null) return (x == null) - (y == null);
+    return (typeof x === "number" && typeof y === "number" ? x - y : String(x).localeCompare(String(y), "es")) * dir; });
+}
+
+
+
+
+Object.assign(st, JSON.parse(document.getElementById("metricas-umbrales").textContent));
+if (!DATA.desafios.some(c => c.origen === "banco")) st.origen = "";
+const T_DESC = {
+  desafio: "Un renglón por desafío. Hacé clic en un encabezado para ordenar.",
+  nivel: "La tasa con acceso promedia solo los desafíos con muestra suficiente. Incorrectos y pistas son totales.",
+  categoria: "La tasa con acceso promedia solo los desafíos con muestra suficiente. Incorrectos y pistas son totales.",
+  cia: "Un desafío con dos dimensiones cuenta en las dos.",
+  habilidad: "Un desafío con varias habilidades cuenta en cada una.",
+  equipo: "Un renglón por equipo, sobre los desafíos filtrados. El avance es la parte de cada nivel que resolvió.",
+};
+const AYUDA = {
+  acceso: "Equipos que resolvieron todos los requisitos previos, o que lo intentaron", tasaAcc: "Resolvieron ÷ equipos con acceso",
+  tasa: "Resolvieron ÷ equipos que jugaron", incPorEq: "Envíos incorrectos ÷ equipos que lo intentaron",
+  pistasPorEq: "Pistas desbloqueadas ÷ equipos que lo intentaron", primera: "Minutos desde el inicio",
+  obs: "Dificultad observada, según la tasa con acceso"
+};
+COLS.desafio = [["nombre", "Desafío", 0], ["categoria", "Categoría", 0], ["nivel", "Nivel", 0], ["acceso", "Con acceso", 1],
+  ["resolvieron", "Resolvieron", 1], ["tasaAcc", "Tasa con acceso", 1], ["tasa", "Tasa sobre todos", 1],
+  ["incPorEq", "Incorrectos", 1], ["pistasPorEq", "Pistas", 1], ["primera", "1.ª resolución (min)", 1], ["obs", "Dificultad obs.", 0]];
+COLS.desafioEq = [["nombre", "Desafío", 0], ["categoria", "Categoría", 0], ["nivel", "Nivel", 0], ["intentos", "Intentos", 1],
+  ["incorrectos", "Incorrectos", 1], ["pistas", "Pistas", 1], ["primera", "Resuelto en (min)", 1], ["estado", "Estado", 0]];
+COLS.grupo = [["grupo", "", 0], ["n", "Desafíos", 1], ["tasaAcc", "Tasa media con acceso", 1], ["tasa", "Tasa media sobre todos", 1],
+  ["inc", "Incorrectos (total)", 1], ["pistas", "Pistas (total)", 1],
+  ["sinAcc", "Sin acceso", 1], ["sinInt", "Sin intentos", 1], ["sinExito", "Sin éxito", 1]];
+COLS.equipo = [["equipo", "Equipo", 0], ["resueltos", "Resueltos", 1], ["intentos", "Intentos", 1], ["inc", "Incorrectos", 1],
+  ["pistas", "Pistas", 1], ["avF", "Avance Fácil", 1], ["avM", "Avance Medio", 1], ["avA", "Avance Avanzado", 1],
+  ["pri", "1.ª resolución (min)", 1], ["ult", "Última resolución (min)", 1]];
+
+function celda(k, v, row) {
+  if (PCT.has(k)) return pct(v);
+  if (k === "incPorEq" || k === "pistasPorEq") return f1(v);
+  if (k === "estado") return v === "Resuelto" ? v : `<span class="text-muted">${v}</span>`;
+  if (k === "nombre") return esc(v) + (row.rev.length ? ` <span class="badge badge-warning">${st.eq ? "se trabó" : "revisar"}</span>` : "") + (row.estado !== "Resuelto" && !st.eq ? `<small class="text-muted">${row.estado.toLowerCase()}</small>` : "");
+  if (k === "obs") {
+    if (v == null) return st.eq ? "—" : `<span class="text-muted" title="Menos de ${st.uMin} equipos con acceso">sin muestra</span>`;
+    if (!row.c.nivel || row.c.nivel === "Introductorio" || v === row.c.nivel) return v;
+    const dificil = ORD[v] > ORD[row.c.nivel];
+    return `<span class="badge badge-${dificil ? "warning" : "info"}" title="${dificil ? "Más difícil" : "Más fácil"} que el nivel declarado (${row.c.nivel})">${v}</span>`;
+  }
+  return v == null ? "—" : esc(v);
+}
+
+function tabla(cols, rows, titulo) {
+  const th = cols.map(([k, t, n]) => `<th scope="col" class="orden-col${n ? " n" : ""}" data-k="${k}" tabindex="0"${AYUDA[k] ? ` title="${AYUDA[k]}"` : ""} aria-sort="${st.sort.key === k ? (st.sort.dir > 0 ? "ascending" : "descending") : "none"}">${t || titulo}${st.sort.key === k ? (st.sort.dir > 0 ? " ▴" : " ▾") : ""}</th>`).join("");
+  const tr = ordenar(rows).map(r => "<tr>" + cols.map(([k, , n]) => `<td class="${n ? "n" : k === "nombre" ? "nom" : ""}">${celda(k, r[k], r)}</td>`).join("") + "</tr>").join("");
+  return `<div class="table-responsive"><table class="table table-striped"><thead><tr>${th}</tr></thead><tbody>${tr}</tbody></table></div>`;
+}
+
+function matriz(rows) {
+  const decl = ["Fácil", "Medio", "Avanzado"], cnt = {}; let fuera = 0;
+  for (const r of rows) { if (!r.c.nivel || r.c.nivel === "Introductorio") continue; if (!r.obs) { fuera++; continue; } const k = r.c.nivel + "|" + r.obs; cnt[k] = (cnt[k] || 0) + 1; }
+  let h = `<h5 class="mt-4">Nivel declarado (filas) contra dificultad observada (columnas)</h5>
+  <p class="text-muted small">Cantidad de desafíos. Arriba de la diagonal resultaron más difíciles que lo declarado; abajo, más fáciles.</p>
+  <div class="table-responsive"><table class="table table-bordered table-sm w-auto matriz"><thead><tr><th scope="col">Declarado</th>${decl.map(d => `<th scope="col">${d}</th>`).join("")}</tr></thead><tbody>`;
+  for (const d of decl) h += `<tr><th scope="row">${d}</th>` + decl.map(o => { const n = cnt[d + "|" + o] || 0; return `<td${d !== o && n ? ' class="fuera"' : ""}>${n}</td>`; }).join("") + "</tr>";
+  return h + `</tbody></table></div><p class="text-muted small">No incluye el nivel Introductorio${fuera ? " ni los desafíos sin muestra suficiente" : ""}. En la tabla de arriba, la dificultad observada va en amarillo si resultó más difícil que lo declarado y en azul si resultó más fácil.</p>`;
+}
+
+function grafico() {
+  const ids = new Set(desafiosFiltrados().map(c => c.id));
+  const dur = DATA.resoluciones.reduce((a, r) => Math.max(a, Math.ceil(r.seg / 60)), Math.max(1, DATA.evento.duracion_min));
+  const series = DATA.evento.equipos.map(e => { let n = 0; const pts = [[0, 0]];
+    for (const r of DATA.resoluciones) if (r.equipo === e && ids.has(r.challenge)) { const m = r.seg / 60; pts.push([m, n]); n++; pts.push([m, n]); }
+    pts.push([dur, n]); return { e, pts, n }; });
+  const maxY = Math.max(0, ...series.map(s => s.n));
+  const titulo = `<div class="chart-title">Desafíos resueltos durante la jornada</div>`;
+  if (maxY === 0) return titulo + `<p class="text-muted text-center small">Ningún equipo resolvió desafíos de esta selección.</p>`;
+  const W = 640, H = 250, L = 34, R = 40, Tp = 10, B = 34;
+  const x = m => L + Math.min(m, dur) / dur * (W - L - R), y = v => H - B - v / maxY * (H - Tp - B);
+  const paso = maxY > 20 ? 10 : maxY > 8 ? 5 : maxY > 4 ? 2 : 1;
+  let g = "";
+  for (let v = 0; v <= maxY; v += paso) g += `<line class="grid" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end">${v}</text>`;
+  g += `<line class="axis" x1="${L}" x2="${W - R}" y1="${y(0)}" y2="${y(0)}"/>`;
+  for (let m = 0, paso = dur > 240 ? 60 : 30; m <= dur; m += paso) g += `<text x="${x(m)}" y="${H - B + 15}" text-anchor="middle">${m}</text>`;
+  g += `<text x="${(L + W - R) / 2}" y="${H - 3}" text-anchor="middle">minutos desde el inicio</text>`;
+  const foco = st.eq || series.reduce((a, s) => s.n > a.n ? s : a).e, sf = series.find(s => s.e === foco);
+  const path = s => "M" + s.pts.map(p => x(p[0]).toFixed(1) + "," + y(p[1]).toFixed(1)).join("L");
+  for (const s of series) if (s.e !== foco) g += `<path class="eq" d="${path(s)}"><title>${esc(s.e)}: ${s.n} resueltos</title></path>`;
+  g += `<path class="foco" d="${path(sf)}"><title>${esc(foco)}: ${sf.n} resueltos</title></path><text class="foco-lbl" x="${x(dur) + 6}" y="${y(sf.n) + 4}">${sf.n}</text>`;
+  return titulo + `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Desafíos resueltos acumulados por equipo; se destaca ${esc(foco)} con ${sf.n}">${g}</svg>
+  <p class="text-muted text-center small mb-0">Una línea por equipo. En azul, <b>${esc(foco)}</b> (${plural(sf.n, "resuelto", "resueltos")})${st.eq ? "" : ", el que más resolvió"}. Para destacar otro, elegilo en el filtro Equipo.</p>`;
+}
+
+let ultimoCSV = "";
+function render() {
+  const T = equipos(), filas = filasDesafio(), sinRes = filas.filter(r => r.estado !== "Resuelto");
+  const tasaMedia = filas.length ? filas.reduce((a, r) => a + r.tasa, 0) / filas.length : null;
+  const cuenta = e => filas.filter(r => r.estado === e).length;
+  document.getElementById("resumen").innerHTML =
+    (st.eq ? `<h5><b>${esc(st.eq)}</b></h5>` : `<h5><b>${T.length}</b> de ${DATA.evento.equipos_registrados} equipos jugaron</h5>`) +
+    `<h5>${negrita(plural(filas.length, "desafío", "desafíos"))}</h5>
+     <h5><b>${pct(tasaMedia)}</b> ${st.eq ? "de los desafíos resueltos" : "resuelto en promedio"}</h5>
+     <h5>${negrita(plural(filas.reduce((a, r) => a + r.resolvieron, 0), "resolución", "resoluciones"))}</h5>
+     <h5>${negrita(plural(filas.reduce((a, r) => a + r.pistas, 0), "pista usada", "pistas usadas"))}</h5><hr>
+     <h5><b>${sinRes.length}</b> sin resolver</h5>
+     <small class="text-muted">${cuenta("Sin acceso")} sin acceso, ${cuenta("Sin intentos")} sin intentos, ${cuenta("Sin éxito")} sin éxito</small>`;
+  document.getElementById("grafico").innerHTML = grafico();
+
+  const rev = filas.filter(r => r.rev.length), chicos = st.eq ? [] : filas.filter(r => !r.evaluable);
+  const tit = st.eq ? `Dónde se trabó ${esc(st.eq)}` : "Para revisar";
+  const faciles = st.eq ? 0 : filas.filter(r => r.obs && ORD[r.c.nivel] > ORD[r.obs] && r.c.nivel !== "Introductorio").length;
+  document.getElementById("revisar").innerHTML = (rev.length
+    ? `<div class="alert alert-warning"><strong>${tit} (${rev.length})</strong><ul class="mb-0 mt-1">${rev.map(r => `<li>${esc(r.nombre)} (${r.nivel}): ${r.rev.join("; ")}.</li>`).join("")}</ul></div>`
+    : `<div class="alert alert-secondary">${tit}: ningún desafío supera los umbrales con estos filtros.</div>`) +
+    (faciles ? `<p class="small mb-1">Además, ${plural(faciles, "desafío resultó", "desafíos resultaron")} más ${faciles === 1 ? "fácil" : "fáciles"} que su nivel declarado. Están en la tabla de nivel declarado contra dificultad observada.</p>` : "") +
+    (chicos.length ? `<small class="text-muted">Sin muestra suficiente (menos de ${st.uMin} equipos con acceso): ${chicos.map(r => `«${esc(r.nombre)}»`).join(", ")}.</small>` : "");
+
+  let html = "", cols = null, rows = [], titulo = "";
+  if (!filas.length) html = `<div class="alert alert-secondary">Ningún desafío cumple los filtros.</div>`;
+  else if (st.tab === "desafio") { cols = st.eq ? COLS.desafioEq : COLS.desafio; rows = filas; html = tabla(cols, rows) + (st.eq ? "" : matriz(filas)); }
+  else if (st.tab === "equipo") { cols = COLS.equipo; rows = filasEquipo(); html = tabla(cols, rows); }
+  else { titulo = { nivel: "Nivel", categoria: "Categoría", cia: "Dimensión CIA", habilidad: "Habilidad" }[st.tab];
+    cols = COLS.grupo; rows = filasGrupo(st.tab);
+    html = rows.length ? tabla(cols, rows, titulo) : `<div class="alert alert-secondary">Los desafíos elegidos no tienen metadatos pedagógicos. Esta vista se llena con los desafíos del banco.</div>`; }
+  ultimoCSV = cols && rows.length ? csvDe(st.tab === "desafio" && !st.eq ? COLS_CSV : cols, rows, titulo) : "";
+  document.getElementById("panel").setAttribute("aria-labelledby", "tab-" + st.tab);
+  document.getElementById("def-obs").textContent = `Tasa con acceso: desde ${st.uFacil}\u00a0% Fácil, desde ${st.uMedio}\u00a0% Medio, si no Avanzado. Solo con ${st.uMin} o más equipos con acceso.`;
+  document.getElementById("b-csv").disabled = !ultimoCSV;
+  document.getElementById("tab-desc").textContent = T_DESC[st.tab];
+  document.getElementById("panel").innerHTML = html;
+  document.querySelectorAll("#tabs .nav-link").forEach(a => { const on = a.dataset.tab === st.tab; a.classList.toggle("active", on); a.setAttribute("aria-selected", on); a.tabIndex = on ? 0 : -1; });
+  document.querySelectorAll("#panel th[data-k]").forEach(th => {
+    const go = () => { const k = th.dataset.k; st.sort = { key: k, dir: st.sort.key === k ? -st.sort.dir : (th.classList.contains("n") ? -1 : 1) }; render(); };
+    th.addEventListener("click", go); th.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } }); });
+}
+
+// El CSV por desafío lleva también las columnas que la tabla no muestra, con nombres completos.
+// Separador ; y coma decimal, como lo abre Excel en español.
+const COLS_CSV = [["nombre", "Desafío", 0], ["categoria", "Categoría", 0], ["nivel", "Nivel", 0], ["acceso", "Equipos con acceso", 1],
+  ["intentaron", "Equipos que lo intentaron", 1], ["resolvieron", "Equipos que lo resolvieron", 1], ["tasaAcc", "Tasa con acceso", 1],
+  ["tasa", "Tasa sobre equipos que jugaron", 1], ["incPorEq", "Incorrectos por equipo", 1], ["pistasPorEq", "Pistas por equipo", 1],
+  ["primera", "Minutos a la 1.ª resolución", 1], ["obs", "Dificultad observada", 0], ["estado", "Estado", 0]];
+const celdaPC = v => { let s = v == null ? "" : String(v); if (/^[=+\-@\t\r]/.test(s)) s = "'" + s; return /[";\r\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
+function csvDe(cols, rows, titulo) {
+  const val = (k, v) => v == null ? "" : typeof v === "number" && !Number.isInteger(v) ? String(Math.round(v * 1000) / 1000).replace(".", ",") : v;
+  return [cols.map(([, t]) => celdaPC(t || titulo)).join(";"), ...ordenar(rows).map(r => cols.map(([k]) => celdaPC(val(k, r[k]))).join(";"))].join("\r\n") + "\r\n";
+}
+
+function opciones(id, vals, todos) {
+  document.getElementById(id).innerHTML = `<option value="">${todos}</option>` + vals.map(v => `<option value="${esc(v)}">${esc(v)}</option>`).join("");
+}
+function initFiltros() {
+  const base = DATA.desafios.filter(c => !st.origen || c.origen === st.origen), orden = a => a.sort((x, y) => x.localeCompare(y, "es"));
+  const keep = (id, k) => { const el = document.getElementById(id); if (![...el.options].some(o => o.value === st[k])) st[k] = ""; el.value = st[k]; };
+  opciones("f-cat", orden([...new Set(base.map(c => c.categoria))]), "Todas"); keep("f-cat", "cat");
+  opciones("f-nivel", NIVELES.filter(n => base.some(c => c.nivel === n)), "Todos"); keep("f-nivel", "nivel");
+  opciones("f-cia", orden([...new Set(base.flatMap(c => c.cia))]), "Todas"); keep("f-cia", "cia");
+  opciones("f-hab", orden([...new Set(base.flatMap(c => c.habilidad))]), "Todas"); keep("f-hab", "hab");
+}
+
+opciones("f-eq", DATA.evento.equipos, "Todos");
+const inicio = DATA.evento.inicio ? new Date(DATA.evento.inicio).toLocaleString("es-AR", { dateStyle: "short", timeStyle: "short" }) : null;
+document.getElementById("evento").textContent = inicio ? `Competencia del ${inicio}, ${DATA.evento.duracion_min} min. Solo cuentan los envíos de estudiantes.` : "";
+const bindSel = (id, k) => document.getElementById(id).addEventListener("change", e => { st[k] = e.target.value; if (k === "origen") initFiltros(); render(); });
+[["f-origen", "origen"], ["f-cat", "cat"], ["f-nivel", "nivel"], ["f-cia", "cia"], ["f-hab", "hab"], ["f-eq", "eq"]].forEach(a => bindSel(...a));
+const bindNum = (id, k) => { const el = document.getElementById(id);
+  el.addEventListener("input", () => {
+    const v = Number(el.value), min = Number(el.min), max = Number(el.max);
+    if (el.value === "" || isNaN(v)) return;
+    const nuevo = Math.min(max, Math.max(min, v));
+    const leer = (i, actual) => { const n = Number(document.getElementById(i).value); return document.getElementById(i).value === "" || isNaN(n) ? actual : n; };
+    const facil = k === "uFacil" ? nuevo : leer("u-facil", st.uFacil), medio = k === "uMedio" ? nuevo : leer("u-medio", st.uMedio);
+    const mal = facil <= medio;
+    document.getElementById("u-error").classList.toggle("d-none", !mal);
+    document.getElementById("u-guardar").disabled = mal;
+    ["u-facil", "u-medio"].forEach(i => document.getElementById(i).classList.toggle("is-invalid", mal));
+    if (mal) return;
+    st[k] = nuevo; st.uFacil = facil; st.uMedio = medio; render(); });
+  el.addEventListener("change", () => { if (!el.classList.contains("is-invalid") && Number(el.value) !== st[k]) { el.value = st[k]; } }); };
+[["u-tasa", "uTasa"], ["u-inc", "uInc"], ["u-facil", "uFacil"], ["u-medio", "uMedio"], ["u-min", "uMin"]].forEach(a => bindNum(...a));
+
+const tabs = [...document.querySelectorAll("#tabs .nav-link")];
+tabs.forEach((a, i) => {
+  a.addEventListener("click", () => { st.tab = a.dataset.tab; st.sort = { key: null, dir: 1 }; render(); });
+  a.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); a.click(); return; }
+    const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0; if (!d) return;
+    e.preventDefault(); const n = tabs[(i + d + tabs.length) % tabs.length]; n.click(); n.focus(); });
+});
+document.getElementById("b-umbrales").addEventListener("click", e => {
+  const f = document.getElementById("umbrales"), abierto = f.classList.toggle("d-none") === false;
+  e.currentTarget.setAttribute("aria-expanded", abierto); e.currentTarget.classList.toggle("active", abierto); });
+document.getElementById("b-csv").addEventListener("click", () => {
+  const url = URL.createObjectURL(new Blob(["\ufeff" + ultimoCSV], { type: "text/csv;charset=utf-8" }));
+  const slug = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^A-Za-z0-9]+/g, "-").replace(/^-|-$/g, "").toLowerCase();
+  const partes = ["metricas", st.tab, st.origen ? "banco" : "todos", st.eq && slug(st.eq)].filter(Boolean);
+  const a = document.createElement("a"); a.href = url; a.download = partes.join("-") + ".csv";
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 1000);
+  document.getElementById("b-csv").blur();
+});
+document.getElementById("f-origen").value = st.origen;
+// Después de guardar, que recargar no repita el aviso
+if (location.search.includes("guardado=1")) history.replaceState(null, "", location.pathname);
+// Si el guardado falló, el formulario queda abierto con lo que se escribió
+if (!document.getElementById("umbrales").classList.contains("d-none")) { document.getElementById("b-umbrales").setAttribute("aria-expanded", true); document.getElementById("b-umbrales").classList.add("active"); }
+if (!DATA.evento.equipos.length) { document.getElementById("sin-datos").classList.remove("d-none"); document.getElementById("contenido").classList.add("d-none"); }
+else { initFiltros(); render(); }
+{% endraw %}
+</script>
+{% endblock %}
