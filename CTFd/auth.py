@@ -29,6 +29,16 @@ from CTFd.utils.validators import ValidationError
 auth = Blueprint("auth", __name__)
 
 
+def landing_after_login(user):
+    """
+    Admins and authors do not play: send them to their panel instead of the
+    challenges page, which in teams mode would ask them to join a team.
+    """
+    if user.type in ("admin", "author"):
+        return url_for("admin.view")
+    return url_for("challenges.listing")
+
+
 @auth.route("/confirm", methods=["POST", "GET"])
 @auth.route("/confirm/<data>", methods=["POST", "GET"])
 @ratelimit(method="POST", limit=10, interval=60)
@@ -407,7 +417,7 @@ def login():
                     request.args.get("next")
                 ):
                     return redirect(request.args.get("next"))
-                return redirect(url_for("challenges.listing"))
+                return redirect(landing_after_login(user))
 
             else:
                 # This user exists but the password is wrong
@@ -588,7 +598,7 @@ def oauth_redirect():
 
             login_user(user)
 
-            return redirect(url_for("challenges.listing"))
+            return redirect(landing_after_login(user))
         else:
             log("logins", "[{date}] {ip} - OAuth token retrieval failure")
             error_for(

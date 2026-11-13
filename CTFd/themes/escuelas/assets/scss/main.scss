@@ -347,6 +347,13 @@ summary:focus-visible,
   margin-left: 8px;
 }
 
+/* Without this the menu keeps the chip at its full width and a long name spills
+   over the links on its left; with it the name is cut with an ellipsis. */
+.cuenta > .dropdown {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .barra .menu-abrir {
   display: none;
 }
