@@ -1,6 +1,7 @@
 import time
 
 from CTFd.models import Authors, Users, db
+from CTFd.plugins import register_admin_plugin_menu_bar
 from CTFd.utils import set_config
 from tests.helpers import (
     create_ctfd,
@@ -168,4 +169,18 @@ def test_chip_de_admin_corto_en_castellano():
         client = login_as_user(app, name="admin")
         assert '<span class="chip-dato">Admin</span>' in html(client, "/")
         assert "Administrador" in html(client, "/admin/users")
+    destroy_ctfd(app)
+
+
+def test_menu_admin_de_plugins_en_un_renglon():
+    """Plugin entries such as "Banco de desafíos" do not wrap in the admin menu."""
+    app = create_ctfd()
+    with app.app_context():
+        register_admin_plugin_menu_bar(title="Banco de desafíos", route="/admin/banco")
+        client = login_as_user(app, name="admin")
+        panel = html(client, "/admin/challenges")
+        assert (
+            '<a class="nav-link" style="white-space: nowrap;" href="/admin/banco">'
+            "Banco de desafíos</a>"
+        ) in panel
     destroy_ctfd(app)
