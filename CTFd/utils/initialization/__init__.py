@@ -74,6 +74,7 @@ def init_template_globals(app):
     from CTFd.forms import Forms
     from CTFd.utils.config.visibility import (
         accounts_visible,
+        challenges_reachable,
         challenges_visible,
         registration_visible,
         scores_visible,
@@ -107,6 +108,7 @@ def init_template_globals(app):
     app.jinja_env.globals.update(lookup_ip_address_city=lookup_ip_address_city)
     app.jinja_env.globals.update(accounts_visible=accounts_visible)
     app.jinja_env.globals.update(challenges_visible=challenges_visible)
+    app.jinja_env.globals.update(challenges_reachable=challenges_reachable)
     app.jinja_env.globals.update(registration_visible=registration_visible)
     app.jinja_env.globals.update(scores_visible=scores_visible)
     app.jinja_env.globals.update(get_mode_as_word=get_mode_as_word)

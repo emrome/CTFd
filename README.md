@@ -19,7 +19,7 @@ Esta adaptación presenta una nueva versión de la herramienta *CTFd* orientada 
 Esta versión continúa la adaptación anterior como parte de la tesina de grado *«Diseño e integración de contenidos/desafíos en la herramienta "CTF en escuelas secundarias 2.0". Aportes a la formación en Informática para jóvenes»*, de María Emilia Romero (Facultad de Informática, UNLP), dirigida por Claudia Queiruga y Paula Venosa. Suma:
 
 - **Banco de desafíos** (`/admin/banco`): el administrador o el autor ve los desafíos disponibles en formato `challenge.yml` (ctfcli), los filtra por categoría, nivel, dimensión de seguridad (confidencialidad, integridad, disponibilidad) y habilidad, y los importa a la instancia con un clic, con sus flags, pistas, archivos y requisitos. Antes de importar, el banco valida cada desafío y avisa si hay errores. Ver [la documentación del plugin](CTFd/plugins/banco_desafios/README.md).
-- **Desafíos de la tesina:** 32 desafíos de OSINT, ingeniería social, criptografía, phishing y contraseñas, organizados en cuatro niveles (introductorio, fácil, medio y avanzado) y probados en la jornada CTF Interescuelas del 11/11/2025. Están en el repositorio [emrome/ctf-challenges](https://github.com/emrome/ctf-challenges), bajo licencia CC BY-SA 4.0. Cada desafío incluye metadata pedagógica (concepto central, tipo de desafío, dimensión de seguridad y habilidad) que solo ven el administrador y el autor en el banco; los estudiantes no la ven.
+- **Desafíos de la tesina:** 32 desafíos de OSINT, ingeniería social, criptografía, phishing y contraseñas, organizados en cuatro niveles (introductorio, fácil, medio y avanzado) y probados en la jornada CTF Interescuelas del 11/11/2025. Están en el repositorio [emrome/ctf-challenges](https://github.com/emrome/ctf-challenges), bajo licencia CC BY-SA 4.0. Ese repositorio es privado porque incluye las flags; para usarlos hay que pedirle acceso a la autora. Cada desafío incluye metadata pedagógica (concepto central, tipo de desafío, dimensión de seguridad y habilidad) que solo ven el administrador y el autor en el banco; los estudiantes no la ven.
 - **Herramienta en español:** toda la interfaz, incluido el panel de administración, está traducida. El idioma por defecto es español (`DEFAULT_LOCALE`) y cada usuario puede elegir inglés.
 - **Nueva interfaz "escuelas":** un tema pensado para estudiantes de secundaria, que es el tema por defecto y se puede cambiar desde Admin → Configuración → Tema.
 
@@ -42,9 +42,11 @@ Una vez clonado el repositorio, nos colocamos en el directorio raíz de la plata
 
 `docker-compose up`
 
-Para tener los desafíos de la tesina en el banco, antes de levantar la plataforma cloná el repositorio de desafíos dentro de la carpeta del banco:
+Para tener los desafíos de la tesina en el banco, antes de levantar la plataforma cloná el repositorio de desafíos dentro de la carpeta del banco, con una cuenta de GitHub que tenga acceso:
 
 `git clone https://github.com/emrome/ctf-challenges CTFd/plugins/banco_desafios/banco/ctf-challenges`
+
+El repositorio de desafíos es privado para que los estudiantes no encuentren las flags. En un servidor conviene clonarlo con una [deploy key](https://docs.github.com/es/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys) de solo lectura, que da acceso a ese repositorio y a ningún otro (`git clone git@github.com:emrome/ctf-challenges.git ...`). Para actualizar el banco alcanza con `git pull` dentro de esa carpeta; no hace falta reiniciar CTFd.
 
 También se puede usar otra carpeta con la variable `BANCO_DESAFIOS_DIR`, como explica [la documentación del plugin](CTFd/plugins/banco_desafios/README.md).
 

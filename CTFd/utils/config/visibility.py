@@ -6,6 +6,7 @@ from CTFd.constants.config import (
     ScoreVisibilityTypes,
 )
 from CTFd.utils import get_config
+from CTFd.utils.dates import ctf_ended, ctftime, view_after_ctf
 from CTFd.utils.user import authed, is_admin
 
 
@@ -17,6 +18,21 @@ def challenges_visible():
         return authed()
     elif v == ChallengeVisibilityTypes.ADMINS:
         return is_admin()
+
+
+def challenges_reachable():
+    """
+    Whether the challenges page would open for the current visitor right now: it
+    combines the challenge visibility with the competition dates, as the
+    challenges listing does.
+    """
+    if is_admin():
+        return True
+    if not challenges_visible():
+        return False
+    if ctftime():
+        return True
+    return ctf_ended() and view_after_ctf()
 
 
 def scores_visible():

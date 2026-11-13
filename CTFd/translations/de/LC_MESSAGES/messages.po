@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  CTFd\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-09 18:32+0000\n"
+"POT-Creation-Date: 2026-11-13 13:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -647,7 +647,7 @@ msgstr ""
 #: CTFd/themes/core-beta/templates/challenges.html:7
 #: CTFd/themes/core-beta/templates/components/navbar.html:57
 #: CTFd/themes/escuelas/templates/challenges.html:19
-#: CTFd/themes/escuelas/templates/components/navbar.html:37
+#: CTFd/themes/escuelas/templates/components/navbar.html:39
 msgid "Challenges"
 msgstr "Challenges"
 
@@ -669,7 +669,7 @@ msgstr ""
 #: CTFd/themes/admin/templates/notifications.html:6
 #: CTFd/themes/core-beta/templates/components/navbar.html:101
 #: CTFd/themes/core-beta/templates/notifications.html:7
-#: CTFd/themes/escuelas/templates/components/navbar.html:84
+#: CTFd/themes/escuelas/templates/components/navbar.html:89
 #: CTFd/themes/escuelas/templates/notifications.html:6
 msgid "Notifications"
 msgstr "Benachrichtigungen"
@@ -1977,7 +1977,7 @@ msgstr ""
 
 #: CTFd/themes/admin/templates/base.html:5
 #: CTFd/themes/core-beta/templates/components/navbar.html:81
-#: CTFd/themes/escuelas/templates/components/navbar.html:66
+#: CTFd/themes/escuelas/templates/components/navbar.html:71
 msgid "Admin Panel"
 msgstr "Administrationsmenü"
 
@@ -2002,7 +2002,7 @@ msgstr ""
 #: CTFd/themes/admin/templates/scoreboard.html:6
 #: CTFd/themes/core-beta/templates/components/navbar.html:50
 #: CTFd/themes/core-beta/templates/scoreboard.html:7
-#: CTFd/themes/escuelas/templates/components/navbar.html:38
+#: CTFd/themes/escuelas/templates/components/navbar.html:42
 #: CTFd/themes/escuelas/templates/scoreboard.html:7
 msgid "Scoreboard"
 msgstr "Punktebrett"
@@ -2058,7 +2058,7 @@ msgstr ""
 #: CTFd/themes/core-beta/templates/components/navbar.html:139
 #: CTFd/themes/core-beta/templates/settings.html:8
 #: CTFd/themes/core-beta/templates/setup.html:50
-#: CTFd/themes/escuelas/templates/components/navbar.html:92
+#: CTFd/themes/escuelas/templates/components/navbar.html:97
 #: CTFd/themes/escuelas/templates/settings.html:7
 #: CTFd/themes/escuelas/templates/setup.html:48 CTFd/utils/i18n/__init__.py:113
 msgid "Settings"
@@ -3598,7 +3598,7 @@ msgstr "E-Mail Adresse ändern"
 #: CTFd/themes/core-beta/templates/components/navbar.html:182
 #: CTFd/themes/core-beta/templates/login.html:7
 #: CTFd/themes/escuelas/templates/components/ingreso_selector.html:3
-#: CTFd/themes/escuelas/templates/components/navbar.html:119
+#: CTFd/themes/escuelas/templates/components/navbar.html:124
 #: CTFd/themes/escuelas/templates/login.html:45
 msgid "Login"
 msgstr "Anmelden"
@@ -3764,12 +3764,12 @@ msgid "UTC Preview"
 msgstr "UTC-Vorschau"
 
 #: CTFd/themes/core-beta/templates/components/navbar.html:83
-#: CTFd/themes/escuelas/templates/components/navbar.html:66
+#: CTFd/themes/escuelas/templates/components/navbar.html:71
 msgid "Author Panel"
 msgstr ""
 
 #: CTFd/themes/core-beta/templates/components/navbar.html:151
-#: CTFd/themes/escuelas/templates/components/navbar.html:113
+#: CTFd/themes/escuelas/templates/components/navbar.html:118
 msgid "Logout"
 msgstr "Ausloggen"
 
@@ -3914,7 +3914,7 @@ msgid "Actions"
 msgstr ""
 
 #: CTFd/themes/escuelas/templates/acerca.html:2
-#: CTFd/themes/escuelas/templates/components/navbar.html:39
+#: CTFd/themes/escuelas/templates/components/navbar.html:44
 msgid "About"
 msgstr ""
 
@@ -4552,7 +4552,7 @@ msgid "Finish setup"
 msgstr ""
 
 #: CTFd/themes/escuelas/templates/components/footer.html:6
-#: CTFd/themes/escuelas/templates/components/navbar.html:23
+#: CTFd/themes/escuelas/templates/components/navbar.html:24
 msgid "School of Computer Science"
 msgstr ""
 
@@ -4588,240 +4588,244 @@ msgstr ""
 msgid "Choose an option"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:3
-#: CTFd/themes/escuelas/templates/errors/403.html:10
-#: CTFd/themes/escuelas/templates/errors/404.html:10
-#: CTFd/themes/escuelas/templates/errors/429.html:10
-#: CTFd/themes/escuelas/templates/errors/500.html:10
-#: CTFd/themes/escuelas/templates/errors/502.html:10
+#: CTFd/themes/escuelas/templates/components/inicio.html:5
+#: CTFd/themes/escuelas/templates/errors/403.html:11
+#: CTFd/themes/escuelas/templates/errors/404.html:11
+#: CTFd/themes/escuelas/templates/errors/429.html:11
+#: CTFd/themes/escuelas/templates/errors/500.html:11
+#: CTFd/themes/escuelas/templates/errors/502.html:11
 msgid "Go to the challenges"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:6
+#: CTFd/themes/escuelas/templates/components/inicio.html:8
+msgid "See the scoreboard"
+msgstr ""
+
+#: CTFd/themes/escuelas/templates/components/inicio.html:13
 msgid "Start playing"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:17
+#: CTFd/themes/escuelas/templates/components/inicio.html:24
 msgid "high school"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:18
+#: CTFd/themes/escuelas/templates/components/inicio.html:25
 msgid "Dare to find the"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:18
+#: CTFd/themes/escuelas/templates/components/inicio.html:25
 msgid "flag"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:19
+#: CTFd/themes/escuelas/templates/components/inicio.html:26
 msgid ""
 "Cybersecurity challenges to solve with your class: decrypt messages, spot"
 " scams and follow clues on the internet. Every hint brings you a little "
 "closer."
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:22
+#: CTFd/themes/escuelas/templates/components/inicio.html:31
 msgid "I'm a teacher"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:25
+#: CTFd/themes/escuelas/templates/components/inicio.html:34
 msgid "Categories"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:26
+#: CTFd/themes/escuelas/templates/components/inicio.html:35
 msgid "Introduction"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:27
+#: CTFd/themes/escuelas/templates/components/inicio.html:36
 msgid "Cryptography"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:28
+#: CTFd/themes/escuelas/templates/components/inicio.html:37
 msgid "Passwords"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:29
+#: CTFd/themes/escuelas/templates/components/inicio.html:38
 msgid "Phishing"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:30
+#: CTFd/themes/escuelas/templates/components/inicio.html:39
 msgid "OSINT"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:31
+#: CTFd/themes/escuelas/templates/components/inicio.html:40
 msgid "Social engineering"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:35
+#: CTFd/themes/escuelas/templates/components/inicio.html:44
 msgid "The platform in numbers"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:37
+#: CTFd/themes/escuelas/templates/components/inicio.html:46
 msgid "challenges in this competition"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:38
+#: CTFd/themes/escuelas/templates/components/inicio.html:47
 msgid "categories"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:39
+#: CTFd/themes/escuelas/templates/components/inicio.html:48
 msgid "difficulty levels"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:44
+#: CTFd/themes/escuelas/templates/components/inicio.html:53
 msgid "competitions since 2019"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:49
+#: CTFd/themes/escuelas/templates/components/inicio.html:58
 msgid "About this competition"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:58
+#: CTFd/themes/escuelas/templates/components/inicio.html:67
 msgid "How to play"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:63
+#: CTFd/themes/escuelas/templates/components/inicio.html:72
 msgid "Form your team"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:63
+#: CTFd/themes/escuelas/templates/components/inicio.html:72
 msgid ""
 "The teacher creates the competition and each group joins its team with "
 "the password they are given."
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:65
+#: CTFd/themes/escuelas/templates/components/inicio.html:74
 msgid "Log in"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:65
+#: CTFd/themes/escuelas/templates/components/inicio.html:74
 msgid ""
 "The teacher creates the competition and each student plays with their own"
 " account."
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:70
+#: CTFd/themes/escuelas/templates/components/inicio.html:79
 msgid "Follow the clues"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:70
+#: CTFd/themes/escuelas/templates/components/inicio.html:79
 msgid ""
 "A strange email, a photo, an encrypted message. Somewhere there is a "
 "hidden text shaped like"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:74
+#: CTFd/themes/escuelas/templates/components/inicio.html:83
 msgid "Capture the flag"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:74
+#: CTFd/themes/escuelas/templates/components/inicio.html:83
 msgid ""
 "Every correct answer adds points and unlocks the next challenge in the "
 "category."
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:85
+#: CTFd/themes/escuelas/templates/components/inicio.html:94
 msgid "flag captured"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:87
+#: CTFd/themes/escuelas/templates/components/inicio.html:96
 msgid "Example of a solved cryptography challenge."
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:94
+#: CTFd/themes/escuelas/templates/components/inicio.html:103
 msgid "Are you a teacher? Set up your class's CTF"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:96
+#: CTFd/themes/escuelas/templates/components/inicio.html:105
 msgid "Pick challenges from the bank by category and level."
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:97
+#: CTFd/themes/escuelas/templates/components/inicio.html:106
 msgid "They come with hints, files and the order in which they unlock."
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:98
+#: CTFd/themes/escuelas/templates/components/inicio.html:107
 msgid "Follow each team's progress live."
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:102
+#: CTFd/themes/escuelas/templates/components/inicio.html:111
 msgid "Go to the teacher panel"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:104
+#: CTFd/themes/escuelas/templates/components/inicio.html:113
 msgid "I want to organize a CTF"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:110
+#: CTFd/themes/escuelas/templates/components/inicio.html:119
 msgid "Who made it"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:113
+#: CTFd/themes/escuelas/templates/components/inicio.html:122
 msgid "The tool"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:115
-#: CTFd/themes/escuelas/templates/components/inicio.html:120
+#: CTFd/themes/escuelas/templates/components/inicio.html:124
+#: CTFd/themes/escuelas/templates/components/inicio.html:129
 msgid "Thesis"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:115
+#: CTFd/themes/escuelas/templates/components/inicio.html:124
 msgid "He adapted the platform and took it to the schools."
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:118
+#: CTFd/themes/escuelas/templates/components/inicio.html:127
 msgid "The challenges"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:120
+#: CTFd/themes/escuelas/templates/components/inicio.html:129
 msgid "The bank of 32 challenges."
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:123
+#: CTFd/themes/escuelas/templates/components/inicio.html:132
 msgid "The base"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:125
+#: CTFd/themes/escuelas/templates/components/inicio.html:134
 msgid ""
 "Free software by CTFd LLC, Apache 2.0 license. This tool is a modified "
 "version of CTFd."
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/inicio.html:128
+#: CTFd/themes/escuelas/templates/components/inicio.html:137
 msgid "See the full story and the license"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/navbar.html:32
+#: CTFd/themes/escuelas/templates/components/navbar.html:33
 msgid "Menu"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/navbar.html:35
+#: CTFd/themes/escuelas/templates/components/navbar.html:36
 msgid "Main"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/navbar.html:36
+#: CTFd/themes/escuelas/templates/components/navbar.html:37
 msgid "Home"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/navbar.html:73
+#: CTFd/themes/escuelas/templates/components/navbar.html:78
 #: CTFd/themes/escuelas/templates/teams/private.html:216
 msgid "My team"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/navbar.html:79
+#: CTFd/themes/escuelas/templates/components/navbar.html:84
 #: CTFd/themes/escuelas/templates/users/private.html:7
 msgid "My profile"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/navbar.html:86
+#: CTFd/themes/escuelas/templates/components/navbar.html:91
 msgid "unread"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/navbar.html:100
+#: CTFd/themes/escuelas/templates/components/navbar.html:105
 msgid "All teams"
 msgstr ""
 
-#: CTFd/themes/escuelas/templates/components/navbar.html:106
+#: CTFd/themes/escuelas/templates/components/navbar.html:111
 msgid "Participants"
 msgstr ""
 
@@ -5743,15 +5747,15 @@ msgid ""
 "times. Are you sure you'd like to use this file?"
 msgstr ""
 
-#: CTFd/utils/initialization/__init__.py:277
+#: CTFd/utils/initialization/__init__.py:279
 msgid "You have been banned from this CTF"
 msgstr ""
 
-#: CTFd/utils/initialization/__init__.py:286
+#: CTFd/utils/initialization/__init__.py:288
 msgid "Your team has been banned from this CTF"
 msgstr ""
 
-#: CTFd/utils/initialization/__init__.py:309
+#: CTFd/utils/initialization/__init__.py:311
 msgid "Your access token has expired"
 msgstr ""
 

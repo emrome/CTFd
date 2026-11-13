@@ -122,6 +122,8 @@ Por defecto el plugin lee `CTFd/plugins/banco_desafios/banco/`. Hay dos formas d
 cargarlo:
 
 - Copiar o clonar ahí el repositorio de desafíos (por ejemplo, como submódulo de git).
+  Si el repositorio es privado, en un servidor se lo puede clonar con una deploy key
+  de solo lectura.
 - Montarlo como volumen y apuntar la variable de entorno `BANCO_DESAFIOS_DIR` a ese
   directorio. En `docker-compose.yml`:
 
@@ -133,6 +135,19 @@ cargarlo:
       volumes:
         - ./banco:/opt/banco:ro
   ```
+
+## Trabajo futuro: proponer desafíos al banco
+
+Hoy el banco va en un solo sentido, del repositorio a la competencia: un desafío
+creado desde el panel de CTFd queda solo en esa instancia. Para sumarlo al banco hay
+que agregar su carpeta con el `challenge.yml` al repositorio de desafíos.
+
+La idea a futuro es que funcione como un pull request: desde el panel, el autor envía
+una propuesta con el `challenge.yml` (incluida la metadata pedagógica) y los archivos
+generados a partir de su desafío. Quien mantiene el banco la revisa, pide cambios si
+hace falta y, si la acepta, el desafío se suma al repositorio y queda disponible para
+todas las instalaciones al actualizarlas. Así el banco sigue siendo material revisado
+y los docentes pueden aportar sin usar git.
 
 ## Tests
 
