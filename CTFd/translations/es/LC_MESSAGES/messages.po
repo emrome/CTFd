@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  CTFd\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-11-13 14:08+0000\n"
+"POT-Creation-Date: 2026-11-13 14:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -4540,19 +4540,15 @@ msgstr "Entrá a jugar"
 
 #: CTFd/themes/escuelas/templates/login.html:11
 msgid ""
-"Use the username your teacher gave you. If it is your first time, create "
-"your account and then join your team with the team password."
+"Log in with your username. If it is your first time, create your account "
+"and then join your team with the team password."
 msgstr ""
-"Usá el usuario que les dio su docente. Si es la primera vez, creá tu "
-"cuenta y después sumate a tu equipo con la contraseña del equipo."
+"Entrá con tu usuario. Si es la primera vez, creá tu cuenta y después "
+"sumate a tu equipo con la contraseña del equipo."
 
 #: CTFd/themes/escuelas/templates/login.html:13
-msgid ""
-"Use the username your teacher gave you. If it is your first time, create "
-"your account."
-msgstr ""
-"Usá el usuario que te dio tu docente. Si es la primera vez, creá tu "
-"cuenta."
+msgid "Log in with your username. If it is your first time, create your account."
+msgstr "Entrá con tu usuario. Si es la primera vez, creá tu cuenta."
 
 #: CTFd/themes/escuelas/templates/login.html:15
 msgid "Use the username and password your teacher gave you."
@@ -4571,7 +4567,7 @@ msgstr "Ingresar con Major League Cyber"
 
 #: CTFd/themes/escuelas/templates/login.html:39
 msgid "It is case sensitive."
-msgstr "Distingue mayúsculas y minúsculas."
+msgstr "Distingue mayúsculas."
 
 #: CTFd/themes/escuelas/templates/login.html:42
 #: CTFd/themes/escuelas/templates/register.html:44

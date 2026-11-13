@@ -8,9 +8,9 @@
       {% set intro_titulo = _("Log in to play") %}
     {% endif %}
     {% if registration_visible() and Configs.user_mode == "teams" %}
-      {% set intro_texto = _("Use the username your teacher gave you. If it is your first time, create your account and then join your team with the team password.") %}
+      {% set intro_texto = _("Log in with your username. If it is your first time, create your account and then join your team with the team password.") %}
     {% elif registration_visible() %}
-      {% set intro_texto = _("Use the username your teacher gave you. If it is your first time, create your account.") %}
+      {% set intro_texto = _("Log in with your username. If it is your first time, create your account.") %}
     {% else %}
       {% set intro_texto = _("Use the username and password your teacher gave you.") %}
     {% endif %}
