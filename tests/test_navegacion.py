@@ -115,3 +115,14 @@ def test_resueltos_sin_enlace_cuando_cerro():
         perfil = html(client, "/user")
         assert enlace not in perfil and "Reto" in perfil
     destroy_ctfd(app)
+
+
+def test_ingreso_tambien_le_habla_al_docente():
+    app = create_ctfd()
+    with app.app_context():
+        with app.test_client() as client:
+            ingreso = html(client, "/login")
+            assert "Are you a teacher? Log in with your own account" in ingreso
+            assert "The one your teacher gave you" not in ingreso
+            assert "It is case sensitive." in ingreso
+    destroy_ctfd(app)

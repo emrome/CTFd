@@ -14,6 +14,7 @@
     {% else %}
       {% set intro_texto = _("Use the username and password your teacher gave you.") %}
     {% endif %}
+    {% set intro_docente = _("Are you a teacher? Log in with your own account; you will see the teacher panel.") %}
     {% include "components/ingreso_intro.html" %}
 
     <div class="ingreso-card">
@@ -35,7 +36,7 @@
 
           <div class="campo">
             <label for="password">{% trans %}Password{% endtrans %}</label>
-            <span id="ayuda-clave" class="campo-ayuda">{{ _("The one your teacher gave you. It is case sensitive.") }}</span>
+            <span id="ayuda-clave" class="campo-ayuda">{{ _("It is case sensitive.") }}</span>
             <div class="campo-clave">
               {{ form.password(class="form-control", value=password, autocomplete="current-password", **{"aria-describedby": "ayuda-clave"}) }}
               <button type="button" data-mostrar-clave="password" aria-pressed="false">{{ _("Show") }}</button>
