@@ -15,16 +15,16 @@ Los filtros permiten ver solo los desafíos del banco o todos, y elegir categor�
 
 ## Cómo se calcula
 
-| Indicador                       | Cálculo                                                                                                                                                          |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Equipos activos                 | Equipos (o usuarios, en modo usuarios) con al menos un envío de una cuenta de estudiante. No cuentan administradores, autores ni cuentas ocultas o bloqueadas.   |
-| Con acceso                      | Equipos activos que resolvieron todos los requisitos previos antes del cierre, o que intentaron el desafío (por si los requisitos cambiaron durante la jornada). |
-| Tasa de resolución              | Resolvieron ÷ equipos con acceso, y resolvieron ÷ equipos activos.                                                                                               |
-| Incorrectos y pistas por equipo | Envíos incorrectos y pistas desbloqueadas ÷ equipos que lo intentaron.                                                                                           |
-| 1.ª resolución                  | Minutos desde el inicio de la competencia hasta la primera resolución.                                                                                           |
-| Dificultad observada            | Según la tasa con acceso: Fácil desde el 80 %, Medio desde el 50 %, si no Avanzado. Solo con al menos 3 equipos con acceso.                                      |
-| Avance por nivel                | Desafíos del nivel que resolvió el equipo ÷ desafíos del nivel.                                                                                                  |
+| Indicador                       | Cálculo                                                                                                                                                                               |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Equipos que jugaron             | Equipos (o usuarios, en modo usuarios) con al menos un envío de una cuenta de estudiante durante la competencia. No cuentan administradores, autores ni cuentas ocultas o bloqueadas. |
+| Con acceso                      | Equipos activos que resolvieron todos los requisitos previos antes del cierre, o que intentaron el desafío (por si los requisitos cambiaron durante la jornada).                      |
+| Tasa de resolución              | Resolvieron ÷ equipos con acceso, y resolvieron ÷ equipos que jugaron.                                                                                                                |
+| Incorrectos y pistas por equipo | Envíos incorrectos y pistas desbloqueadas ÷ equipos que lo intentaron.                                                                                                                |
+| 1.ª resolución                  | Minutos desde el inicio de la competencia hasta la primera resolución.                                                                                                                |
+| Dificultad observada            | Según la tasa con acceso: Fácil desde el 80 %, Medio desde el 50 %, si no Avanzado. Solo con al menos 3 equipos con acceso.                                                           |
+| Avance por nivel                | Desafíos del nivel que resolvió el equipo ÷ desafíos del nivel.                                                                                                                       |
 
-Los cortes son configurables desde el botón **Umbrales**. El nivel declarado sale de las etiquetas del desafío (por ejemplo `nivel: fácil`). La dimensión CIA y la habilidad salen del bloque `pedagogy` del desafío en el [banco de desafíos](../banco_desafios/README.md), así que esas vistas solo incluyen desafíos del banco.
+Solo cuentan los envíos y las pistas entre el inicio y el fin de la competencia. Los desafíos ocultos aparecen solo si alguien los jugó, y los requisitos que apuntan a desafíos borrados se ignoran, como hace CTFd. Los cortes son configurables desde el botón **Umbrales**. El nivel declarado sale de las etiquetas del desafío (por ejemplo `nivel: fácil`). La dimensión CIA y la habilidad salen del bloque `pedagogy` del desafío en el [banco de desafíos](../banco_desafios/README.md), así que esas vistas solo incluyen desafíos del banco.
 
 Las métricas describen el desempeño en la plataforma, no el aprendizaje. Para hablar de aprendizaje conviene leerlas junto con otras fuentes, como una encuesta o la observación docente.

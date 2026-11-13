@@ -66,7 +66,10 @@ def validar_umbrales(form):
 def _fecha_config(clave):
     valor = get_config(clave)
     try:
-        return datetime.datetime.utcfromtimestamp(int(valor)) if valor else None
+        if not valor:
+            return None
+        fecha = datetime.datetime.fromtimestamp(int(valor), datetime.timezone.utc)
+        return fecha.replace(tzinfo=None)
     except (TypeError, ValueError):
         return None
 
@@ -114,6 +117,12 @@ def datos_competencia():
             ).with_entities(Users.id, Users.name)
         }
 
+    # Los nombres no son unicos en la base: si se repiten, se agrega el id
+    repetidos = {n for n in cuentas.values() if list(cuentas.values()).count(n) > 1}
+    cuentas = {
+        i: "{} (#{})".format(n, i) if n in repetidos else n for i, n in cuentas.items()
+    }
+
     def cuenta(fila):
         return fila.team_id if modo_equipos else fila.user_id
 
@@ -133,6 +142,12 @@ def datos_competencia():
 
     inicio = _fecha_config("start") or (envios[0].date if envios else None)
     fin = _fecha_config("end") or (envios[-1].date if envios else None)
+    # Solo cuenta lo que paso durante la competencia
+    envios = [
+        s
+        for s in envios
+        if (inicio is None or s.date >= inicio) and (fin is None or s.date <= fin)
+    ]
 
     primer_envio = {}
     for s in envios:
@@ -141,7 +156,7 @@ def datos_competencia():
 
     resuelto_por = defaultdict(set)
     for s in envios:
-        if s.type == "correct" and (fin is None or s.date <= fin):
+        if s.type == "correct":
             resuelto_por[s.challenge_id].add(cuenta(s))
 
     tags = defaultdict(list)
@@ -152,13 +167,15 @@ def datos_competencia():
         for h in Hints.query.with_entities(Hints.id, Hints.challenge_id)
     }
     pistas = defaultdict(lambda: defaultdict(int))
-    for u in db.session.query(Unlocks.target, Unlocks.user_id, Unlocks.team_id).filter(
-        Unlocks.type == "hints"
-    ):
+    for u in db.session.query(
+        Unlocks.target, Unlocks.user_id, Unlocks.team_id, Unlocks.date
+    ).filter(Unlocks.type == "hints"):
         if (
             u.user_id in estudiantes
             and cuenta(u) in cuentas
             and u.target in pista_desafio
+            and (inicio is None or u.date is None or u.date >= inicio)
+            and (fin is None or u.date is None or u.date <= fin)
         ):
             pistas[pista_desafio[u.target]][cuenta(u)] += 1
 
@@ -176,18 +193,32 @@ def datos_competencia():
             p["resuelto"] = True
 
     banco = _banco()
+    retos = Challenges.query.order_by(Challenges.id).all()
+    ids = {c.id for c in retos}
     desafios = []
-    for c in Challenges.query.order_by(Challenges.id):
-        requisitos = (c.requirements or {}).get("prerequisites") or []
+    for c in retos:
+        # Los ocultos solo entran si los jugaron (por ejemplo, si se ocultaron despues)
+        if c.state == "hidden" and not por_desafio[c.id]:
+            continue
+        # Como CTFd, ignora los requisitos que apuntan a desafios borrados
+        requisitos = [
+            r for r in (c.requirements or {}).get("prerequisites") or [] if r in ids
+        ]
         # Tambien tuvo acceso quien lo intento, por si los requisitos cambiaron durante la jornada
         acceso = [
             a
             for a in activos
-            if a in por_desafio[c.id] or all(a in resuelto_por[r] for r in requisitos)
+            if por_desafio[c.id].get(a) or all(a in resuelto_por[r] for r in requisitos)
         ]
         del_banco = banco.get(c.name)
         por_equipo = {}
-        for a, p in por_desafio[c.id].items():
+        # Tambien entra quien solo desbloqueo pistas, con 0 intentos
+        for a in set(por_desafio[c.id]) | set(pistas[c.id]):
+            p = por_desafio[c.id].get(a) or {
+                "intentos": 0,
+                "incorrectos": 0,
+                "resuelto": False,
+            }
             por_equipo[cuentas[a]] = dict(p, pistas=pistas[c.id].get(a, 0))
         desafios.append(
             {
@@ -219,7 +250,9 @@ def datos_competencia():
 
     return {
         "evento": {
-            "inicio": inicio.replace(tzinfo=datetime.timezone.utc).isoformat()
+            "inicio": inicio.replace(tzinfo=datetime.timezone.utc).isoformat(
+                timespec="seconds"
+            )
             if inicio
             else None,
             "duracion_min": int((fin - inicio).total_seconds() // 60)

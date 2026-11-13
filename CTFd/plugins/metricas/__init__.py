@@ -14,6 +14,7 @@ from flask import Blueprint, redirect, render_template, request, url_for
 from CTFd.plugins import register_admin_plugin_menu_bar
 from CTFd.plugins.metricas.calculo import (
     CLAVE_CONFIG,
+    UMBRALES,
     datos_competencia,
     leer_umbrales,
     validar_umbrales,
@@ -31,6 +32,7 @@ def vista():
         "metricas/metricas.html",
         datos=datos_competencia(),
         umbrales=leer_umbrales(),
+        valores=leer_umbrales(),
         guardado=request.args.get("guardado") == "1",
         error=None,
     )
@@ -46,6 +48,8 @@ def guardar_umbrales():
                 "metricas/metricas.html",
                 datos=datos_competencia(),
                 umbrales=leer_umbrales(),
+                # El formulario vuelve con lo que se escribio, para corregirlo
+                valores={clave: request.form.get(clave, "") for clave in UMBRALES},
                 guardado=False,
                 error=error,
             ),

@@ -1,5 +1,6 @@
 import json
 
+from CTFd.models import Users
 from CTFd.plugins.metricas.calculo import (
     CLAVE_CONFIG,
     datos_competencia,
@@ -218,4 +219,81 @@ def test_umbrales_invalidos():
             "uMedio": 50,
             "uMin": 3,
         }
+    destroy_ctfd(app)
+
+
+def test_casos_borde():
+    import datetime
+
+    app = create_ctfd(enable_plugins=True)
+    with app.app_context():
+        reto = gen_challenge(app.db, name="Reto")
+        otro = gen_challenge(app.db, name="Otro")
+        otro.requirements = {"prerequisites": [999]}  # desafio borrado
+        gen_challenge(app.db, name="Oculto sin jugar", state="hidden")
+        pista = gen_hint(app.db, reto.id)
+        uno = gen_user(app.db, name="dup", email="dup1@examplectf.com")
+        dos = gen_user(app.db, name="dup", email="dup2@examplectf.com")
+        solo_pista = gen_user(app.db, name="pista", email="pista@examplectf.com")
+        app.db.session.commit()
+
+        gen_solve(app.db, user_id=uno.id, challenge_id=reto.id)
+        gen_fail(app.db, user_id=dos.id, challenge_id=reto.id)
+        gen_fail(app.db, user_id=solo_pista.id, challenge_id=otro.id)
+        gen_unlock(app.db, user_id=solo_pista.id, target=pista.id)
+        fin = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
+        set_config("end", int(fin.replace(tzinfo=datetime.timezone.utc).timestamp()))
+        tarde = gen_solve(app.db, user_id=dos.id, challenge_id=otro.id)
+        tarde.date = fin + datetime.timedelta(hours=1)
+        app.db.session.commit()
+
+        datos = datos_competencia()
+        nombres = [d["nombre"] for d in datos["desafios"]]
+        assert nombres == ["Reto", "Otro"]  # el oculto que nadie jugo no aparece
+
+        r, o = datos["desafios"]
+        # Los nombres repetidos no se mezclan
+        assert r["por_equipo"]["dup (#{})".format(uno.id)]["resuelto"] is True
+        assert r["por_equipo"]["dup (#{})".format(dos.id)]["resuelto"] is False
+        # Quien solo desbloqueo una pista cuenta sus pistas, con 0 intentos
+        assert r["por_equipo"]["pista"] == {
+            "intentos": 0,
+            "incorrectos": 0,
+            "resuelto": False,
+            "pistas": 1,
+        }
+        # El requisito borrado se ignora: todos tienen acceso
+        assert o["requisitos"] == 0 and len(o["acceso"]) == 3
+        # La resolucion despues del cierre no cuenta
+        assert "dup (#{})".format(dos.id) not in o["por_equipo"]
+        assert all(x["challenge"] != o["id"] for x in datos["resoluciones"])
+    destroy_ctfd(app)
+
+
+def test_autor_y_error_conserva_valores():
+    app = create_ctfd(enable_plugins=True)
+    with app.app_context():
+        register_user(app, name="autora", email="autora@examplectf.com")
+        autora = Users.query.filter_by(name="autora").first()
+        autora.type = "author"
+        app.db.session.commit()
+        client = login_as_user(app, name="autora")
+        assert client.get("/admin/metricas").status_code == 200
+
+        client, nonce = cliente_admin(app)
+        r = client.post(
+            "/admin/metricas/umbrales",
+            data={
+                "uTasa": "30",
+                "uInc": "15",
+                "uFacil": "40",
+                "uMedio": "60",
+                "uMin": "3",
+                "nonce": nonce,
+            },
+        )
+        html = r.get_data(as_text=True)
+        assert r.status_code == 400
+        assert 'value="40"' in html and 'value="60"' in html
+        assert 'class="border p-3 mb-3" id="umbrales"' in html
     destroy_ctfd(app)
