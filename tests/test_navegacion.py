@@ -1,5 +1,6 @@
 import time
 
+from CTFd.models import Authors, Users, db
 from CTFd.utils import set_config
 from tests.helpers import (
     create_ctfd,
@@ -125,4 +126,46 @@ def test_ingreso_tambien_le_habla_al_docente():
             assert "Are you a teacher? Log in with your own account" in ingreso
             assert "The one your teacher gave you" not in ingreso
             assert "It is case sensitive." in ingreso
+    destroy_ctfd(app)
+
+
+def destino_tras_ingresar(app, name, url="/login"):
+    with app.test_client() as client:
+        client.get("/login")
+        with client.session_transaction() as sess:
+            data = {"name": name, "password": "password", "nonce": sess.get("nonce")}
+        respuesta = client.post(url, data=data)
+        assert respuesta.status_code == 302
+        return respuesta.headers["Location"]
+
+
+def test_admin_y_autor_van_al_panel_al_ingresar():
+    """In teams mode the challenges page would ask an admin to join a team."""
+    app = create_ctfd(user_mode="teams")
+    with app.app_context():
+        register_user(app)
+        db.session.add(
+            Authors(name="autora", email="autora@examplectf.com", password="password")
+        )
+        db.session.commit()
+
+        assert destino_tras_ingresar(app, "admin").endswith("/admin")
+        assert destino_tras_ingresar(app, "autora").endswith("/admin")
+        assert destino_tras_ingresar(app, "user").endswith("/challenges")
+        # A page asked for before logging in still wins
+        url = "/login?next=%2Fscoreboard"
+        assert destino_tras_ingresar(app, "admin", url).endswith("/scoreboard")
+    destroy_ctfd(app)
+
+
+def test_chip_de_admin_corto_en_castellano():
+    """The account chip says "Admin" so the name fits; the rest keeps "Administrador"."""
+    app = create_ctfd()
+    with app.app_context():
+        admin = Users.query.filter_by(name="admin").first()
+        admin.language = "es"
+        db.session.commit()
+        client = login_as_user(app, name="admin")
+        assert '<span class="chip-dato">Admin</span>' in html(client, "/")
+        assert "Administrador" in html(client, "/admin/users")
     destroy_ctfd(app)

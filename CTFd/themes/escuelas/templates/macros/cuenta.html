@@ -7,7 +7,7 @@
 {%- endmacro %}
 
 {% macro chip_dato() -%}
-  {%- if is_admin() -%}{{ _("Admin") }}
+  {%- if is_admin() -%}{{ pgettext("account chip", "Admin") }}
   {%- elif is_author() -%}{{ _("Teacher") }}
   {%- elif Configs.user_mode == "teams" and Team.id -%}{{ _("%(num)s pts", num=Team.score or 0) }}
   {%- elif Configs.user_mode == "teams" -%}{{ _("No team") }}
