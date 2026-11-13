@@ -1,0 +1,69 @@
+name: "Identidad compuesta"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Ingeniería Social"
+value: 50
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🕵️‍♀️🔎</h4>
+  Detecta al impostor. Un supuesto colaborador tiene tres fragmentos de identidad:
+  perfil interno, comentario en hilo y nota pública. A simple vista parecen coherentes,
+  pero hay inconsistencias que indican que la identidad es falsa.
+
+  Encuentra la pista exacta que demuestra que los tres fragmentos pertenecen a la misma
+  identidad fabricada. Esa pista será la flag.
+
+  Fragmentos:
+  <hr>
+  Fragmento A — Perfil interno:
+
+  Nombre: Sofía Martín
+
+  Alias: @sofia.m
+
+  Email: sofia.m@dept.universidad.edu
+
+  Resumen: Consultora educativa. Especialista en LMS e integración pedagógica.
+  <hr>
+  Fragmento B — Comentario en hilo:
+
+  [11:02] sofia.m: Excelente aporte. Puedo encargarme del pilotaje.
+
+  Referencias: Universidad Norte (instalación 2022), LabCampus (2019).
+  <hr>
+  Fragmento C — Nota pública en repositorio:
+
+  Contributor: sofia-martin
+
+  Bio: External consultant - implemented e-learning at multiple institutions.
+
+  Contact: info@consultant-network.example
+  <hr>
+  <p><strong>Formato de la flag:</strong> <code>flag{...}</code>, con el dato inequívoco que revela la conexión falsa escrito exactamente como aparece en los fragmentos.</p>
+
+tags:
+  - "nivel: medio"
+  - "categoría: ingeniería-social"
+  - "social-proof"
+  - "osint-human"
+  - "análisis-avanzado"
+
+hints:
+  - { cost: 5, content: "Compara los nombres y alias: ¿hay patrones que se repiten sospechosamente?" }
+  - { cost: 12, content: "Observa los dominios de correo: interno vs externo." }
+  - { cost: 25, content: "Busca una cadena textual exacta que conecte los tres fragmentos." }
+
+flags:
+  - { type: "static", content: "flag{info@consultant-network.example}" }
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "El comunicado de urgencia"
+
+pedagogy:
+  concept: "Construcción de identidades falsas mediante coherencia aparente"
+  challenge_type: "Análisis de inconsistencias entre fragmentos de identidad"
+  cia_dimension: "Confidencialidad"
+  skill: "Análisis crítico y detección de engaño"

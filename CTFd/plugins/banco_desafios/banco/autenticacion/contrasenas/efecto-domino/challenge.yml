@@ -1,0 +1,55 @@
+name: "El Efecto Dominó"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Autenticación"
+value: 80
+state: "visible"
+type: "standard"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🔗🔑</h4>
+  <p>Un alumno de la escuela sufrió el compromiso de su correo personal. Lo que parecía un incidente aislado escaló rápidamente: ese mismo acceso permitió tomar control de su servicio de música y de su cuenta en un juego muy popular.</p>
+
+  <p>El equipo de respuesta obtuvo un extracto de la comunicación entre los atacantes. En ella aparecen referencias a artefactos y prácticas que probablemente le resulten familiares a quienes han estudiado incidentes de filtraciones y reutilización de credenciales:</p>
+
+  <blockquote style="margin:8px 0;padding:8px;border-left:3px solid #f0ad4e;background-color:#fff8e7;font-family:monospace;overflow-x:auto;">
+  [14:35] AtacanteA: "Ya tengo el correo de @LeoGamer. El bot sacó la clave de un dump viejo." <br>
+  [14:36] AtacanteB: "Excelente! Ahora probá esa misma clave en todo lo demás. ¡Siempre funciona!" <br>
+  [14:37] AtacanteA: "Listo! La de música y el juego también cayeron." <br>
+  [14:38] AtacanteB: "Sabía que la reusaba. ¿Cuál era el juego?" <br>
+  [14:39] AtacanteA: "Era el famoso: 'Mundo de las Bestias'."
+  </blockquote>
+
+  <p>Debes reproducir conceptualmente el paso final del atacante: encontrar la clave compartida que permitió el acceso masivo. La clave que buscas no es compleja ni está diseñada para ser indescifrable; más bien es una que históricamente aparece con frecuencia en colecciones públicas de credenciales.</p>
+
+  <p>Ingresá la contraseña y la cantidad de veces que aparece <b>exactamente</b> la misma, en formato <code>flag{contraseña_ocurrencias}</code></p>
+
+tags:
+  - "nivel: avanzado"
+  - "categoría: autenticación"
+  - "subcategoría: contraseñas"
+  - "formativo"
+
+hints:
+  - { cost: 15, content: "Fíjate en repeticiones y patrones en el archivo: una contraseña que reaparece varias veces en diferentes cuentas suele ser la culpable." }
+  - { cost: 25, content: "Piensa en contraseñas muy simples y habituales — los atacantes suelen probar primero esas antes que cadenas complejas." }
+  - { cost: 40, content: "Si necesitas ayuda para confirmar el número exacto de apariciones, abre el archivo en un editor y usa la búsqueda para ver el contador de coincidencias o toma capturas como evidencia." }
+
+files:
+  - leak_dump.txt
+
+flags:
+  - { type: "static", content: "flag{123456_78}", data: "case_insensitive" }
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "El Post-it Olvidado"
+  - "Tu primera clave"
+  - "La fórmula secreta"
+  - "Recuperar mi cuenta"
+
+pedagogy:
+  concept: "Reutilización de credenciales y efecto cascada"
+  challenge_type: "Análisis de filtración"
+  cia_dimension: "Confidencialidad"
+  skill: "Análisis crítico de incidentes reales"

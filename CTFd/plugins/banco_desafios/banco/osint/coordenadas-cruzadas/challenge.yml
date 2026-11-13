@@ -1,0 +1,48 @@
+name: "Coordenadas cruzadas"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "OSINT"
+value: 80
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🇵🇹 ... 🇨🇳 ?</h4>
+  <p>Un compañero de la escuela, que siempre exagera un poco sus historias, está de viaje y acaba de subir esta foto.</p>
+  <p>El texto del posteo dice: <b>“¡Al fin en Lisboa! No puedo creer lo lindas que son las calles 🇵🇹”</b></p>
+  <p>Sin embargo, algo no cierra. La arquitectura y los adoquines son portugueses, pero si mirás con <i>mucho</i> detenimiento los carteles de las tiendas... hay algo que no encaja con Lisboa.</p>
+  <p>¿Podés descubrir en qué ciudad está realmente?</p>
+  <hr/>
+  <p>💡 En las investigaciones OSINT, las fotos pueden mentir: los detalles ayudan a ubicar el lugar exacto. No te quedes solo con lo que dice la publicación.</p>
+
+
+tags:
+  - "nivel: avanzado"
+  - "categoría: osint"
+  - "geoint"
+
+files:
+  - "calle_lisboa.png"
+
+hints:
+  - { cost: 10, content: "Si algo parece demasiado obvio, probablemente sea una pista falsa. Mirá más allá de lo que la persona dice en la publicación." }
+  - { cost: 30, content: "Fijate si hay algún texto, cartel o símbolo que use un idioma que no sea portugués. Eso puede cambiar por completo la ubicación." }
+  - { cost: 40, content: "Si notás que aparecen caracteres de otro alfabeto, buscá países o regiones donde el portugués y ese idioma convivan oficialmente." }
+
+
+flags:
+  - { type: "static", content: "flag{Macao}", data: "case_insensitive"}
+  - { type: "static", content: "flag{Macau}", data: "case_insensitive"}
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "El viaje de Sofi"
+  - "El cumpleaños filtrado"
+  - "Código QR indiscreto"
+  - "La foto perdida"
+
+pedagogy:
+  concept: "Geolocalización real a partir de indicios visuales contradictorios"
+  challenge_type: "Análisis geográfico y verificación contextual"
+  cia_dimension: "Integridad"
+  skill: "Análisis crítico y razonamiento geográfico"

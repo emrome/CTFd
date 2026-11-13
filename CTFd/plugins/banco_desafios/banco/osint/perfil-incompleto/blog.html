@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diario Digital Bonaerense - Portal de Noticias Educativo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: #1a1a2e;
+            color: #fff;
+            padding: 1.5rem 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #16c79a;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #16c79a 0%, #11998e 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(22, 199, 154, 0.3);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #16c79a;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            padding: 0 20px;
+        }
+
+        main {
+            background-color: #fff;
+        }
+
+        /* Article Principal */
+        .featured-article {
+            background-color: #fff;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .tag {
+            background-color: #16c79a;
+            color: #fff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: #1a1a2e;
+            line-height: 1.3;
+        }
+
+        .bajada {
+            font-size: 1.2rem;
+            color: #555;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+            padding-left: 1rem;
+            border-left: 4px solid #16c79a;
+        }
+
+        .article-body p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background-color: #16c79a;
+            color: #fff;
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 1rem;
+            transition: background-color 0.3s;
+            font-weight: 500;
+        }
+
+        .download-btn:hover {
+            background-color: #12a080;
+        }
+
+        .download-btn::before {
+            content: "📄 ";
+        }
+
+        /* Secondary Articles Grid */
+        .secondary-articles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            background-color: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .article-card {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: box-shadow 0.3s, transform 0.3s;
+            padding: 1.5rem;
+        }
+
+        .article-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            transform: translateY(-3px);
+        }
+
+        .article-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.8rem;
+            color: #1a1a2e;
+            line-height: 1.4;
+        }
+
+        .article-card .meta-small {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.8rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .article-card .copete {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+
+        .article-card .article-body p {
+            font-size: 0.9rem;
+        }
+
+        /* Aside */
+        aside {
+            background-color: #fff;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            height: fit-content;
+        }
+
+        aside section {
+            margin-bottom: 2rem;
+        }
+
+        aside h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #1a1a2e;
+            border-bottom: 2px solid #16c79a;
+            padding-bottom: 0.5rem;
+        }
+
+        .tag-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag-cloud .tag {
+            background-color: #e0e0e0;
+            color: #333;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .tag-cloud .tag:hover {
+            background-color: #16c79a;
+            color: #fff;
+        }
+
+        .recent-list {
+            list-style: none;
+        }
+
+        .recent-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .recent-list li:last-child {
+            border-bottom: none;
+        }
+
+        .recent-list a {
+            color: #1a1a2e;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .recent-list a:hover {
+            color: #16c79a;
+        }
+
+        .recent-list .date {
+            font-size: 0.85rem;
+            color: #666;
+            display: block;
+            margin-top: 0.3rem;
+        }
+
+        .download-box {
+            background-color: #f0f9f6;
+            padding: 1rem;
+            border-radius: 5px;
+            border-left: 4px solid #16c79a;
+        }
+
+        .download-box a {
+            color: #16c79a;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .download-box a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #1a1a2e;
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+
+            header .container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            nav ul {
+                justify-content: center;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .secondary-articles {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">DB</div>
+                <span>Diario Digital Bonaerense</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#inicio" title="Ir a Inicio" aria-label="Ir a la página de inicio">Inicio</a></li>
+                    <li><a href="#noticias" title="Ver Noticias" aria-label="Ver todas las noticias">Noticias</a></li>
+                    <li><a href="#educacion" title="Sección Educación" aria-label="Ir a la sección de Educación">Educación</a></li>
+                    <li><a href="#tecnologia" title="Sección Tecnología" aria-label="Ir a la sección de Tecnología">Tecnología</a></li>
+                    <li><a href="#contacto" title="Contacto" aria-label="Ir a la página de contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="main-layout">
+        <main>
+            <article class="featured-article">
+                <div class="tags">
+                    <span class="tag">Tecnología</span>
+                    <span class="tag">Educación</span>
+                    <span class="tag">Competencias</span>
+                </div>
+
+                <h1>Jóvenes talentos: resultados de la Olimpíada de Programación 2025</h1>
+
+                <div class="article-meta">
+                    <span><strong>Autor:</strong> Redacción Tecnología</span>
+                    <span><strong>Fecha:</strong> 07/11/2025</span>
+                </div>
+
+                <p class="bajada">La jornada concluyó en el Teatro Municipal con la entrega de premios.</p>
+
+                <div class="article-body">
+                    <p>La décima edición de la Olimpíada de Programación de la región bonaerense reunió a más de doscientos estudiantes de escuelas secundarias de La Plata, Berisso y Ensenada. Durante tres intensas jornadas, los participantes trabajaron en desafíos algorítmicos que pusieron a prueba tanto su capacidad lógica como su creatividad para resolver problemas computacionales complejos. El evento, organizado por la Asociación de Escuelas Técnicas de la Provincia, contó con el apoyo de instituciones educativas locales y empresas de tecnología de la región.</p>
+
+                    <p>El jurado evaluador, conformado por docentes universitarios y profesionales del sector informático, consideró tres criterios fundamentales: la creatividad en la resolución de los problemas planteados, la claridad y documentación del código presentado, y la aplicación de buenas prácticas de programación. Los proyectos abarcaron desde algoritmos de ordenamiento optimizados hasta aplicaciones prácticas para la gestión de recursos educativos, demostrando el alto nivel de preparación de los participantes.</p>
+
+                    <p>El podio quedó conformado de la siguiente manera: en el primer puesto se ubicó Martín Herrera, alumno del Colegio Nacional de La Plata, quien presentó un innovador sistema de recomendación de contenidos educativos. El segundo lugar fue para Sofía Fernández, de la Escuela Técnica N.º 4 de Berisso, con un proyecto de análisis de datos climáticos. Finalmente, el tercer puesto lo obtuvo Ignacio Salas, del Instituto San Martín de Ensenada, quien desarrolló una herramienta para la optimización de rutas de transporte público.</p>
+
+                    <p>La ceremonia de clausura en el Teatro Municipal incluyó palabras de autoridades educativas y la entrega de certificados a todos los participantes. Los organizadores destacaron el compromiso de las instituciones educativas y anunciaron que la próxima edición se realizará en 2026 con la incorporación de nuevas categorías y desafíos. El acta oficial con los resultados completos y las menciones especiales se encuentra disponible para su consulta.</p>
+
+                    <!-- REEMPLAZA esta URL con la URL real de tu CTFd -->
+                    <a href="https://ctfd2.jyaa-ci.linti.unlp.edu.ar/files/05c947b5d70228abb01c3b365c2b732f/acta_resultados_olimpiada_2025_v2.pdf" class="download-btn" target="_blank" rel="noopener noreferrer" title="Descargar acta de resultados en PDF" aria-label="Descargar acta de resultados de la Olimpíada 2025 en formato PDF">Descargar acta (PDF)</a>
+                </div>
+            </article>
+
+            <section class="secondary-articles">
+                <article class="article-card">
+                    <h3>Innovación en el agro: drones para siembra inteligente en La Plata</h3>
+                    <div class="meta-small">
+                        <strong>Redacción Campo y Producción</strong> | 03/11/2025
+                    </div>
+                    <p class="copete">Agricultura de precisión con monitoreo de humedad y aplicación variable.</p>
+                    <div class="article-body">
+                        <p>Productores del cinturón hortícola platense están incorporando drones equipados con sensores multiespectrales para optimizar la siembra y el riego de sus cultivos. La tecnología permite identificar zonas con diferentes niveles de humedad del suelo y ajustar la aplicación de agua y nutrientes de forma precisa, reduciendo costos operativos hasta en un treinta por ciento.</p>
+                        <p>El proyecto piloto, que involucra a diez establecimientos agrícolas, cuenta con el asesoramiento técnico de la Facultad de Ciencias Agrarias y el financiamiento de programas provinciales de innovación productiva. Los primeros resultados muestran mejoras significativas en los rendimientos y una notable disminución en el uso de insumos, lo que contribuye a una producción más sustentable y económicamente viable.</p>
+                    </div>
+                </article>
+
+                <article class="article-card">
+                    <h3>Cultura: el Festival Jazz de La Plata vuelve al Paseo del Bosque</h3>
+                    <div class="meta-small">
+                        <strong>Redacción Cultura</strong> | 29/10/2025
+                    </div>
+                    <p class="copete">Conciertos gratuitos y clínicas para jóvenes músicos.</p>
+                    <div class="article-body">
+                        <p>Después de dos años de pausa, el Festival Internacional de Jazz de La Plata regresa al emblemático Paseo del Bosque con una programación que incluye más de veinte presentaciones en vivo y actividades formativas para estudiantes de música. El evento, que se extenderá durante tres fines de semana consecutivos, contará con la participación de agrupaciones locales y artistas invitados de diferentes provincias del país.</p>
+                        <p>Además de los conciertos nocturnos en el anfiteatro principal, se realizarán clínicas de improvisación, talleres de técnica instrumental y charlas sobre la historia del jazz en Argentina. Las actividades, completamente gratuitas, buscan acercar este género musical a nuevas audiencias y fortalecer la escena jazzística local. La organización está a cargo de la Secretaría de Cultura municipal en conjunto con el Conservatorio de Música Gilardo Gilardi.</p>
+                    </div>
+                </article>
+
+                <article class="article-card">
+                    <h3>Ciencia local: prueban un prototipo de aprovechamiento eólico urbano</h3>
+                    <div class="meta-small">
+                        <strong>Redacción Ciencia y Ambiente</strong> | 25/10/2025
+                    </div>
+                    <p class="copete">Proyecto conjunto entre universidades y pymes regionales.</p>
+                    <div class="article-body">
+                        <p>Un equipo interdisciplinario de la Universidad Nacional de La Plata y la Universidad Tecnológica Nacional instaló un prototipo de aerogenerador de baja potencia en la azotea de un edificio del centro platense. El dispositivo, diseñado específicamente para entornos urbanos donde los vientos son más irregulares, busca evaluar la viabilidad de generar energía eléctrica complementaria en construcciones de mediana altura.</p>
+                        <p>Las primeras mediciones, tras un mes de operación continua, muestran resultados prometedores en términos de eficiencia energética y bajo impacto sonoro. El proyecto cuenta con financiamiento de la Agencia Nacional de Promoción Científica y la colaboración de tres pymes metalúrgicas de la región que fabricaron los componentes del prototipo. Los investigadores esperan presentar un informe completo a mediados de 2026 que permita evaluar la escalabilidad de la tecnología a otros edificios de la ciudad.</p>
+                    </div>
+                </article>
+            </section>
+        </main>
+
+        <aside>
+            <section>
+                <h2>Etiquetas</h2>
+                <div class="tag-cloud">
+                    <span class="tag">#Tecnología</span>
+                    <span class="tag">#Educación</span>
+                    <span class="tag">#Agro</span>
+                    <span class="tag">#Cultura</span>
+                    <span class="tag">#Energía</span>
+                    <span class="tag">#Innovación</span>
+                </div>
+            </section>
+
+            <section>
+                <h2>Notas recientes</h2>
+                <ul class="recent-list">
+                    <li>
+                        <a href="#olimpiada" title="Leer nota sobre Olimpíada de Programación" aria-label="Leer nota completa sobre los resultados de la Olimpíada de Programación 2025">
+                            Jóvenes talentos: resultados de la Olimpíada de Programación 2025
+                        </a>
+                        <span class="date">07/11/2025</span>
+                    </li>
+                    <li>
+                        <a href="#drones" title="Leer nota sobre drones en agricultura" aria-label="Leer nota sobre innovación con drones en el agro">
+                            Innovación en el agro: drones para siembra inteligente en La Plata
+                        </a>
+                        <span class="date">03/11/2025</span>
+                    </li>
+                    <li>
+                        <a href="#jazz" title="Leer nota sobre Festival de Jazz" aria-label="Leer nota sobre el Festival Jazz de La Plata">
+                            Cultura: el Festival Jazz de La Plata vuelve al Paseo del Bosque
+                        </a>
+                        <span class="date">29/10/2025</span>
+                    </li>
+                    <li>
+                        <a href="#eolico" title="Leer nota sobre energía eólica" aria-label="Leer nota sobre el prototipo de energía eólica urbana">
+                            Ciencia local: prueban un prototipo de aprovechamiento eólico urbano
+                        </a>
+                        <span class="date">25/10/2025</span>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Descargas</h2>
+                <div class="download-box">
+                    <p><strong>Documentos disponibles:</strong></p>
+                    <p>
+                        <!-- REEMPLAZA esta URL con la URL real de tu CTFd -->
+                        <a href="https://tu-ctfd.ejemplo.com/files/acta_resultados_olimpiada_2025_v2.pdf" target="_blank" rel="noopener noreferrer" title="Descargar acta de resultados" aria-label="Descargar acta oficial de resultados de la Olimpíada de Programación 2025">
+                            📄 Acta de resultados Olimpíada 2025 (PDF)
+                        </a>
+                    </p>
+                </div>
+            </section>
+        </aside>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p><strong>Diario Digital Bonaerense</strong></p>
+            <p>Este sitio es parte de una práctica pedagógica. Todo el contenido es ficticio.</p>
+            <p>&copy; 2025 - Material educativo sin fines comerciales</p>
+        </div>
+    </footer>
+</body>
+</html>

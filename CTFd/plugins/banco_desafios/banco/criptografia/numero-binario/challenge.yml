@@ -1,0 +1,52 @@
+name: "El número binario"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Criptografía"
+type: "standard"
+value: 45
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">💻🔢</h4>
+  <p>Durante la clase de Tecnología, un grupo de alumnos armó un cartel digital con luces LED para el aula.
+  Cuando lo encendieron, en lugar de mostrar letras apareció una secuencia de números y ceros y unos.</p>
+
+  <blockquote style="margin:8px 0;padding:8px;border-left:3px solid #ccc;font-style:italic;word-break:break-all;">
+  01100110 01101100 01100001 01100111 01111011 01001100 01000001 01010011 01011111 01001101 01000001 01010001 01010101 01001001 01001110 01000001 01010011 01011111 01010100 01000001 01001101 01000010 01001001 01000101 01001110 01011111 01001000 01000001 01000010 01001100 01000001 01001110 01111101
+  </blockquote>
+
+  <p>La profe de Informática sonrió y dijo:
+  <em>“Parece que el cartel entiende otro idioma…”</em></p>
+
+tags:
+  - "nivel: medio"
+  - "categoría: criptografía"
+  - "formativo"
+
+hints:
+  - {
+      cost: 5,
+      content: "No todos los mensajes usan letras. Algunos usan 0 y 1 para decir lo mismo."
+    }
+  - {
+      cost: 10,
+      content: "Buscá cómo convertir valores binarios en texto usando código ASCII."
+    }
+
+flags:
+  - {
+      type: "static",
+      content: "flag{las_maquinas_tambien_hablan}",
+      data: "case_insensitive"
+    }
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "Mensaje en la botella"
+  - "El eco del aula"
+
+pedagogy:
+  concept: "Representación binaria de la información y codificación ASCII"
+  challenge_type: "Conversión de binario a texto"
+  cia_dimension: "Confidencialidad"
+  skill: "Análisis lógico y uso de herramientas de conversión"

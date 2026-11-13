@@ -1,0 +1,52 @@
+name: "El perfil incompleto"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "OSINT"
+value: 100
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">👤➡️💻➡️🔍</h4>
+  <p>Un usuario bajo el alias <b>‘C0d3r1n’</b> se volvió conocido en comunidades de programación por resolver desafíos complejos y compartir código de gran nivel.</p>
+  <p>El equipo organizador de una competencia quiere contactarlo para invitarlo a una charla, pero nadie conoce su <b>nombre real</b>.</p>
+  <p>Durante la búsqueda, se encontraron varias huellas digitales: publicaciones en redes, fragmentos de un blog técnico y un documento público con los resultados de un certamen.</p>
+  <p>¿Podés conectar los puntos y descubrir el <b>nombre y apellido</b> de ‘C0d3r1n’? Formato: flag{Nombre_Apellido}</p>
+  <hr/>
+  <p>💡 En las investigaciones OSINT, la clave suele estar en relacionar datos aparentemente inconexos. Nombres, fechas, alias o menciones cruzadas pueden revelar mucho más de lo que parece.</p>
+
+
+tags:
+  - "nivel: avanzado"
+  - "categoría: osint"
+  - "formativo"
+
+files:
+  - "captura_twitter.jpg"
+  - "blog.html"
+
+hints:
+  - { cost: 10, content: "Leé con atención los dos archivos. Uno de ellos parece más 'oficial', pero ambos aportan piezas del mismo rompecabezas." }
+  - { cost: 25, content: "Hay algo en común entre las publicaciones: una coincidencia de contexto o temática que podría unirlas." }
+  - { cost: 45, content: "Tal vez el alias ‘C0d3r1n’ no solo aparece en foros. Buscá si figura vinculado a alguna competencia o resultado público." }
+
+
+flags:
+  - { type: "static", content: "flag{Martin_Herrera}", data: "case_insensitive"}
+  - { type: "static", content: "flag{Martín_Herrera}", data: "case_insensitive"}
+  - { type: "static", content: "flag{MartínHerrera}", data: "case_insensitive"}
+  - { type: "static", content: "flag{MartinHerrera}", data: "case_insensitive"}
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "El viaje de Sofi"
+  - "El cumpleaños filtrado"
+  - "Código QR indiscreto"
+  - "La foto perdida"
+  - "Coordenadas cruzadas"
+
+pedagogy:
+  concept: "Identificación de una persona a partir de huellas digitales distribuidas"
+  challenge_type: "Correlación de múltiples fuentes públicas"
+  cia_dimension: "Confidencialidad"
+  skill: "Análisis crítico y correlación compleja"

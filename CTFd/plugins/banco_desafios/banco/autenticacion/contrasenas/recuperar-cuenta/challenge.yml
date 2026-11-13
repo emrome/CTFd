@@ -1,0 +1,44 @@
+name: "Recuperar mi cuenta"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Autenticación"
+value: 50
+state: "visible"
+type: "standard"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 8px 0;text-align:center;">💌📱</h4>
+  <p>Una captura del sistema de soporte de una red social filtró un pedido de recuperación de cuenta (recuperacion.png)</p>
+  <p>En su perfil público aparecen varios recuerdos musicales</p>
+  <p>Parece que la pista no miente, pero combina más de lo que dice.</p>
+  <p><em>¿Podés descubrir cómo forma su contraseña?</em></p>
+
+tags:
+  - "nivel: medio"
+  - "categoría: autenticación"
+  - "subcategoría: contraseñas"
+  - "formativo"
+
+hints:
+  - { cost: 10, content: "La pista principal está en `recuperacion.png`. Te dice exactamente qué información necesitas encontrar en `tweets.png`." }
+  - { cost: 15, content: "La contraseña es una combinación de las respuestas a las dos preguntas de seguridad. La primera parte es texto (iniciales), la segunda es un número (un año)." }
+  - { cost: 20, content: "Encuentra los tres artistas que la usuaria llama sus 'pilares' en `tweets.png` y toma sus iniciales. Luego, busca el año de su primer concierto." }
+
+files:
+  - recuperacion.png
+  - tweets.png
+
+flags:
+  - { type: "static", content: "flag{TBD2018}", data: "case_insensitive" }
+  - { type: "static", content: "flag{TBBD2018}", data: "case_insensitive" }
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "El Post-it Olvidado"
+  - "Tu primera clave"
+
+pedagogy:
+  concept: "Reconstrucción de contraseñas a partir de datos públicos"
+  challenge_type: "Correlación de fuentes"
+  cia_dimension: "Confidencialidad"
+  skill: "Análisis lógico y correlación de información"

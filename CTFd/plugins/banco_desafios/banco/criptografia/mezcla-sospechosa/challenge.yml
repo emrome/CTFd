@@ -1,0 +1,51 @@
+name: "Una mezcla sospechosa"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Criptografía"
+type: "standard"
+value: 40
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">📱🧩</h4>
+  <p>En la red escolar apareció un mensaje extraño.
+  A primera vista parece una mezcla de letras, números y símbolos... pero quizá alguien intentó esconder algo a simple vista.</p>
+
+  <blockquote style="margin:8px 0;padding:8px;border-left:3px solid #ccc;font-style:italic;word-break:break-all;">
+  ZmxhZ3twYXJlY2Vfc2VjcmV0b19wZXJvX25vfQ==
+  </blockquote>
+
+  <p>Una profesora comentó que “esas combinaciones de letras” le recordaban a algo que vio cuando se subían fotos a internet...</p>
+
+tags:
+  - "nivel: medio"
+  - "categoría: criptografía"
+  - "formativo"
+
+hints:
+  - {
+      cost: 5,
+      content: "No todo lo que parece cifrado lo está. A veces solo está *codificado*."
+    }
+  - {
+      cost: 8,
+      content: "Parece en otro idioma... pero no es humano ni de ficción."
+    }
+
+flags:
+  - {
+      type: "static",
+      content: "flag{parece_secreto_pero_no}",
+      data: "case_insensitive"
+    }
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "Mensaje en la botella"
+  - "El eco del aula"
+
+pedagogy:
+  concept: "Diferenciación entre codificación y cifrado en mensajes digitales"
+  challenge_type: "Identificación y decodificación de un formato de representación"
+  cia_dimension: "Confidencialidad"
+  skill: "Análisis conceptual y uso de herramientas básicas"

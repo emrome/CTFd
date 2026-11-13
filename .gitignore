@@ -81,6 +81,6 @@ node_modules/
 # Flask Profiler files
 flask_profiler.sql
 
-# Challenge bank content (cloned separately, e.g. emrome/ctf-challenges)
-CTFd/plugins/banco_desafios/banco/*
-!CTFd/plugins/banco_desafios/banco/.gitkeep
+# The challenge bank ships challenge files that the rules above would skip
+!CTFd/plugins/banco_desafios/banco/**/dist/
+!CTFd/plugins/banco_desafios/banco/**/*.zip

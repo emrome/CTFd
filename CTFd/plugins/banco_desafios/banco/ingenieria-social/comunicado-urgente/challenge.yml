@@ -1,0 +1,59 @@
+name: "El comunicado de urgencia"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Ingeniería Social"
+value: 20
+type: "standard"
+state: "visible"
+attempts: 0
+
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">⏱️🚨</h4>
+  <p>En la vida real, la <b>Ingeniería Social (IS)</b> es uno de los ataques más eficaces porque apunta a tus emociones antes que a la tecnología. En este desafío sólo necesitas tu capacidad de análisis crítico y psicológico.</p>
+
+  <p>Acabas de recibir el siguiente <em>comunicado</em> que supuestamente proviene del soporte TI. El texto usa la táctica de <b>pánico y urgencia</b> —amenazando con la desconexión inmediata de cuentas— para que actúes sin pensar.</p>
+
+  <hr/>
+
+  <div style="background:#f8fafc;border-left:4px solid #f59e0b;padding:12px;border-radius:6px;">
+    <strong>COMUNICADO:</strong>
+    <pre style="white-space:pre-wrap;margin-top:8px;font-size:14px;">
+    Asunto: ACCIÓN URGENTE REQUERIDA: Falla crítica de seguridad — desconexión de cuentas
+    De: Soporte TI &lt;soporte.ti.urgente@securecorp.net&gt;
+    Fecha: 11/11/2025
+    Para: [usuario]
+    ⚠️ Estimado usuario:
+    Hemos detectado una actividad anómala crítica en la infraestructura de autenticación.
+    Debido a un ataque Zero-Day en curso, todas las cuentas NO VERIFICADAS serán ELIMINADAS PERMANENTEMENTE en los próximos 30 minutos para contener la amenaza.
+    Para validar esta situación y recibir soporte inmediato, por favor refiérase al Código de Incidente: ERROR-99901-URGENCIA cuando contacte a nuestro equipo de seguridad.
+    La ventana de acción es extremadamente limitada. Actúe de inmediato.
+    Atentamente,
+    Equipo de Ciberseguridad de SecureCorp.
+    </pre>
+  </div>
+  <hr/>
+  <p><strong>Tu misión:</strong> identifica el <b>código de error inventado</b> que el atacante incluyó para dar aparente legitimidad y presionar a la víctima. Ese código es la <b>flag</b> del desafío.</p>
+
+tags:
+  - "nivel: fácil"
+  - "categoría: ingeniería-social"
+  - "psicología"
+  - "urgencia"
+  - "autoridad"
+
+hints:
+  - { cost: 1, content: "Lee con atención las frases destinadas a generar presión temporal (plazos, minutos, urgencia)." }
+  - { cost: 5, content: "El código falso suele aparecer en la parte donde te piden referenciarlo si contactas al 'soporte'." }
+  - { cost: 8, content: "Busca una cadena alfanumérica con guiones que lleve la palabra URGENCIA." }
+
+flags:
+  - { type: "static", content: "flag{ERROR-99901-URGENCIA}", data: "case_insensitive"}
+
+requirements:
+  - "Bienvenido/a al CTF"
+
+pedagogy:
+  concept: "Manipulación emocional mediante urgencia y autoridad"
+  challenge_type: "Análisis crítico de un mensaje persuasivo"
+  cia_dimension: "Confidencialidad"
+  skill: "Análisis crítico y reconocimiento de tácticas"

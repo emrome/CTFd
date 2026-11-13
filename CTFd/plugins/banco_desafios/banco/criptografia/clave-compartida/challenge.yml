@@ -1,0 +1,59 @@
+name: "Clave compartida"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Criptografía"
+type: "standard"
+value: 80
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🤝🔑</h4>
+  <p>Durante un proyecto de laboratorio, dos compañeros quisieron enviarse mensajes sin que nadie más pudiera leerlos.
+  Eligieron una palabra secreta que ambos conocían — su “clave compartida”.
+  Cada letra del mensaje se desplazaba según la posición de la letra correspondiente en la clave.</p>
+
+  <blockquote style="margin:8px 0;padding:8px;border-left:3px solid #ccc;font-family:monospace;">
+  lzaz{izaok_inbio_hnsont}
+  </blockquote>
+
+  <p>Ambos recordaban la misma palabra clave,
+  inspirada en el nombre del grupo de trabajo: <strong>GOAT</strong>.</p>
+
+  <p><em>¿Podrás descifrar su mensaje?</em></p>
+
+tags:
+  - "nivel: avanzado"
+  - "categoría: criptografía"
+  - "formativo"
+
+hints:
+  - {
+      cost: 6,
+      content: "No todas las letras se mueven igual. La clave define cuánto avanza cada una."
+    }
+  - {
+      cost: 10,
+      content: "Usá la palabra GOAT como clave en un cifrado tipo Vigenère. La misma clave descifra el mensaje."
+    }
+
+flags:
+  - {
+      type: "static",
+      content: "flag{clave_unica_humana}",
+      data: "case_insensitive"
+    }
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "El eco del aula"
+  - "Mensaje en la botella"
+  - "Una mezcla sospechosa"
+  - "El número binario"
+  - "Acta Verdadera"
+  - "El secreto doble"
+
+pedagogy:
+  concept: "Cifrado simétrico con clave compartida"
+  challenge_type: "Descifrado mediante clave repetitiva (Vigenère)"
+  cia_dimension: "Confidencialidad"
+  skill: "Razonamiento criptográfico y análisis sistemático"

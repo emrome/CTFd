@@ -1,0 +1,43 @@
+name: "Código QR indiscreto"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "OSINT"
+value: 60
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🤳🔗❓</h4>
+  <p>La escuela secundaria N° 14 está organizando su kermesse de fin de año y colgaron este cartel en el pasillo.</p>
+  <p>El código QR supuestamente lleva al cronograma del evento, pero el organizador se equivocó al crearlo... y sin querer pegó un texto que no debía compartir públicamente.</p>
+  <p>Tu celular se quedó sin batería, pero eso no debería frenarte. ¿Podés encontrar <b>otra forma de leer el código QR</b> y descubrir qué información se filtró por error?</p>
+  <hr/>
+  <p>Recordá que un código QR no siempre contiene un enlace: también puede incluir texto, direcciones de correo, mensajes o incluso contraseñas. Analizá con atención qué tipo de dato aparece al leerlo.</p>
+  <hr/>
+
+tags:
+  - "nivel: medio"
+  - "categoría: osint"
+  - "formativo"
+
+files:
+  - "kermes.png"
+
+hints:
+  - { cost: 10, content: "No necesitás escanearlo con el celular. Hay formas de leer un QR desde una imagen usando tu computadora." }
+  - { cost: 20, content: "Buscá herramientas o sitios web que te permitan “leer un código QR desde una imagen”. No hace falta instalar nada." }
+  - { cost: 30, content: "Probá subir la imagen del cartel a un lector de QR online y observá con atención el texto que aparece: ¿parece ser un enlace real o algo que alguien copió por error?" }
+
+flags:
+  - { type: "static", content: "flag{NadieRevisaElQR}"}
+
+requirements:
+  - "El viaje de Sofi"
+  - "El cumpleaños filtrado"
+  - "Bienvenido/a al CTF"
+
+pedagogy:
+  concept: "Exposición involuntaria de información mediante códigos QR"
+  challenge_type: "Decodificación y análisis de datos embebidos"
+  cia_dimension: "Confidencialidad"
+  skill: "Observación, análisis y uso de herramientas"

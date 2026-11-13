@@ -1,0 +1,41 @@
+name: "Soporte de Netflix"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Phishing"
+value: 20
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">📺🚫</h4>
+  <p>Te llegó un mensaje que dice que tu cuenta de Netflix será suspendida si no verificás tus datos. El encabezado muestra el nombre "Netflix Soporte", pero si prestás atención aparece la dirección de correo completa.</p>
+  <p>¿Cuál es el <b>dominio real</b> del remitente que demuestra que el correo es falso?</p>
+  <p>(Ejemplo: si el From aparece como <code>Netflix Soporte &lt;soporte@netflix-support.example.com&gt;</code>, la flag sería <code>flag{netflix-support.example.com}</code>.)</p>
+  <hr/>
+  <p>💡 Consejo: el nombre visible puede ser igual al de la empresa; lo decisivo es la <b>dirección de correo</b> completa, la parte que aparece entre los signos &lt; &gt;.</p>
+
+tags:
+  - "nivel: fácil"
+  - "categoría: phishing"
+  - "observacion"
+  - "remitente"
+
+files:
+  - "mail_netflix.png"
+
+hints:
+  - { cost: 2, content: "Las empresas grandes y serias tienen sus propios dominios de correo." }
+  - { cost: 5, content: "¿Netflix, un gigante mundial, usaría una cuenta de correo pública y gratuita para sus clientes?" }
+  - { cost: 7, content: "El dominio es la parte del correo que viene después de la '@'." }
+
+flags:
+  - { type: "static", content: "flag{gmail.com}", data: "case_insensitive" }
+
+requirements:
+  - "Bienvenido/a al CTF"
+
+pedagogy:
+  concept: "Identificar correos fraudulentos mediante el análisis del remitente"
+  challenge_type: "Observación del encabezado del mensaje para detectar inconsistencias"
+  cia_dimension: "Confidencialidad"
+  skill: "Observación y concientización"

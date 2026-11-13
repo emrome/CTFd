@@ -1,0 +1,51 @@
+name: "Mensaje en la botella"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Criptografía"
+type: "standard"
+value: 20
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🏝️💬</h4>
+  <p>Una mañana, en la costa de Berisso, apareció una botella flotando. Dentro, un papel húmedo con letras que no tienen sentido.
+  El mensaje parece importante, pero está escrito en un lenguaje antiguo, desplazado… como si alguien hubiera corrido todo el abecedario.</p>
+
+  <blockquote style="margin:8px 0;padding:8px;border-left:3px solid #ccc;font-style:italic;">
+  synt{RYZNCNRFGNNDHV}
+  </blockquote>
+  <p>¿Cuál será el mensaje en la botella?</p>
+
+tags:
+  - "nivel: fácil"
+  - "categoría: criptografía"
+  - "formativo"
+
+hints:
+  - {
+      cost: 5,
+      content: "El mensaje viajó con las olas... y parece que se corrió un poco del camino."
+    }
+  - {
+      cost: 8,
+      content: "Julio inventó algo parecido hace más de 2000 años."
+    }
+
+files:
+  - "botella_mas.jpg"
+
+flags:
+  - {
+      type: "static",
+      content: "flag{ELMAPAESTAAQUI}",
+      data: "case_insensitive"
+    }
+
+requirements:
+  - "Bienvenido/a al CTF"
+
+pedagogy:
+  concept: "Cifrado por desplazamiento y recuperación de un mensaje oculto"
+  challenge_type: "Descifrado de un mensaje mediante sustitución simple"
+  cia_dimension: "Confidencialidad"
+  skill: "Razonamiento lógico y decodificación"

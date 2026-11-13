@@ -1,0 +1,55 @@
+name: La tarjeta de acceso olvidada
+author: "Fac. Informática – Proyecto Escuelas"
+category: Ingeniería Social
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🚪🤝</h4>
+  <p>Te diriges a la puerta de Acceso Restringido A4 y colocas tu tarjeta. Justo antes de que la puerta se abra, un "colega" que no reconoces te alcanza por detrás. Se pone la mano en el bolsillo con gesto de frustración y dice:</p>
+
+  <div style="background:#e6f3ff;border-left:4px solid #007bff;padding:12px;border-radius:6px;margin-bottom:15px;">
+    <blockquote style="margin: 10px 0; padding-left: 15px; border-left: 3px solid #ccc;">
+      "¡Uy, no! Dejé mi tarjeta en el escritorio de la planta baja. ¿Me haces el favor? Es urgente, debo entregar el informe PRYCT-442 al jefe de área ahora mismo. Gracias, te debo una."
+    </blockquote>
+  </div>
+
+  <p>Tu misión es <b>desactivar la presión social</b>: identifica la <b>técnica</b> usada por el atacante y el <b>pretexto exacto</b> que menciona.</p>
+
+  <p><strong>Formato de la flag:</strong> <code>flag{TECNICA_PRETEXTO}</code></p>
+
+  <hr/>
+
+  <p><strong>Consejo:</strong> la técnica corresponde a la táctica utilizada en el escenario. El pretexto es la cadena textual que el atacante pronuncia como justificación para acceder.</p>
+value: 60
+type: standard
+attempts: 0
+flags:
+- type: static
+  content: flag{TAILGATING_PRYCT-442}
+  data: case_insensitive
+tags:
+- 'nivel: avanzado'
+- 'categoría: ingeniería-social'
+- físico
+- amabilidad
+- urgencia
+hints:
+- content: |-
+    La 'urgencia' siempre es el mayor signo de alarma. ¿Qué dato usó el atacante para justificar la prisa?
+  cost: 10
+- content: |-
+    Busca la cadena que se refiere a un proyecto.
+  cost: 25
+- content: |-
+    La flag es el código completo que se menciona en la narrativa de la urgencia.
+  cost: 30
+requirements:
+- Bienvenido/a al CTF
+- El comunicado de urgencia
+- Identidad compuesta
+state: visible
+version: '0.1'
+
+pedagogy:
+  concept: "Acceso físico no autorizado mediante tailgating y pretexto de urgencia"
+  challenge_type: "Análisis de un escenario presencial: identificación de técnica y pretexto"
+  cia_dimension: "Confidencialidad"
+  skill: "Análisis crítico y reconocimiento de tácticas"

@@ -118,21 +118,21 @@ al importar: solo se ve en el banco.
 
 ## Dónde poner el banco
 
-Por defecto el plugin lee `CTFd/plugins/banco_desafios/banco/`. Hay dos formas de
-cargarlo:
+Por defecto el plugin lee `CTFd/plugins/banco_desafios/banco/`, que ya trae los 32
+desafíos de la tesina (bajo licencia [CC BY-SA 4.0](banco/LICENSE)). Para agregar
+desafíos, se suman carpetas ahí.
 
-- Copiar o clonar ahí el repositorio de desafíos (por ejemplo, como submódulo de git).
-- Montarlo como volumen y apuntar la variable de entorno `BANCO_DESAFIOS_DIR` a ese
-  directorio. En `docker-compose.yml`:
+Para usar otro banco en lugar del incluido, se lo monta como volumen y se apunta la
+variable de entorno `BANCO_DESAFIOS_DIR` a ese directorio. En `docker-compose.yml`:
 
-  ```yaml
-  services:
-    ctfd:
-      environment:
-        - BANCO_DESAFIOS_DIR=/opt/banco
-      volumes:
-        - ./banco:/opt/banco:ro
-  ```
+```yaml
+services:
+  ctfd:
+    environment:
+      - BANCO_DESAFIOS_DIR=/opt/banco
+    volumes:
+      - ./banco:/opt/banco:ro
+```
 
 ## Tests
 

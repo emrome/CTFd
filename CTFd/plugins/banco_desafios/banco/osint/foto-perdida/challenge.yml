@@ -1,0 +1,43 @@
+name: "La foto perdida"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "OSINT"
+value: 50
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 8px 0;text-align:center;">📸🌎</h4>
+  <p>Una amiga compartió esta foto en redes, contando que la tomó en el sur del país, durante sus vacaciones.</p>
+  <p>Sin embargo, algunos detalles del entorno —la arquitectura, el clima y el tipo de paisaje— parecen no coincidir con su relato.</p>
+  <p>Si alguien curioso decide investigar un poco más, podrá descubrir que la imagen pertenece a un lugar muy distinto del que ella mencionó.</p>
+  <p>¿Podés averiguar en qué país fue tomada realmente?</p>
+
+tags:
+  - "nivel: medio"
+  - "categoría: osint"
+  - "formativo"
+
+flags:
+  - { type: "static",
+      content: "flag{suiza}",
+      data: "case_insensitive"
+    }
+
+hints:
+  - { cost: 5, content: "Antes de creerle a una publicación, podés buscar si la imagen aparece en otro lado." }
+  - { cost: 15, content: "¿Probaste con Google Images?" }
+
+files:
+  - foto_perdida.jpg
+
+requirements:
+  - "El viaje de Sofi"
+  - "El cumpleaños filtrado"
+  - "Bienvenido/a al CTF"
+
+pedagogy:
+  concept: "Verificación del origen real de una imagen publicada en redes sociales"
+  challenge_type: "Búsqueda inversa y análisis visual"
+  cia_dimension: "Integridad"
+  skill: "Observación crítica y verificación"

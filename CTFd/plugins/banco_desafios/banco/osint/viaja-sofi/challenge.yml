@@ -1,0 +1,39 @@
+name: "El viaje de Sofi"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "OSINT"
+value: 20
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 8px 0;text-align:center;">📱✈️</h4>
+  <p>Sofi está feliz. Acaba de cumplir su sueño de viajar al extranjero y subió una historia a Instagram con la frase "Mi primer viaje 💙"</p>
+  <p>Con una búsqueda rápida en Internet, cualquiera podría descubrir su destino. </p>
+  <p>¿Podés descubrir a qué país viajó Sofi?</p>
+
+tags:
+  - "nivel: fácil"
+  - "categoría: osint"
+  - "formativo"
+
+flags:
+  - { type: "static", content: "flag{mexico}", data: "case_insensitive"}
+  - { type: "static", content: "flag{méxico}", data: "case_insensitive"}
+
+hints:
+  - { cost: 2, content: "No todo está en primer plano. Fijate qué detalles del fondo podrían darte una pista sobre el lugar." }
+  - { cost: 5, content: "¿Qué nombre aparece en la imagen?" }
+
+files:
+  - viaje_sofi.png
+
+
+requirements:
+  - "Bienvenido/a al CTF"
+
+pedagogy:
+  concept: "Exposición involuntaria de información a partir de imágenes en redes sociales"
+  challenge_type: "Observación y búsqueda OSINT"
+  cia_dimension: "Confidencialidad"
+  skill: "Observación, búsqueda y análisis básico"

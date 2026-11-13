@@ -1,0 +1,45 @@
+name: "¿Es real o fake?"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Phishing"
+value: 20
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🧐❓</h4>
+  <p>En tu bandeja de entrada tenés 5 mensajes nuevos. Cuatro (4) de ellos son notificaciones legítimas, pero uno (1) es un claro intento de engañarte.</p>
+  <p>Mirá los 5 archivos adjuntos (<code>msg_1.png</code> a <code>msg_5.png</code>) y descubrí cuál es el mensaje falso.</p>
+  <p>La flag es el número del mensaje falso. (Ej: si creés que es el primero, la flag es <code>flag{1}</code>)</p>
+  <hr/>
+  <p>ℹ️ <b>Nota:</b> Si no sabés qué es el <i>phishing</i>, se trata de un intento de engaño digital en el que alguien se hace pasar por una persona o empresa confiable para obtener tu información. Podés leer una breve explicación en este artículo educativo de Argentina.gob.ar:
+  <a href="https://www.argentina.gob.ar/justicia/convosenlaweb/situaciones/phishing" target="_blank">¿Qué es el phishing y cómo evitarlo?</a></p>
+
+tags:
+  - "nivel: fácil"
+  - "categoría: phishing"
+  - "observacion"
+
+files:
+  - "msg_1.png"
+  - "msg_2.png"
+  - "msg_3.png"
+  - "msg_4.png"
+  - "msg_5.png"
+
+hints:
+  - { cost: 1, content: "Mirá con atención QUIÉN te envía el mensaje (el remitente)." }
+  - { cost: 2, content: "El phishing casi siempre usa la URGENCIA o el MIEDO para que actúes sin pensar." }
+  - { cost: 3, content: "Fijate si el dominio del correo coincide con el sitio real o parece improvisado. También suelen aparecer errores o logos de mala calidad." }
+
+flags:
+  - { type: "static", content: "flag{4}"}
+
+requirements:
+  - "Bienvenido/a al CTF"
+
+pedagogy:
+  concept: "Reconocer señales básicas de engaño en mensajes digitales"
+  challenge_type: "Comparación de múltiples mensajes para identificar inconsistencias"
+  cia_dimension: "Confidencialidad;Integridad"
+  skill: "Observación y análisis"

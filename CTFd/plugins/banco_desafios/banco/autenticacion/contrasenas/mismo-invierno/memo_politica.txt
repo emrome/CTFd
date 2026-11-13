@@ -1,0 +1,23 @@
+DE: Departamento de IT
+ASUNTO: ¡NUEVA POLÍTICA DE CLAVES OBLIGATORIA - 2025!
+
+A todo el personal:
+
+Como parte de nuestra nueva auditoría de seguridad para 2025, todas las contraseñas deben ser actualizadas. 
+La contraseña del ZIP de la auditoría se actualizó siguiendo esta política (la clave vieja era 'Invierno.2024').
+
+La nueva política exige:
+1. Mínimo 10 caracteres.
+2. Debe incluir el año en curso (2025) para validar el cambio.
+3. El uso de símbolos especiales como '.' o '!' ya NO está permitido.
+4. El único símbolo especial ahora aprobado es el 'guion bajo' (_).
+
+---
+Recordatorio de Protocolos de Seguridad:
+Para asegurar la confidencialidad y la integridad en la distribución de archivos críticos,
+se ha implementado el uso de **datos ocultos** dentro de los archivos.
+Esta técnica implica insertar información directamente en el flujo de bits de un archivo multimedia
+o en sus **metadatos**, para que no sea visible a simple vista.
+Si un archivo parece contener "información extra", se recomienda buscar online herramientas para su extracción.
+Asegúrese de emplear herramientas adecuadas para la revisión exhaustiva.
+---

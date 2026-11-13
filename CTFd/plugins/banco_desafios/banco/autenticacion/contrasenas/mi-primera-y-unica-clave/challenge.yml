@@ -1,0 +1,52 @@
+name: "Tu primera clave"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Autenticación"
+
+description: |
+  <h4 style="margin:0 0 8px 0;text-align:center;">🔐</h4>
+  <p>Martín no puede ocultar cuánto quiere a su gato. En su perfil hay fotos, publicaciones y hasta chistes con el mismo nombre.
+  Dice que eligió una contraseña “que nunca olvidaría”. Y tiene razón: no la olvida… pero cualquiera que mire su perfil podría adivinarla.</p>
+  <p><em>A veces, lo que más nos gusta es también lo que menos deberíamos usar como clave.</em></p>
+
+  <p>Nota: el archivo profile.html contiene el perfil simulado de Martín. Debes obtener la contraseña del archivo secreto.zip para obtener la bandera (flag)</p>
+
+type: "standard"
+value: 20
+state: "visible"
+attempts: 0
+
+tags:
+  - "nivel: fácil"
+  - "categoría: autenticación"
+  - "subcategoría: contraseñas"
+  - "formativo"
+
+hints:
+  - {
+      cost: 5,
+      content: "Fijate la bio: ¿qué nombre se repite?"
+    }
+  - {
+      cost: 7,
+      content: "Miau Miau"
+    }
+
+files:
+  - "assets/profile.html"
+  - "dist/secreto.zip"
+
+flags:
+  - {
+      type: "static",
+      content: "flag{contraseñas_debiles_son_peligrosas}",
+      data: "case_insensitive"
+    }
+
+requirements:
+  - "Bienvenido/a al CTF"
+
+pedagogy:
+  concept: "Uso de información personal como contraseña"
+  challenge_type: "Análisis de perfil público"
+  cia_dimension: "Confidencialidad"
+  skill: "Análisis y concientización"

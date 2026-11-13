@@ -1,0 +1,44 @@
+name: "El Post-it Olvidado"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Autenticación"
+value: 20
+state: "visible"
+type: "standard"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 8px 0;text-align:center;">🖥️🗒️</h4>
+  <p>Después del último examen, el profesor dejó el aula abierta. El pizarrón está lleno de ejercicios complejos de la materia "Sistemas Operativos".</p>
+  <p>El ayudante, al revisar el aula, nota que el profesor se esfuerza por recordar sus claves. De hecho, parece que la contraseña del "Aula Digital" está... <strong>demasiado cerca de su computadora</strong>.</p>
+  <p>A veces, la vulnerabilidad más grande no es un cifrado complejo, sino un simple descuido.</p>
+  <p><em>Las contraseñas no siempre se esconden; a veces están a simple vista.</em></p>
+  <p>Observá la imagen <code>escritorio_profesor.png</code> y escribí la contraseña en formato de bandera.</p>
+
+tags:
+  - "nivel: fácil"
+  - "categoría: autenticación"
+  - "subcategoría: contraseñas"
+  - "formativo"
+
+hints:
+  - { cost: 5, content: "El pizarrón lleno de ejercicios es una distracción. El problema es más simple." }
+  - { cost: 7, content: "Buscá cerca del monitor de la computadora. Es el peor lugar para dejar una nota." }
+
+files:
+  - escritorio_profesor.png
+
+flags:
+  - {
+      type: "static",
+      content: "flag{SistOp_2025!}",
+      data: "case_insensitive"
+    }
+
+requirements:
+  - "Bienvenido/a al CTF"
+
+pedagogy:
+  concept: "Exposición física de credenciales"
+  challenge_type: "Observación de evidencia visual"
+  cia_dimension: "Confidencialidad"
+  skill: "Observación y concientización"

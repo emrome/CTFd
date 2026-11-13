@@ -12,3 +12,4 @@ CTFd/themes/core-beta/**/*
 .pytest_cache
 venv*
 .venv*
+CTFd/plugins/banco_desafios/banco/

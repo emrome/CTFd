@@ -1,0 +1,48 @@
+name: "Coordenadas escondidas"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "OSINT"
+value: 100
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">📸 ➡️ 🗺️ ➡️ 📍</h4>
+  <p>Un fotógrafo anónimo filtró esta imagen en un foro: <code>foto_misteriosa.jpg</code></p>
+  <p>La foto en sí misma no parece tener nada de especial. Pero el fotógrafo dejó un mensaje intrigante:</p>
+  <blockquote>“La información no está en lo que ves, sino en lo que no ves. El archivo mismo es el mapa.”</blockquote>
+  <p>Quizás la clave no esté en observar la imagen, sino en examinar el <b>archivo digital</b> y lo que guarda en su interior.</p>
+  <p>Usando las herramientas correctas, ¿podés descubrir las <b>siglas</b> de la famosa institución científica donde se tomó esta foto?</p>
+  <hr/>
+  <p>💡 En muchas investigaciones OSINT y forenses, las fotos pueden contener datos ocultos conocidos como <b>metadatos</b>: información sobre el dispositivo, la fecha e incluso la ubicación GPS. Saber cómo leerlos es una habilidad clave para cualquier investigador digital.</p>
+
+tags:
+  - "nivel: avanzado"
+  - "categoría: osint"
+  - "formativo"
+
+files:
+  - "foto_misteriosa.jpg"
+
+hints:
+  - { cost: 10, content: "El fotógrafo no mentía: la clave no está en la imagen, sino en lo que el archivo guarda en silencio." }
+  - { cost: 25, content: "Las fotos pueden conservar información técnica —como la ubicación GPS— dentro de sus metadatos. Buscá cómo leerlos." }
+  - { cost: 40, content: "Si encontrás coordenadas, ubicá el punto en un mapa y pensá qué institución científica famosa podría estar allí." }
+
+flags:
+  - { type: "static", content: "flag{CERN}", data: "case_insensitive"}
+  - { type: "static", content: "flag{Organización Europea para la Investigación Nuclear}", data: "case_insensitive"}
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "El viaje de Sofi"
+  - "El cumpleaños filtrado"
+  - "Código QR indiscreto"
+  - "La foto perdida"
+  - "Coordenadas cruzadas"
+
+pedagogy:
+  concept: "Obtención de información sensible a partir de metadatos de archivos digitales"
+  challenge_type: "Análisis de metadatos y geolocalización"
+  cia_dimension: "Confidencialidad"
+  skill: "Análisis técnico y razonamiento geográfico"

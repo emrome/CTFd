@@ -1,8 +1,10 @@
+import os
 import re
 import warnings
 
 from CTFd.cache import clear_user_session
 from CTFd.models import ChallengeFiles, Challenges, Flags, Hints, Tags, Users, db
+from CTFd.plugins import banco_desafios
 from CTFd.plugins.banco_desafios.banco import (
     cargar_banco,
     nivel_desde_tags,
@@ -545,4 +547,22 @@ def test_yml_raro_no_rompe_el_listado(tmpdir):
         r = client.get("/admin/banco")
         assert r.status_code == 200
         assert "unknown type" in r.get_data(as_text=True)
+    destroy_ctfd(app)
+
+
+def test_banco_incluido_sin_errores():
+    """Los desafios de la tesina vienen con el plugin y se pueden importar todos."""
+    app = create_ctfd(enable_plugins=True)
+    with app.app_context():
+        banco = cargar_banco(
+            os.path.join(os.path.dirname(banco_desafios.__file__), "banco")
+        )
+        assert len(banco) == 32
+        nombres = [d.nombre for d in banco]
+        assert len(set(nombres)) == len(nombres)
+        en_ciclo = requisitos_en_ciclo(banco)
+        for d in banco:
+            assert d.errores() == [], d.nombre
+            assert d.avisos(set(nombres), en_ciclo) == [], d.nombre
+            assert d.nivel, d.nombre
     destroy_ctfd(app)

@@ -1,0 +1,54 @@
+name: "El mensaje imposible"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Criptografía"
+type: "standard"
+value: 90
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🕵️‍♂️📡</h4>
+  <p>Un agente interceptó una transmisión enemiga. El mensaje es incomprensible. Parece una mezcla aleatoria de letras y números.</p>
+  <p>Un intento rápido de aplicar cifrados de desplazamiento (como César) no tiene sentido... ¿cuánto es "4" + 3? No parece que las letras hayan sido <i>cambiadas</i>.</p>
+  <p>El analista principal cree que las letras y números son los correctos, pero están <strong>terriblemente desordenados</strong>. Como si el mensaje original se hubiera escrito siguiendo un patrón de <strong>zig-zag</strong> antes de ser transmitido.</p>
+
+  <blockquote style="margin:8px 0;padding:8px;border-left:3px solid #ccc;font-style:italic;">
+  P4NC13SM3T_RTCN1010
+  </blockquote>
+
+  <p>¿Cuál es el concepto clave que oculta el mensaje?</p>
+
+tags:
+  - "nivel: avanzado"
+  - "categoría: criptografía"
+  - "pensamiento crítico"
+
+hints:
+  - {
+      cost: 10,
+      content: "El mensaje no parece cifrado, sino escrito de una manera poco convencional. Pensá si el orden de lectura podría haber cambiado."
+    }
+  - {
+      cost: 15,
+      content: "Tal vez el texto fue escrito siguiendo un recorrido que sube y baja, y después leído en línea recta. Fijate si podés reconstruir ese recorrido."
+    }
+
+flags:
+  - {
+      type: "static",
+      content: "flag{p3ns4m13nt0_cr1t1c0}",
+      data: "case_insensitive"
+    }
+
+requirements:
+  - "Mensaje en la botella"
+  - "El eco del aula"
+  - "Una mezcla sospechosa"
+  - "El número binario"
+  - "El secreto doble"
+
+pedagogy:
+  concept: "Ocultamiento por transposición del mensaje"
+  challenge_type: "Reconstrucción de texto mediante cambio de orden (zig-zag)"
+  cia_dimension: "Confidencialidad"
+  skill: "Razonamiento abstracto y reconstrucción lógica"

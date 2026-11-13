@@ -1,0 +1,54 @@
+name: "El secreto doble"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Criptografía"
+type: "standard"
+value: 70
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🧪🔐</h4>
+  <p>En el laboratorio de la escuela quedaron unas notas de un experimento de comunicación “con dos etapas”.
+  Alguien aseguró que el mensaje está intacto, pero “enmascarado” dos veces.</p>
+
+  <blockquote style="margin:8px 0;padding:8px;border-left:3px solid #ccc;font-style:italic;word-break:break-all;">
+  aW9kantncmVvaF9mbGl1ZGdyX2Zkc2R2fQ==
+  </blockquote>
+
+  <p>Dicen que primero hay que dejar de ver “la mezcla” y recién después ajustar el alfabeto.
+  <em>¿Podrás recuperar la forma original?</em></p>
+
+tags:
+  - "nivel: avanzado"
+  - "categoría: criptografía"
+  - "formativo"
+
+hints:
+  - {
+      cost: 6,
+      content: "No confundas formato con secreto. Primero desarmá la mezcla que suele aparecer cuando algo viaja por la web."
+    }
+  - {
+      cost: 10,
+      content: "Al salir de la primera capa, el texto aún suena desplazado."
+    }
+
+flags:
+  - {
+      type: "static",
+      content: "flag{doble_cifrado_capas}",
+      data: "case_insensitive"
+    }
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "El eco del aula"
+  - "Mensaje en la botella"
+  - "Una mezcla sospechosa"
+  - "El número binario"
+
+pedagogy:
+  concept: "Composición de técnicas de codificación y cifrado"
+  challenge_type: "Decodificación en dos etapas (Base64 + desplazamiento)"
+  cia_dimension: "Confidencialidad"
+  skill: "Análisis secuencial y razonamiento abstracto"

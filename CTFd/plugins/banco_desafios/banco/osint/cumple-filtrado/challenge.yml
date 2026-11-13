@@ -1,0 +1,40 @@
+name: "El cumpleaños filtrado"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "OSINT"
+value: 20
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🎂🔎🕒</h4>
+  <p>Lucas es muy activo en redes, pero no siempre mide lo que comparte.</p>
+  <p>Revisando su perfil público, encontramos un posteo antiguo que parece inofensivo... salvo que permite deducir su <b>edad actual</b> con una simple cuenta.</p>
+  <p><b>Fecha de hoy:</b> <code>11 de Noviembre de 2025</code></p>
+  <p>Mirando el archivo adjunto <code>lucas_ig.jpeg</code>, ¿en que año nació Lucas?¿Y cuántos años cumple?</p>
+  <p>Formato bandera: flag{año_edad}</p>
+  <hr/>
+
+tags:
+  - "nivel: fácil"
+  - "categoría: osint"
+  - "formativo"
+
+files:
+  - "lucas_ig.jpeg"
+
+hints:
+  - { cost: 5, content: "Leé con atención la <b>fecha del post</b> y qué edad celebra en ese post." }
+  - { cost: 7, content: "Si en 2023 cumplió 15 el <b>11/11</b>, ¿qué edad tuvo el 11/11/2024? ¿Y el <b>11/11/2025</b>?" }
+
+flags:
+  - { type: "static", content: "flag{2008_17}"}
+
+requirements:
+  - "Bienvenido/a al CTF"
+
+pedagogy:
+  concept: "Inferencia de datos personales a partir de publicaciones históricas"
+  challenge_type: "Análisis temporal de información pública"
+  cia_dimension: "Confidencialidad"
+  skill: "Observación, razonamiento temporal y análisis básico"

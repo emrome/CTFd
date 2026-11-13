@@ -1,0 +1,67 @@
+name: "Acta Verdadera"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Criptografía"
+type: "standard"
+value: 70
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🧪🖋️</h4>
+  <p>En el laboratorio digital de la escuela, alguien publicó un acta de resultados. El problema es que ahora circulan <strong>dos versiones distintas</strong> del mismo archivo (<code>acta1_lab3.txt</code> y <code>acta2_lab3.txt</code>), y solo una es la original.</p>
+
+  <p>Para saber cuál es la auténtica, el autor original publicó su <strong>"sello de verificación"</strong> (un código hash). Este sello funciona como una huella digital: es un código único generado a partir de todo el contenido del archivo.</p>
+
+  <p>El punto clave es que si el archivo se modifica, <strong>¡aunque sea en una sola coma o un punto!</strong>, este sello (hash) cambia por completo.</p>
+
+  <p>Este es el <strong>sello original</strong> del archivo auténtico:</p>
+  <blockquote style="margin:8px 0;padding:8px;border-left:3px solid #ccc;font-family:monospace;">
+  518d24a5b09c30a06e6944a99375ab8d4abbe29c2d491d1d99c97d744d189c38
+  </blockquote>
+
+  <p>Tu misión es actuar como perito y encontrar cuál de los dos coincide con el original.</p>
+  <p>Ingresá el nombre del archivo correcto en formato <code>flag{nombre_sin_extension}</code>.</p>
+
+tags:
+  - "nivel: avanzado"
+  - "categoría: criptografía"
+  - "formativo"
+
+hints:
+  - {
+      cost: 6,
+      content: "La huella es el resultado de una función resumen criptográfica: sirve para comprobar integridad, no para recuperar contenido."
+    }
+  - {
+      cost: 10,
+      content: "Esa huella hex tiene pinta de ser de la familia SHA. ¿Qué miembro crees que la generó? Prueba los más famosos con los archivos, ¡uno te dará la respuesta!"
+    }
+
+files:
+  - "dist/acta1_lab3.txt"
+  - "dist/acta2_lab3.txt"
+
+flags:
+  - {
+      type: "static",
+      content: "flag{acta2_lab3}",
+      data: "case_insensitive"
+    }
+  - {
+      type: "static",
+      content: "flag{acta2_lab3.txt}",
+      data: "case_insensitive"
+    }
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "El eco del aula"
+  - "Mensaje en la botella"
+  - "Una mezcla sospechosa"
+  - "El número binario"
+
+pedagogy:
+  concept: "Verificación de integridad mediante funciones hash"
+  challenge_type: "Comparación de huellas criptográficas de archivos"
+  cia_dimension: "Integridad"
+  skill: "Análisis técnico y razonamiento comparativo"

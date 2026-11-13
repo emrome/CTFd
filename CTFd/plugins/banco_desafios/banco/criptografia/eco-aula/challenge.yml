@@ -1,0 +1,63 @@
+name: "El eco del aula"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Criptografía"
+type: "standard"
+value: 15
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">📣🎓</h4>
+  <p>Durante una clase de informática, alguien conectó un micrófono viejo del aula y empezó a probarlo.
+  El sonido rebotaba contra las paredes, y lo que debía ser un mensaje claro empezó a distorsionarse como si tuviera eco.</p>
+
+  <blockquote style="margin:8px 0;padding:8px;border-left:3px solid #ccc;font-style:italic;">
+  NADASEPIERDENADASEPIERDEENELENELECOECO
+  </blockquote>
+
+  <p>El mensaje parece repetirse, pero no está del todo claro...
+  <em>¿Podrás descubrir qué se intentaba decir?</em></p>
+  <p>Recordar el formato de la bandera: <em>flag{}</em></p>
+
+tags:
+  - "nivel: fácil"
+  - "categoría: criptografía"
+  - "formativo"
+  - "analisis_deductivo"
+
+hints:
+  - {
+      cost: 2,
+      content: "El eco repite, pero no siempre empieza en el mismo lugar."
+    }
+  - {
+      cost: 5,
+      content: "Probá separar las palabras donde empieza a repetirse el sonido."
+    }
+
+
+flags:
+  - {
+      type: "static",
+      content: "flag{NADA_SE_PIERDE_EN_EL_ECO}",
+      data: "case_insensitive"
+    }
+  - {
+      type: "static",
+      content: "flag{NADASEPIERDEENELECO}",
+      data: "case_insensitive"
+    }
+  - {
+      type: "static",
+      content: "flag{NADA SE PIERDE EN EL ECO}",
+      data: "case_insensitive"
+    }
+
+requirements:
+  - "Bienvenido/a al CTF"
+
+pedagogy:
+  concept: "Identificación de patrones repetitivos y eliminación de ruido en un mensaje"
+  challenge_type: "Análisis de repeticiones y reconstrucción del mensaje original"
+  cia_dimension: "Integridad"
+  skill: "Observación analítica y razonamiento deductivo"

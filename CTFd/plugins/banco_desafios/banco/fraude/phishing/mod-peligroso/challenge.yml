@@ -1,0 +1,44 @@
+name: "El Mod Peligroso"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Phishing"
+value: 50
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">💬 ➡️ 📎 ➡️ ☠️</h4>
+  <p>Estás en un servidor de Discord y un usuario te manda por DM un supuesto 'mod' para un juego (ver <code>captura_discord.jpg</code>).</p>
+  <p>En la vida real, <b>¡NUNCA deberías abrirlo!</b> Podría ser un virus que robe tus cuentas. Pero como esto es un entorno seguro (un CTF), vamos a investigarlo.</p>
+  <p>Descargá el archivo <code>SuperMod_v3.zip</code>, descomprimilo y leé el archivo de texto que tiene adentro para encontrar la flag.</p>
+  <hr/>
+
+tags:
+  - "nivel: medio"
+  - "categoría: phishing"
+  - "adjuntos"
+  - "malware"
+  - "discord"
+
+files:
+  - "captura_discord.jpg"
+  - "SuperMod_v3.zip"
+
+hints:
+  - { cost: 5, content: "En la vida real, NUNCA abras adjuntos sospechosos, ni siquiera en Discord. En este CTF es 100% seguro." }
+  - { cost: 10, content: "Descargá y descomprimí el archivo 'SuperMod_v3.zip' para ver su contenido." }
+  - { cost: 15, content: "Abrí el archivo .txt que está dentro del ZIP y leé lo que dice; allí encontrarás la flag." }
+
+flags:
+  - { type: "static", content: "flag{no_confies_en_los_zips}"}
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "¿Es real o fake?"
+  - "Soporte de Netflix"
+
+pedagogy:
+  concept: "Concientizar sobre los riesgos asociados a archivos enviados por terceros"
+  challenge_type: "Inspección controlada de un archivo recibido en un entorno simulado"
+  cia_dimension: "Confidencialidad;Disponibilidad"
+  skill: "Análisis crítico"

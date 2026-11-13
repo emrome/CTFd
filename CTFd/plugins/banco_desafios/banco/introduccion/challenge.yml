@@ -1,0 +1,39 @@
+name: "Bienvenido/a al CTF"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Introducción"
+
+value: 1
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 8px 0;text-align:center;">🎯 ¡Bienvenid@ al desafío!</h4>
+  <p>Este es un <strong>CTF</strong> (<em>Capture The Flag</em>) - Escuelas Secundarias, un juego que combina curiosidad, investigación y lógica.</p>
+  <p>En cada desafío vas a tener que <strong>encontrar una palabra secreta</strong> llamada <strong>flag</strong>.
+  La flag demuestra que resolviste el reto con éxito.</p>
+  <p>Las banderas siempre siguen este formato:</p>
+  <pre style="background:#f0f0f0; padding:6px; border-radius:6px;">flag{tu_respuesta_aqui}</pre>
+  <p>Por ejemplo, si el desafío te pide escribir la palabra <code>hola</code>, la flag correcta sería:</p>
+  <pre style="background:#f0f0f0; padding:6px; border-radius:6px;">flag{hola}</pre>
+  <p>Cuando creas haber encontrado la respuesta, escribila exactamente así en el cuadro de texto y presioná <strong>Enviar</strong>.</p>
+  <p>Al resolver cada reto, ganarás puntos y avanzarás de nivel.
+  Algunos desafíos te harán observar, buscar en Internet, o pensar de manera creativa.</p>
+  <p>¿List@ para empezar? Escribí la siguiente flag de prueba para continuar:</p>
+  <pre style="background:#f0f0f0; padding:6px; border-radius:6px;">flag{comienzo}</pre>
+
+flags:
+  - { type: "static", content: "flag{comienzo}" }
+
+hints:
+  - { cost: 0, content: "Leé con atención: la flag de ejemplo está escrita más arriba 👀" }
+
+tags:
+  - "nivel:introductorio"
+  - "tema:ctf"
+  - "formativo"
+
+pedagogy:
+  concept: "Familiarización con la dinámica CTF y el concepto de flag"
+  challenge_type: "Lectura guiada y validación de comprensión"
+  skill: "Comprensión de consignas"

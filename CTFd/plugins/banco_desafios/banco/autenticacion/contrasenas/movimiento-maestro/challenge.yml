@@ -1,0 +1,44 @@
+name: "El Movimiento Maestro"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Autenticación"
+value: 80
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 8px 0;text-align:center;">🎮🕹️ El Código de Combate del Streamer</h4>
+  <p>Un famoso <i>streamer</i> de la escuela olvidó la contraseña de su panel de control. Como buen <i>gamer</i> de juegos de disparos (FPS), su clave no es una palabra, sino un patrón de movimiento en el teclado.</p>
+  <p>En su escritorio solo hay un post-it que dice:</p>
+  <blockquote style="margin:8px 0;padding:8px;border-left:3px solid #ddd;background:#f9fafb;">
+    "Mi clave es la <strong>función</strong>, no la letra. El orden es el de siempre, el código clásico de movimiento: <strong>Arriba, Abajo, Izquierda, Derecha</strong>. Pero esta vez empecé con el movimiento de <strong>'Avanzar a la Derecha'</strong>."
+  </blockquote>
+  <p>Descubre la secuencia de 4 teclas que representa esta <b>rotación</b> del patrón de movimiento clásico, y escríbela como la bandera en formato <code>flag{...}</code>.</p>
+
+tags:
+  - "nivel: avanzado"
+  - "categoría: autenticación"
+  - "subcategoría: contraseñas"
+  - "formativo"
+  - "lógica"
+
+hints:
+  - { cost: 10, content: "Recuerda el esquema clásico de movimiento en juegos (teclado QWERTY)." }
+  - { cost: 20, content: "Si el orden es el mismo pero el punto de partida es otro, ¿cuál tecla va primero?" }
+  - { cost: 40, content: "Comienza en la tecla para moverte a la derecha, luego sigue el patrón clásico." }
+
+flags:
+  - { type: "static", content: "flag{DWSA}", data: "case_insensitive" }
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "El Post-it Olvidado"
+  - "Tu primera clave"
+  - "La fórmula secreta"
+  - "Recuperar mi cuenta"
+
+pedagogy:
+  concept: "Patrones de comportamiento como contraseñas"
+  challenge_type: "Inferencia de secuencia"
+  cia_dimension: "Confidencialidad"
+  skill: "Razonamiento lógico y reconocimiento de patrones"

@@ -1,0 +1,45 @@
+name: "Mecanismo Seguro"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Phishing"
+value: 70
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">📧 ➡️ 📱 ➡️ ⁉️ El Ataque de Doble Canal</h4>
+  <p>¡Estás bajo ataque! El atacante está intentando robar tu cuenta de Instagram y necesita ese código de 6 dígitos que te llegó por email (<code>alerta.png</code>) para completar el acceso.</p>
+  <p>El atacante está enviándote mensajes por SMS (<code>sms_soporte.png</code>) para convencerte de que le entregues esa información, usando la excusa de un falso "agente de soporte".</p>
+  <p>Este ataque se dirige a la capa de seguridad más importante de tu cuenta. ¿Cuál es el <b>nombre genérico</b> del sistema de seguridad que el atacante está intentando <b>burlar</b>?</p>
+  <p>(Escribí solo la sigla del mecanismo de seguridad, en mayúsculas o minúsculas. Ej: flag{sigla}).</p>
+  <hr/>
+
+tags:
+  - "nivel: medio"
+  - "categoría: phishing"
+  - "smishing"
+  - "autenticacion"
+
+files:
+  - "alerta.png"
+  - "sms_soporte.png"
+
+hints:
+  - { cost: 10, content: "El email de Instagram es real. El SMS del 'soporte' es falso. La clave está en que es un proceso de seguridad que requiere <b>dos</b> métodos de verificación." }
+  - { cost: 20, content: "Busca en Google: 'seguridad que usa dos factores' o 'autenticación con código y contraseña'." }
+  - { cost: 40, content: "La sigla es un número y una letra (ej: 3FA o 2FA)." }
+
+flags:
+  - { type: "static", content: "flag{2fa}", data: "case_insensitive"}
+  - { type: "static", content: "flag{mfa}", data: "case_insensitive"}
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "¿Es real o fake?"
+  - "Soporte de Netflix"
+
+pedagogy:
+  concept: "Comprender ataques de engaño orientados a burlar mecanismos de autenticación"
+  challenge_type: "Análisis de una situación de engaño a través de canales múltiples"
+  cia_dimension: "Confidencialidad"
+  skill: "Comprensión conceptual"

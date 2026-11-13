@@ -1,0 +1,43 @@
+name: "El Clon Cirílico de Apple"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Phishing"
+value: 100
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🌐⛓️</h4>
+  <p>Estás navegando y el navegador detecta que estás intentando acceder a un dominio peligroso que usa un ataque <b>Homograph (IDN)</b> para clonar un sitio conocido.</p>
+  <p>El dominio que usa caracteres de otro alfabeto para clonar al sitio es <code>аррӏе.com</code>.</p>
+  <p>Tu navegador no puede usar este dominio directamente. En su lugar, el navegador lo convierte a una secuencia de caracteres ASCII distinta.</p>
+  <p>Tu tarea es una investigación. ¿Cuál es el <b>nombre exacto</b> del mecanismo de codificación estándar que los navegadores usan para convertir estos dominios con caracteres especiales a su formato ASCII?</p>
+  <p>La flag es el nombre de ese mecanismo de codificación.</p>
+  <p>(Ej: Si el nombre fuera 'encoding', la flag sería <code>flag{encoding}</code>)</p>
+  <hr/>
+
+tags:
+  - "nivel: avanzado"
+  - "categoría: phishing"
+  - "investigacion"
+
+hints:
+  - { cost: 10, content: "Buscá en Google mecanismo de codificación que genere el dominio verdadero que aparece al buscar аррӏе.com'." }
+  - { cost: 20, content: "La clave está en la secuencia <code>xn--</code> y su relación con IDN." }
+  - { cost: 30, content: "La respuesta es la codificación específica que se usa para representar nombres de dominio Unicode en ASCII." }
+
+flags:
+  - { type: "static", content: "flag{punycode}", data: "case_insensitive"}
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "¿Es real o fake?"
+  - "Soporte de Netflix"
+  - "El Mod Peligroso"
+  - "El QR del Descuento"
+
+pedagogy:
+  concept: "Evidenciar cómo la manipulación visual puede engañar al usuario"
+  challenge_type: "Investigación sobre dominios visualmente similares"
+  cia_dimension: "Integridad;Confidencialidad"
+  skill: "Investigación y análisis técnico"

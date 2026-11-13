@@ -1,0 +1,47 @@
+name: "Mismo Invierno, Nuevo Año"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Autenticación"
+value: 90
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 8px 0;text-align:center;">🗓️🔐🖼️</h4>
+  <p>Un atacante encontró la contraseña de 'Marcos' en una filtración del año pasado: <strong><code>Invierno.2024</code></strong></p>
+  <p>Intentó usarla para abrir el archivo sensible (<code>auditoria_anual.zip</code>), pero falló. Marcos la cambió.</p>
+  <p>Sin embargo, el atacante también encontró un memo interno (<code>memo_politica.txt</code>) con las <strong>nuevas reglas obligatorias</strong> que IT envió este año.</p>
+  <p>Al abrir el ZIP, encontró una imagen (<code>siempre-lo-mismo.png</code>) que parece normal. Pero algo cambió dentro de ella.</p>
+  <p>El memo parece tener muchas pistas.</p>
+
+tags:
+  - "nivel: avanzado"
+  - "categoría: autenticación"
+  - "subcategoría: contraseñas"
+  - "formativo"
+
+files:
+  - auditoria_anual.zip
+  - memo_politica.txt
+
+hints:
+  - { cost: 10, content: "La clave antigua es 'Invierno.2024'. Usa el 'memo_politica.txt' para mutarla y abrir el archivo ZIP." }
+  - { cost: 20, content: "La imagen guarda un secreto. Mira más allá de los píxeles visibles; la información podría estar <i>oculta dentro</i>." }
+  - { cost: 40, content: "Quizás necesites analizar información oculta en la imagen. Si querés mirar más a fondo, inspeccioná los metadatos de la imagen: podrían tener una pista sutil." }
+
+flags:
+  - { type: "static", content: "flag{Actualizacion_predecible}", data: "case_insensitive" }
+  - { type: "static", content: "flag{Actualización_predecible}", data: "case_insensitive" }
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "El Post-it Olvidado"
+  - "Tu primera clave"
+  - "La fórmula secreta"
+  - "Recuperar mi cuenta"
+
+pedagogy:
+  concept: "Actualización predecible de contraseñas"
+  challenge_type: "Análisis de política y artefactos"
+  cia_dimension: "Confidencialidad"
+  skill: "Análisis crítico y razonamiento aplicado"

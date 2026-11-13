@@ -1,0 +1,47 @@
+name: "La fórmula secreta"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Autenticación"
+value: 45
+state: "visible"
+type: "standard"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 8px 0;text-align:center;">🧑‍💼🗂️</h4>
+  <p>El administrador de sistemas de la escuela debe crear las cuentas para los nuevos profesores que se incorporan este año. Para "ahorrar tiempo", decidió usar una fórmula estándar para todas las contraseñas temporales.</p>
+  <p>Encontraste la nota donde probó su sistema. Analizá los ejemplos que dejó y descubrí el patrón que usó:</p>
+  <blockquote>
+    "<span>// CLAVES NUEVAS (AÑO 2024)</span><br>
+    <span>// Prof. Ana García (agarcia) -> Clave: Aga-2024</span><br>
+    <span>// Prof. Martín Jones (mjones) -> Clave: Mjo-2024</span><br>
+    <span>// Prof. Sofía Díaz (sdiaz) -> Clave: Sdi-2024</span>"
+  </blockquote>
+  <p>Justo debajo, hay una nota para la próxima cuenta que debe crear:</p>
+  <p><strong>"PENDIENTE: Prof. Nuria López (nlopez) -> Clave: ???"</strong></p>
+  <p><em>La eficiencia de un administrador puede ser la vulnerabilidad de todos.</em></p>
+  <p>Descubrí la contraseña para la profesora Nuria López y escribila en formato de bandera.</p>
+
+tags:
+  - "nivel: medio"
+  - "categoría: autenticación"
+  - "subcategoría: contraseñas"
+  - "formativo"
+
+hints:
+  - { cost: 10, content: "Este admin cree que inventó la pólvora. Pero lo suyo es más bien... 'autocompletar'." }
+  - { cost: 15, content: "Parece que sus contraseñas tienen algo de iniciales y algo de nostalgia por el año pasado." }
+  - { cost: 20, content: "El admin juraba que cada clave era única. Tenía razón... hasta que llegó el guión." }
+
+flags:
+  - { type: "static", content: "flag{Nlo-2025}"}
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "El Post-it Olvidado"
+  - "Tu primera clave"
+
+pedagogy:
+  concept: "Patrones predecibles en generación de contraseñas"
+  challenge_type: "Inferencia de patrón"
+  cia_dimension: "Confidencialidad"
+  skill: "Razonamiento lógico y análisis de patrones"

@@ -1,0 +1,47 @@
+name: "El QR del Descuento"
+author: "Fac. Informática – Proyecto Escuelas"
+category: "Phishing"
+value: 60
+type: "standard"
+state: "visible"
+attempts: 0
+
+description: |
+  <h4 style="margin:0 0 10px 0;text-align:center;">🛒 ➡️ 🔗 ➡️ ❓</h4>
+  <p>Viste un cartel con un QR que promete un 50% OFF en Mercado Libre (<code>qr_descuento.png</code>). Decidís analizarlo en la computadora.</p>
+  <p>Usando un decodificador de QR online, obtené el enlace.</p>
+  <p><b>¡IMPORTANTE: NO VISITES EL ENLACE!</b></p>
+  <p>Mirá el <u>texto</u> del enlace que obtuviste. Es casi perfecto, pero el nombre de la empresa está mal escrito.</p>
+  <p>¿Cuál es el <b>dominio mal escrito</b> que descubriste?</p>
+  <p>(Ej: si el link fuera <code>...googlee.com/...</code>, la flag sería <code>flag{googlee.com}</code>)</p>
+  <hr/>
+
+tags:
+  - "nivel: medio"
+  - "categoría: phishing"
+  - "quishing"
+  - "qr"
+  - "typosquatting"
+
+files:
+  - "qr_descuento.png"
+
+hints:
+  - { cost: 5, content: "Necesitás una herramienta web. Buscá 'online QR decoder' o 'leer QR desde imagen'." }
+  - { cost: 10, content: "Leé con mucha atención el nombre 'mercadolibre' en el link que te dio el decodificador." }
+  - { cost: 15, content: "Al dominio le falta una letra. Compara 'mercadolibe' con 'mercadolibre'." }
+
+flags:
+  - { type: "static", content: "flag{mercadolibe.com}", data: "case_insensitive"}
+  - { type: "static", content: "flag{mercadolibe}", data: "case_insensitive"}
+
+requirements:
+  - "Bienvenido/a al CTF"
+  - "¿Es real o fake?"
+  - "Soporte de Netflix"
+
+pedagogy:
+  concept: "Detectar engaños digitales a partir de enlaces aparentemente legítimos"
+  challenge_type: "Decodificación de un QR y análisis del dominio obtenido"
+  cia_dimension: "Integridad;Confidencialidad"
+  skill: "Análisis y observación"
