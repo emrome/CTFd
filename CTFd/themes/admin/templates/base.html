@@ -94,7 +94,7 @@
 							{% else %}
 								{% set route = menu.route %}
 							{% endif %}
-							<li class="nav-item"><a class="nav-link" href="{{ route }}">{{ menu.title }}</a></li>
+							<li class="nav-item"><a class="nav-link" style="white-space: nowrap;" href="{{ route }}">{{ menu.title }}</a></li>
 						{% endfor %}
 
 						{% if plugins %}
