@@ -1,7 +1,14 @@
 import time
 
 from CTFd.utils import set_config
-from tests.helpers import create_ctfd, destroy_ctfd, login_as_user, register_user
+from tests.helpers import (
+    create_ctfd,
+    destroy_ctfd,
+    gen_challenge,
+    gen_solve,
+    login_as_user,
+    register_user,
+)
 
 MENU_DESAFIOS = 'href="/challenges" class="menu-link"'
 MENU_RANKING = 'href="/scoreboard" class="menu-link"'
@@ -73,4 +80,38 @@ def test_menu_admin_siempre_ve_desafios():
         set_config("end", int(time.time()) - 60)
         client = login_as_user(app, name="admin", password="password")
         assert MENU_DESAFIOS in html(client, "/")
+    destroy_ctfd(app)
+
+
+def test_ranking_sigue_la_visibilidad_de_cuentas():
+    """The scoreboard also needs the accounts to be visible."""
+    app = create_ctfd()
+    with app.app_context():
+        set_config("account_visibility", "admins")
+        register_user(app)
+        client = login_as_user(app)
+        assert client.get("/scoreboard").status_code == 404
+        assert MENU_RANKING not in html(client, "/")
+
+        # An admin can always open it, even with the scoreboard hidden
+        set_config("score_visibility", "hidden")
+        admin = login_as_user(app, name="admin", password="password")
+        assert admin.get("/scoreboard").status_code == 200
+        assert MENU_RANKING in html(admin, "/")
+    destroy_ctfd(app)
+
+
+def test_resueltos_sin_enlace_cuando_cerro():
+    app = create_ctfd()
+    with app.app_context():
+        reto_id = gen_challenge(app.db, name="Reto").id
+        register_user(app)
+        gen_solve(app.db, user_id=2, challenge_id=reto_id)
+        client = login_as_user(app)
+        enlace = 'href="/challenges#Reto-{}"'.format(reto_id)
+        assert enlace in html(client, "/user")
+
+        set_config("end", int(time.time()) - 60)
+        perfil = html(client, "/user")
+        assert enlace not in perfil and "Reto" in perfil
     destroy_ctfd(app)

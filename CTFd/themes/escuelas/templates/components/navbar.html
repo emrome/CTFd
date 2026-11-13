@@ -38,7 +38,7 @@
       {% if challenges_reachable() %}
         <a href="{{ url_for('challenges.listing') }}" class="menu-link"{% if en_desafios %} aria-current="page"{% endif %}>{% trans %}Challenges{% endtrans %}</a>
       {% endif %}
-      {% if scores_visible() %}
+      {% if scoreboard_reachable() %}
         <a href="{{ url_for('scoreboard.listing') }}" class="menu-link"{% if en_ranking %} aria-current="page"{% endif %}>{% trans %}Scoreboard{% endtrans %}</a>
       {% endif %}
       <a href="{{ url_for('views.acerca') }}" class="menu-link"{% if en_acerca %} aria-current="page"{% endif %}>{{ _("About") }}</a>

@@ -42,11 +42,15 @@ Una vez clonado el repositorio, nos colocamos en el directorio raíz de la plata
 
 `docker-compose up`
 
-Para tener los desafíos de la tesina en el banco, antes de levantar la plataforma cloná el repositorio de desafíos dentro de la carpeta del banco, con una cuenta de GitHub que tenga acceso:
+Para tener los desafíos de la tesina en el banco, cloná el repositorio de desafíos dentro de la carpeta del banco. Es privado para que los estudiantes no encuentren las flags, así que hace falta una cuenta de GitHub con acceso (se le pide a la autora). Con una clave SSH cargada en esa cuenta:
 
-`git clone https://github.com/emrome/ctf-challenges CTFd/plugins/banco_desafios/banco/ctf-challenges`
+`git clone git@github.com:emrome/ctf-challenges.git CTFd/plugins/banco_desafios/banco/ctf-challenges`
 
-El repositorio de desafíos es privado para que los estudiantes no encuentren las flags. En un servidor conviene clonarlo con una [deploy key](https://docs.github.com/es/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys) de solo lectura, que da acceso a ese repositorio y a ningún otro (`git clone git@github.com:emrome/ctf-challenges.git ...`). Para actualizar el banco alcanza con `git pull` dentro de esa carpeta; no hace falta reiniciar CTFd.
+Por HTTPS, GitHub pide un token de acceso personal en lugar de la contraseña.
+
+En un servidor conviene usar una [deploy key](https://docs.github.com/es/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys), que da acceso de solo lectura a ese repositorio y a ningún otro: se genera un par de claves en el servidor (`ssh-keygen -t ed25519`), se le manda la clave pública a la autora para que la agregue al repositorio como deploy key de solo lectura, y se clona con el mismo comando de arriba.
+
+Para actualizar el banco alcanza con `git pull` dentro de esa carpeta. Con el `docker-compose.yml` incluido no hace falta reiniciar CTFd, porque la carpeta del proyecto se monta en el contenedor y el banco se lee cada vez que se abre. Si la imagen se construye sin ese montaje, los desafíos quedan copiados adentro de la imagen y hay que reconstruirla.
 
 También se puede usar otra carpeta con la variable `BANCO_DESAFIOS_DIR`, como explica [la documentación del plugin](CTFd/plugins/banco_desafios/README.md).
 

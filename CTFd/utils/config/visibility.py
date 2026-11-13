@@ -22,9 +22,10 @@ def challenges_visible():
 
 def challenges_reachable():
     """
-    Whether the challenges page would open for the current visitor right now: it
-    combines the challenge visibility with the competition dates, as the
-    challenges listing does.
+    Whether the challenge visibility and the competition dates let the current
+    visitor into the challenges page right now, as the challenges listing checks.
+    The listing may still send them elsewhere first (to pick a team, confirm their
+    email or complete their profile).
     """
     if is_admin():
         return True
@@ -45,6 +46,16 @@ def scores_visible():
         return False
     elif v == ScoreVisibilityTypes.ADMINS:
         return is_admin()
+
+
+def scoreboard_reachable():
+    """
+    Whether the scoreboard page opens for the current visitor: it checks both the
+    score visibility and the account visibility, as the scoreboard listing does.
+    """
+    if is_admin():
+        return True
+    return bool(scores_visible() and accounts_visible())
 
 
 def accounts_visible():

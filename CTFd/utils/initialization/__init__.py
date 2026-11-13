@@ -77,6 +77,7 @@ def init_template_globals(app):
         challenges_reachable,
         challenges_visible,
         registration_visible,
+        scoreboard_reachable,
         scores_visible,
     )
     from CTFd.utils.countries import get_countries, lookup_country_code
@@ -109,6 +110,7 @@ def init_template_globals(app):
     app.jinja_env.globals.update(accounts_visible=accounts_visible)
     app.jinja_env.globals.update(challenges_visible=challenges_visible)
     app.jinja_env.globals.update(challenges_reachable=challenges_reachable)
+    app.jinja_env.globals.update(scoreboard_reachable=scoreboard_reachable)
     app.jinja_env.globals.update(registration_visible=registration_visible)
     app.jinja_env.globals.update(scores_visible=scores_visible)
     app.jinja_env.globals.update(get_mode_as_word=get_mode_as_word)

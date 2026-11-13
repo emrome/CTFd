@@ -3,7 +3,7 @@
 {% if authed() and challenges_reachable() %}
   {% set destino_jugar = url_for('challenges.listing') %}
   {% set texto_jugar = _("Go to the challenges") %}
-{% elif authed() and scores_visible() %}
+{% elif authed() and scoreboard_reachable() %}
   {% set destino_jugar = url_for('scoreboard.listing') %}
   {% set texto_jugar = _("See the scoreboard") %}
 {% elif authed() %}
