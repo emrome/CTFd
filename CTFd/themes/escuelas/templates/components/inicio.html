@@ -1,6 +1,13 @@
-{% if authed() %}
+{# Once logged in, the button leads where the visitor can go: the challenges while the
+   competition is open, otherwise the scoreboard, or nowhere if neither can be seen. #}
+{% if authed() and challenges_reachable() %}
   {% set destino_jugar = url_for('challenges.listing') %}
   {% set texto_jugar = _("Go to the challenges") %}
+{% elif authed() and scoreboard_reachable() %}
+  {% set destino_jugar = url_for('scoreboard.listing') %}
+  {% set texto_jugar = _("See the scoreboard") %}
+{% elif authed() %}
+  {% set destino_jugar = None %}
 {% else %}
   {% set destino_jugar = url_for('auth.login') %}
   {% set texto_jugar = _("Start playing") %}
@@ -18,7 +25,9 @@
     <h1 id="inicio-titulo">{{ _("Dare to find the") }} <span class="resaltado">{{ _("flag") }}</span>?</h1>
     <p class="inicio-bajada">{{ _("Cybersecurity challenges to solve with your class: decrypt messages, spot scams and follow clues on the internet. Every hint brings you a little closer.") }}</p>
     <div class="acciones">
-      <a href="{{ destino_jugar }}" class="btn btn-primary btn-grande">{{ texto_jugar }}</a>
+      {% if destino_jugar %}
+        <a href="{{ destino_jugar }}" class="btn btn-primary btn-grande">{{ texto_jugar }}</a>
+      {% endif %}
       <a href="#docentes" class="btn btn-sec btn-grande">{{ _("I'm a teacher") }}</a>
     </div>
   </div>
