@@ -13,6 +13,9 @@ from CTFd.plugins.banco_desafios.banco import (
     NOMBRE_NIVEL,
     cargar_banco,
     directorio_banco,
+    opciones_filtro,
+    requisitos_en_ciclo,
+    requisitos_universales,
 )
 from CTFd.plugins.banco_desafios.importar import importar
 from CTFd.utils.decorators import admin_or_author
@@ -32,8 +35,13 @@ def _vista(resultado=None):
         banco=banco,
         raiz=raiz,
         existentes=existentes,
+        conocidos=existentes | {d.nombre for d in banco},
+        universales=requisitos_universales(banco),
+        en_ciclo=requisitos_en_ciclo(banco),
         categorias=categorias,
         niveles=[(n, NOMBRE_NIVEL[n]) for n in NIVELES],
+        dimensiones=opciones_filtro(c for d in banco for c in d.dimensiones_cia),
+        habilidades=opciones_filtro(h for d in banco for h in d.habilidades),
         resultado=resultado,
     )
 

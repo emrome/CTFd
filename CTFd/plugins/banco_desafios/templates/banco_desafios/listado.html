@@ -29,9 +29,26 @@
 				</ul>
 			</div>
 			{% endif %}
-			{% for aviso in resultado.avisos %}
-			<div class="alert alert-info">{{ aviso }}</div>
-			{% endfor %}
+			{% if resultado.enlazados %}
+			<div class="alert alert-info">
+				{% trans %}Prerequisites linked in challenges imported earlier:{% endtrans %}
+				<ul class="mb-0">
+					{% for nombre, requisito in resultado.enlazados %}
+					<li>{% trans challenge=nombre, requirement=requisito %}"{{ challenge }}" now requires "{{ requirement }}"{% endtrans %}</li>
+					{% endfor %}
+				</ul>
+			</div>
+			{% endif %}
+			{% if resultado.avisos %}
+			<div class="alert alert-warning">
+				<strong>{% trans %}Prerequisites missing:{% endtrans %}</strong>
+				<ul class="mb-0">
+					{% for aviso in resultado.avisos %}
+					<li>{{ aviso }}</li>
+					{% endfor %}
+				</ul>
+			</div>
+			{% endif %}
 			{% if not resultado.creados and not resultado.omitidos %}
 			<div class="alert alert-secondary">{% trans %}No challenges were selected.{% endtrans %}</div>
 			{% endif %}
@@ -47,27 +64,53 @@
 	{% else %}
 	<form method="POST" id="banco-form">
 		<input type="hidden" name="nonce" value="{{ Session.nonce }}">
-		<div class="form-row mb-3">
-			<div class="col-md-3">
-				<select class="form-control custom-select" id="filtro-categoria">
+		<div class="form-row">
+			<div class="col-md mb-3">
+				<select class="form-control custom-select" id="filtro-categoria" aria-label="{% trans %}Category{% endtrans %}">
 					<option value="">{% trans %}All categories{% endtrans %}</option>
 					{% for categoria in categorias %}
 					<option value="{{ categoria }}">{{ categoria }}</option>
 					{% endfor %}
 				</select>
 			</div>
-			<div class="col-md-3">
-				<select class="form-control custom-select" id="filtro-nivel">
+			<div class="col-md mb-3">
+				<select class="form-control custom-select" id="filtro-nivel" aria-label="{% trans %}Level{% endtrans %}">
 					<option value="">{% trans %}All levels{% endtrans %}</option>
 					{% for clave, nombre in niveles %}
 					<option value="{{ clave }}">{{ nombre }}</option>
 					{% endfor %}
 				</select>
 			</div>
-			<div class="col-md-6">
-				<input type="search" class="form-control" id="filtro-texto" placeholder="{% trans %}Search by name or tag{% endtrans %}">
+			{% if dimensiones %}
+			<div class="col-md mb-3">
+				<select class="form-control custom-select" id="filtro-cia" aria-label="{% trans %}CIA dimension{% endtrans %}">
+					<option value="">{% trans %}All CIA dimensions{% endtrans %}</option>
+					{% for clave, nombre in dimensiones %}
+					<option value="{{ clave }}">{{ nombre }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			{% endif %}
+			{% if habilidades %}
+			<div class="col-md mb-3">
+				<select class="form-control custom-select" id="filtro-habilidad" aria-label="{% trans %}Skill{% endtrans %}">
+					<option value="">{% trans %}All skills{% endtrans %}</option>
+					{% for clave, nombre in habilidades %}
+					<option value="{{ clave }}">{{ nombre }}</option>
+					{% endfor %}
+				</select>
+			</div>
+			{% endif %}
+			<div class="col-md-4 mb-3">
+				<input type="search" class="form-control" id="filtro-texto" placeholder="{% trans %}Search by name, tag or concept{% endtrans %}" aria-label="{% trans %}Search by name, tag or concept{% endtrans %}">
 			</div>
 		</div>
+
+		{% if universales %}
+		<p class="text-muted small">
+			{% trans count=universales|length, names=universales|join(", ") %}Every other challenge requires {{ names }}; it is not repeated in the Requires column.{% pluralize %}Every other challenge requires {{ names }}; they are not repeated in the Requires column.{% endtrans %}
+		</p>
+		{% endif %}
 
 		<table class="table table-striped border">
 			<thead>
@@ -84,21 +127,39 @@
 				{% for d in banco %}
 				{% set ya_esta = d.nombre in existentes %}
 				{% set errores = d.errores() %}
+				{% set avisos = d.avisos(conocidos, en_ciclo) %}
+				{% set p = d.pedagogia %}
 				<tr class="fila-desafio" data-categoria="{{ d.categoria }}" data-nivel="{{ d.nivel or '' }}"
-					data-texto="{{ (d.nombre ~ ' ' ~ d.tags|join(' '))|lower }}">
+					data-cia="{{ d.claves_cia|join('|') }}" data-habilidad="{{ d.claves_habilidad|join('|') }}"
+					data-texto="{{ d.texto_busqueda }}">
 					<td class="text-center">
 						<input type="checkbox" name="desafio" value="{{ d.id }}" {% if ya_esta or errores %}disabled{% endif %}>
 					</td>
 					<td>
-						{{ d.nombre }}
+						{{ d.nombre or d.id }}
 						{% if ya_esta %}<span class="badge badge-secondary">{% trans %}already imported{% endtrans %}</span>{% endif %}
 						{% if errores %}<span class="badge badge-danger" title="{{ errores|join(', ') }}">{% trans %}has errors{% endtrans %}</span>{% endif %}
+						{% if avisos %}<span class="badge badge-warning" title="{{ avisos|join(', ') }}">{% trans %}has warnings{% endtrans %}</span>{% endif %}
 						{% if d.autor %}<br><small class="text-muted">{{ d.autor }}</small>{% endif %}
+						{% if p.concept or p.cia_dimension or p.skill or p.challenge_type %}
+						<small class="d-block text-muted pedagogia">
+							{% if p.concept %}<span class="mr-2"><strong>{% trans %}Concept{% endtrans %}:</strong> {{ p.concept }}</span>{% endif %}
+							{% if p.cia_dimension %}<span class="mr-2"><strong>{% trans %}CIA dimension{% endtrans %}:</strong> {{ p.cia_dimension }}</span>{% endif %}
+							{% if p.skill %}<span class="mr-2"><strong>{% trans %}Skill{% endtrans %}:</strong> {{ p.skill }}</span>{% endif %}
+							{% if p.challenge_type %}<span><strong>{% trans %}Challenge type{% endtrans %}:</strong> {{ p.challenge_type }}</span>{% endif %}
+						</small>
+						{% endif %}
+						{% if errores or avisos %}
+						<ul class="small mb-0 pl-3 problemas">
+							{% for error in errores %}<li class="text-danger">{{ error }}</li>{% endfor %}
+							{% for aviso in avisos %}<li>{{ aviso }}</li>{% endfor %}
+						</ul>
+						{% endif %}
 					</td>
 					<td>{{ d.categoria }}</td>
 					<td>{{ d.nombre_nivel }}</td>
 					<td class="text-right">{{ d.valor }}</td>
-					<td><small>{{ d.requisitos|reject("equalto", "Bienvenido/a al CTF")|join(", ") }}</small></td>
+					<td><small>{{ d.requisitos|reject("in", universales)|join(", ") }}</small></td>
 				</tr>
 				{% endfor %}
 			</tbody>
@@ -124,6 +185,8 @@
 		var filas = document.querySelectorAll(".fila-desafio");
 		var categoria = document.getElementById("filtro-categoria");
 		var nivel = document.getElementById("filtro-nivel");
+		var cia = document.getElementById("filtro-cia");
+		var habilidad = document.getElementById("filtro-habilidad");
 		var texto = document.getElementById("filtro-texto");
 		var todos = document.getElementById("marcar-todos");
 		var contador = document.getElementById("contador");
@@ -135,9 +198,12 @@
 
 		function filtrar() {
 			var c = categoria.value, n = nivel.value, t = texto.value.trim().toLowerCase();
+			var d = cia ? cia.value : "", h = habilidad ? habilidad.value : "";
 			filas.forEach(function (fila) {
 				var visible = (!c || fila.dataset.categoria === c) &&
 					(!n || fila.dataset.nivel === n) &&
+					(!d || fila.dataset.cia.split("|").indexOf(d) !== -1) &&
+					(!h || fila.dataset.habilidad.split("|").indexOf(h) !== -1) &&
 					(!t || fila.dataset.texto.indexOf(t) !== -1);
 				fila.style.display = visible ? "" : "none";
 			});
@@ -151,7 +217,9 @@
 			});
 			contar();
 		});
-		[categoria, nivel].forEach(function (el) { el.addEventListener("change", filtrar); });
+		[categoria, nivel, cia, habilidad].forEach(function (el) {
+			if (el) el.addEventListener("change", filtrar);
+		});
 		texto.addEventListener("input", filtrar);
 		document.querySelectorAll("input[name=desafio]").forEach(function (caja) {
 			caja.addEventListener("change", contar);

@@ -80,3 +80,7 @@ node_modules/
 
 # Flask Profiler files
 flask_profiler.sql
+
+# Challenge bank content (cloned separately, e.g. emrome/ctf-challenges)
+CTFd/plugins/banco_desafios/banco/*
+!CTFd/plugins/banco_desafios/banco/.gitkeep
